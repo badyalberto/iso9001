@@ -88,15 +88,7 @@ class ProjectType extends AbstractType
                 'label'    => 'Desactivar Proyecto',
                 'label' => false,
                 'required' => false
-            ])
+            ]);
 
-            /*->add('submit', SubmitType::class,[
-                'attr' => ['class' => 'btn btn-primary float-left'],
-                'label' => 'Guardar'
-            ])
-            ->add('cancel', ResetType::class, [
-                'attr' => ['class' => 'btn btn-warning float-right'],
-                'label' => 'Cancelar'
-            ])*/;
     }
 }
