@@ -1,0 +1,144 @@
+{% extends 'base.html.twig' %}
+
+{% set cabecera = "WIP | Añadir Proyecto" %}
+{% set titulo = "Añadir Proyecto" %}
+{% set subtitulo = "Crear Proyecto" %}
+
+{% block body %}
+
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+        <div class="row">
+            <div class="col-md-6">
+                <!--begin::Portlet-->
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Datos del Proyecto
+                            </h3>
+                        </div>
+                    </div>
+                    <!--begin::Form-->
+                    {{ form_start(form) }}
+                    {# <form class="kt-form"> #}
+                    <div class="kt-portlet__body">
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Fecha de Alta</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.fechaalta) }}
+                                {{ form_widget(form.fechaalta,{ 'attr': {
+                                    'class' : 'form-control',
+                                    'id' : 'example-date-input'
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="kt_select2_4" class="col-lg-3 col-form-label">Cliente</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.customers) }}
+                                {{ form_widget(form.customers,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="alias" class="col-lg-3 col-form-label">Alias del Proyecto</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.alias) }}
+                                {{ form_widget(form.alias,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Tipo de Proyecto</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.tipo) }}
+                                {{ form_widget(form.tipo,{ 'attr': {
+                                    'class' : 'form-control ',
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">URL Test</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.urltest) }}
+                                {{ form_widget(form.urltest,{ 'attr': {
+                                    'class' : 'form-control ',
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">URL Producción</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.urlproduction) }}
+                                {{ form_widget(form.urlproduction,{ 'attr': {
+                                    'class' : 'form-control ',
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Project Manager
+                                WIP</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.manager_wip) }}
+                                {{ form_widget(form.manager_wip,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Project Manager
+                                Cliente</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.manager_customer) }}
+                                {{ form_widget(form.manager_customer,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Estado del
+                                Proyecto</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.estado) }}
+                                {{ form_widget(form.estado,{ 'attr': {
+                                    'class' : 'form-control ',
+                                } }) }}
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar
+                                Proyecto</label>
+
+                            {{ form_errors(form.desactivar) }}
+                            {{ form_widget(form.desactivar,{ 'attr': {
+                                'class' : 'form-control',
+                            } }) }}
+                            {# <div class="col-lg-9">
+                                                    <span class="kt-switch kt-switch--lg">
+                                                        <label>
+                                                            <input type="checkbox" checked="checked" name="">
+                                                            <span></span>
+                                                    </label>
+                                                    </span>
+                                </div> #}
+                        </div>
+
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <button type="submit" class="btn btn-brand">Guardar</button>
+                            <button type="reset" class="btn btn-warning">Cancelar</button>
+                        </div>
+                    </div>
+                    {{ form_end(form) }}
+                    {# </form> #}
+                    <!--end::Form-->
+                </div>
+                <!--end::Portlet-->
+            </div>
+
+        </div>
+    </div>
+{% endblock %}

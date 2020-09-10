@@ -1,0 +1,216 @@
+{% extends 'base.html.twig' %}
+
+{% set cabecera = "WIP | IaaS" %}
+{% set titulo = "Iaas" %}
+{% set subtitulo =  "Servidores WIP" %}
+
+{% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('failed') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+    <!-- begin:: Content Head -->
+    <div class="kt-subheader  kt-grid__item" id="kt_subheader">
+        <div class="kt-container  kt-container--fluid ">
+            <div class="kt-subheader__main">
+                <h3 class="kt-subheader__title">Iaas</h3>
+                <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                <span class="kt-subheader__desc">Servidores WIP</span>
+            </div>
+            <div class="kt-subheader__toolbar">
+                <div class="kt-subheader__wrapper">
+                    &nbsp;
+                    <a href="{{ path('crear-servidor') }}" class="btn btn-brand btn-elevate btn-icon-sm">
+                        <i class="la la-plus"></i> AÑADIR SERVIDOR
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- end:: Content Head -->
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+
+        <!--Begin::App-->
+        <div class="kt-grid kt-grid--desktop kt-grid--ver kt-grid--ver-desktop kt-app">
+
+            <!--Begin:: App Aside Mobile Toggle-->
+            <button class="kt-app__aside-close" id="kt_contact_aside_close">
+                <i class="la la-close"></i>
+            </button>
+            <!--Begin:: App Content-->
+            <div class="kt-grid__item kt-grid__item--fluid kt-app__content">
+
+                <!--Begin::Section-->
+                <div class="row">
+                    {% for server in servers %}
+                        <div class="col-xl-4">
+
+                            <!--Begin::Portlet-->
+                            <div class="kt-portlet kt-portlet--height-fluid">
+                                <div class="kt-portlet__head kt-portlet__head--noborder">
+                                    <div class="kt-portlet__head-label">
+                                        <h3 class="kt-portlet__head-title">
+                                        </h3>
+                                    </div>
+                                    <div class="kt-portlet__head-toolbar">
+                                        <a href="#" class="btn btn-icon" data-toggle="dropdown">
+                                            <i class="flaticon-more-1 kt-font-brand"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-right">
+                                            <ul class="kt-nav">
+                                                <li class="kt-nav__item">
+                                                    <a href="{{ path('editar-servidor',{'id' : server.id}) }}"
+                                                       class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon2-edit"></i>
+                                                        <span class="kt-nav__link-text">Editar</span>
+                                                    </a>
+                                                </li>
+                                                <li class="kt-nav__item">
+                                                    <a href="{{ path('eliminar-servidor',{'id' : server.id}) }}"
+                                                       class="kt-nav__link">
+                                                        <i class="kt-nav__link-icon flaticon2-trash"></i>
+                                                        <span class="kt-nav__link-text">Eliminar</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-portlet__body">
+
+                                    <!--begin::Widget -->
+                                    <div class="kt-widget kt-widget--user-profile-2">
+                                        <div class="kt-widget__head">
+                                            <div class="kt-widget__media">
+                                                <div class="kt-widget__pic kt-widget__pic--success kt-font-success kt-font-boldest kt-hidden">
+                                                    OMA
+                                                </div>
+                                            </div>
+                                            <div class="kt-widget__info">
+                                                <a href="#" class="kt-widget__username alias"
+                                                   data-value="{{ server.alias }}">
+                                                    {{ server.alias }}
+                                                </a>
+                                                <span class="kt-widget__desc">
+                                                               {{ server.nombrevps }}
+                                                            </span>
+                                            </div>
+                                        </div>
+                                        <div class="kt-widget__body">
+                                            <div class="kt-widget__section">
+
+                                            </div>
+                                            <div class="kt-widget__item">
+                                                <div class="kt-widget__contact">
+                                                    <span class="kt-widget__label">IP:</span>
+
+                                                    <a href="#" class="kt-widget__data">{{ server.ip }}</a>
+                                                </div>
+                                                <div class="kt-widget__contact">
+                                                    <span class="kt-widget__label">USER:</span>
+                                                    <a href="#" class="kt-widget__data">{{ server.usuario }}</a>
+                                                </div>
+                                                <div class="kt-widget__contact">
+                                                    <span class="kt-widget__label">PASSWORD:</span>
+                                                    <span class="kt-widget__data">{{ server.psw }}</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="kt-widget__footer">
+                                            <a type="button" class="btn btn-label-success btn-lg btn-upper detalle-btn"
+                                               data-toggle="modal" data-target="#kt_modal_5" id="detalles"
+                                               data-value="{{ server.id }}">VER
+                                                DETALLES</a>
+                                        </div>
+                                    </div>
+
+                                    <!--end::Widget -->
+                                </div>
+                            </div>
+
+                            <!--End::Portlet-->
+                        </div>
+                    {% endfor %}
+                </div>
+
+                <!--End::Section-->
+
+            </div>
+
+            <!--End:: App Content-->
+            <div class="modal fade" id="kt_modal_5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+                 style="display: none;" aria-hidden="true">
+                <div class="modal-dialog modal-md" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="titulo">Servidor </h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="kt-list-timeline">
+                                <div class="kt-list-timeline__items">
+                                    <div class="kt-list-timeline__item">
+                                        <span class="kt-list-timeline__badge"></span>
+                                        <span class="kt-list-timeline__text">NOMBRE VPS</span>
+                                        <span class="kt-list-timeline__time" id="nombrevps"></span>
+                                    </div>
+                                    <div class="kt-list-timeline__item">
+                                        <span class="kt-list-timeline__badge"></span>
+                                        <span class="kt-list-timeline__text">Alias</span>
+                                        <span class="kt-list-timeline__time" id="alias"></span>
+                                    </div>
+                                    <div class="kt-list-timeline__item">
+                                        <span class="kt-list-timeline__badge"></span>
+                                        <span class="kt-list-timeline__text">IP</span>
+                                        <span class="kt-list-timeline__time" id="ip"></span>
+                                    </div>
+                                    <div class="kt-list-timeline__item">
+                                        <span class="kt-list-timeline__badge"></span>
+                                        <span class="kt-list-timeline__text">URL ACCESO</span></span>
+                                        <span class="kt-list-timeline__time" id="urlacceso"><a
+                                                    href="javascript:;"></a></span>
+                                    </div>
+                                    <div class="kt-list-timeline__item">
+                                        <span class="kt-list-timeline__badge"></span>
+                                        <span class="kt-list-timeline__text">USUARIO</span>
+                                        <span class="kt-list-timeline__time" id="usuario"></span>
+                                    </div>
+                                    <div class="kt-list-timeline__item">
+                                        <span class="kt-list-timeline__badge"></span>
+                                        <span class="kt-list-timeline__text">PASSWORD</span>
+                                        <span class="kt-list-timeline__time" id="psw"></span>
+                                    </div>
+                                    <div class="kt-list-timeline__item">
+                                        <span class="kt-list-timeline__badge"></span>
+                                        <span class="kt-list-timeline__text">TIPO</span>
+                                        <span class="kt-list-timeline__time" id="tipo"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--End::App-->
+    </div>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        var url_cargar_servidores = '{{ path('servidor') }}';
+    </script>
+{% endblock %}

@@ -1,0 +1,30 @@
+.kt-login.kt-login--v2 .kt-login__wrapper .kt-login__container .kt-form .form-control {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.kt-aside__brand {
+    height: 125px;
+}
+
+.kt-header-mobile {
+    height: 70px;
+}
+
+.kt-subheader--enabled .kt-content {
+    padding-top: 20px;
+}
+
+.kt-list-timeline .kt-list-timeline__items .kt-list-timeline__item {
+    width: 100%;
+}
+
+.kt-list-timeline .kt-list-timeline__items .kt-list-timeline__item .kt-list-timeline__text {
+    width: 60%;
+    font-size: 1, 3rem
+}
+
+.kt-list-timeline .kt-list-timeline__items .kt-list-timeline__item .kt-list-timeline__time {
+    width: 40%;
+    font-size: 1, 2rem
+}

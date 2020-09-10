@@ -1,0 +1,109 @@
+# LOGIN #
+
+app_login:
+  path: /login
+  controller: App\Controller\SecurityController::login
+
+app_logout:
+  path: /logout
+  controller: App\Controller\SecurityController::logout
+
+# DASHBOARD #
+
+dashboard:
+  path: /dashboard
+  controller: App\Controller\DashboardController::index
+
+# USUARIO #
+
+listar-usuarios:
+  path: /usuarios/listar
+  controller: App\Controller\UserController::list
+
+crear-usuario:
+  path: /usuarios/crear
+  controller: App\Controller\UserController::create
+  methods: [ GET,POST ]
+
+editar-usuario:
+  path: /usuarios/editar/{id}
+  controller: App\Controller\UserController::edit
+
+eliminar-usuario:
+  path: /usuarios/eliminar/{id}
+  controller: App\Controller\UserController::delete
+
+# CLIENTE #
+
+listar-clientes:
+  path: /clientes/listar
+  controller: App\Controller\CustomerController::list
+
+crear-cliente:
+  path: /clientes/crear
+  controller: App\Controller\CustomerController::create
+
+editar-cliente:
+  path: /clientes/editar/{id}
+  controller: App\Controller\CustomerController::edit
+
+eliminar-cliente:
+  path: /clientes/eliminar/{id}
+  controller: App\Controller\CustomerController::delete
+
+# PROYECTOS #
+
+listar-proyectos:
+  path: /proyectos/listar
+  controller: App\Controller\ProjectController::list
+
+crear-proyecto:
+  path: /proyectos/crear
+  controller: App\Controller\ProjectController::create
+
+editar-proyecto:
+  path: /proyectos/editar/{id}
+  controller: App\Controller\ProjectController::edit
+
+eliminar-proyecto:
+  path: /proyectos/eliminar/{id}
+  controller: App\Controller\ProjectController::delete
+
+# CALENDARIO #
+
+calendario:
+  path: /calendario
+  controller: App\Controller\CalendarController::index
+
+# SERVIDORES #
+
+listar-servidores:
+  path: /servidores/listar
+  controller: App\Controller\ServerController::list
+
+crear-servidor:
+  path: /servidores/crear
+  controller: App\Controller\ServerController::create
+
+editar-servidor:
+  path: /servidores/editar/{id}
+  controller: App\Controller\ServerController::edit
+
+eliminar-servidor:
+  path: /servidores/eliminar/{id}
+  controller: App\Controller\ServerController::delete
+
+servidor:
+  path: /servidor
+  controller: App\Controller\ServerController::oneServer
+  methods: [ POST ]
+
+# TESTS #
+
+listar-tests:
+  path: /tests/listar
+  controller: App\Controller\TestController::list
+
+crear-test:
+  path: /tests/crear
+  controller: App\Controller\TestController::create
