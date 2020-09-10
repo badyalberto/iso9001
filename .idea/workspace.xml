@@ -7,7 +7,13 @@
         <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
       </path>
     </expand>
-    <select />
+    <select>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="BRANCH:master" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </select>
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a16c7ee-19b6-48ac-a757-1617967fa24c" name="Default Changelist" comment="">
@@ -180,7 +186,7 @@
       <workItem from="1599559012640" duration="19558000" />
       <workItem from="1599634575146" duration="27837000" />
       <workItem from="1599721076365" duration="15920000" />
-      <workItem from="1599737408688" duration="1581000" />
+      <workItem from="1599737408688" duration="2005000" />
     </task>
     <servers />
   </component>
@@ -192,7 +198,19 @@
       <map>
         <entry key="MAIN">
           <value>
-            <State />
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="master" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
           </value>
         </entry>
       </map>
@@ -215,14 +233,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1599737492489" />
-    <state x="461" y="165" key="SettingsEditor" timestamp="1599738383296">
+    <state x="60" y="41" key="SettingsEditor" timestamp="1599739421602">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="461" y="165" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1599738383296" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1599737182411">
+    <state x="60" y="41" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1599739421602" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1599739342329">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599737182411" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599739342329" />
+    <state x="297" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599739324954">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="297" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599739324954" />
     <state x="-7" y="0" width="974" height="1047" key="dock-window-1" timestamp="1599735750194">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
