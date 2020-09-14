@@ -16,8 +16,21 @@
     </select>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="7a16c7ee-19b6-48ac-a757-1617967fa24c" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+    <list default="true" id="7a16c7ee-19b6-48ac-a757-1617967fa24c" name="Default Changelist" comment="actualizacion">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/wiip.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/wiip.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/CustomerController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/CustomerController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/ProjectController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/ProjectController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/CustomerType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/CustomerType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/ProjectType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/ProjectType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/UserType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/UserType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/customer/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/customer/create.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/customer/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/customer/edit.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/project/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/project/create.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/create.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/edit.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,7 +50,7 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -151,13 +164,14 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="ASKED_ADD_EXTERNAL_FILES" value="true" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="php.override.implement.member.chooser.php.doc" value="NONE" />
-    <property name="settings.editor.selected.configurable" value="web-ide.project.structure" />
+    <property name="settings.editor.selected.configurable" value="org.jetbrains.plugins.github.ui.GithubSettingsConfigurable" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
@@ -186,8 +200,38 @@
       <workItem from="1599559012640" duration="19558000" />
       <workItem from="1599634575146" duration="27837000" />
       <workItem from="1599721076365" duration="15920000" />
-      <workItem from="1599737408688" duration="2005000" />
+      <workItem from="1599737408688" duration="14467000" />
+      <workItem from="1600067032290" duration="6780000" />
     </task>
+    <task id="LOCAL-00001" summary="actualizacion">
+      <created>1599743131127</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1599743131127</updated>
+    </task>
+    <task id="LOCAL-00002" summary="actualizacion">
+      <created>1599743233379</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1599743233379</updated>
+    </task>
+    <task id="LOCAL-00003" summary="actualizacion">
+      <created>1599743695590</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1599743695590</updated>
+    </task>
+    <task id="LOCAL-00004" summary="actualizacion">
+      <created>1599751107829</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1599751107829</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -215,6 +259,11 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="actualizacion" />
+    <option name="LAST_COMMIT_MESSAGE" value="actualizacion" />
   </component>
   <component name="WindowStateProjectService">
     <state x="828" y="178" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1599737029004">
@@ -233,22 +282,22 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1599737492489" />
-    <state x="60" y="41" key="SettingsEditor" timestamp="1599739421602">
+    <state x="60" y="41" key="SettingsEditor" timestamp="1599743045310">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="60" y="41" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1599739421602" />
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1599739342329">
+    <state x="60" y="41" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1599743045310" />
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1599746576479">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599739342329" />
-    <state x="297" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599739324954">
+    <state x="552" y="253" key="Vcs.Push.Dialog.v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599746576479" />
+    <state x="297" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2" timestamp="1599746773246">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="297" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599739324954" />
-    <state x="-7" y="0" width="974" height="1047" key="dock-window-1" timestamp="1599735750194">
+    <state x="297" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599746773246" />
+    <state x="953" y="0" width="974" height="1047" key="dock-window-1" timestamp="1600068798880">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="-7" y="0" width="974" height="1047" key="dock-window-1/0.0.1920.1040@0.0.1920.1040" timestamp="1599735750194" />
+    <state x="953" y="0" width="974" height="1047" key="dock-window-1/0.0.1920.1040@0.0.1920.1040" timestamp="1600068798880" />
     <state x="953" y="0" width="974" height="1047" key="dock-window-2" timestamp="1599652479561">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -269,11 +318,6 @@
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/Controller/CustomerController.php</url>
-          <line>4</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/src/Form/TestType.php</url>
           <line>23</line>

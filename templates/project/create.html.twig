@@ -55,7 +55,8 @@
                             <div class="col-lg-9">
                                 {{ form_errors(form.tipo) }}
                                 {{ form_widget(form.tipo,{ 'attr': {
-                                    'class' : 'form-control ',
+                                    'class' : 'form-control kt-select2 ',
+                                    'id' : 'kt_select2_3'
                                 } }) }}
                             </div>
                         </div>
@@ -83,7 +84,7 @@
                             <div class="col-lg-9">
                                 {{ form_errors(form.manager_wip) }}
                                 {{ form_widget(form.manager_wip,{ 'attr': {
-                                    'class' : 'form-control',
+                                    'class' : 'form-control kt-select2',
                                 } }) }}
                             </div>
                         </div>
@@ -93,7 +94,9 @@
                             <div class="col-lg-9">
                                 {{ form_errors(form.manager_customer) }}
                                 {{ form_widget(form.manager_customer,{ 'attr': {
-                                    'class' : 'form-control',
+                                    'class' : 'form-control kt-select2',
+                                    'id' : 'kt_select2_1',
+                                    'name' : 'param'
                                 } }) }}
                             </div>
                         </div>
@@ -103,7 +106,9 @@
                             <div class="col-lg-9">
                                 {{ form_errors(form.estado) }}
                                 {{ form_widget(form.estado,{ 'attr': {
-                                    'class' : 'form-control ',
+                                    'class' : 'form-control kt-select2',
+                                    'id' : 'kt_select2_2',
+                                    'name' : 'param'
                                 } }) }}
                             </div>
                         </div>

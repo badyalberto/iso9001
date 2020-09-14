@@ -13,9 +13,7 @@ use App\Form\CustomerType;
 
 class CustomerController extends AbstractController
 {
-    /**
-     * @Route("/customer", name="customer")
-     */
+
     public function index()
     {
         return $this->render('customer/index.html.twig', [
@@ -66,6 +64,8 @@ class CustomerController extends AbstractController
                 ));
             }
 
+            var_dump($_POST);
+            exit;
             $array = $_POST['customer']['users'];
 
             foreach ($array as $valor) {
@@ -127,6 +127,8 @@ class CustomerController extends AbstractController
 
             $em->persist($customer);
             $em->flush();
+
+            $this->addFlash('success', 'Se ha editado correctamente al cliente '.$customer->getNombre());
 
             return $this->redirectToRoute('listar-clientes');
         }

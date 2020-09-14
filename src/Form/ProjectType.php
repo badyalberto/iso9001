@@ -59,8 +59,7 @@ class ProjectType extends AbstractType
                 'choice_label' => 'nombre',
                 'multiple' => true,
                 'required' => true,
-                //'mapped' => false,
-                'query_builder' => function( UserRepository $us){
+                'query_builder' => function(UserRepository $us){
                     return $us->createQueryBuilder('u')
                         ->Where('u.tipo = :WIIP')
                         ->setParameter('WIIP', 'WIIP');
@@ -72,7 +71,6 @@ class ProjectType extends AbstractType
                 'choice_label' => 'nombre',
                 'multiple' => true,
                 'required' => true,
-                //'mapped' => false,
                 'query_builder' => function(UserRepository $us){
                     return $us->createQueryBuilder('u')
                         ->where('u.tipo = :CLIENTE')

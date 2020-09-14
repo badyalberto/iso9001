@@ -47,8 +47,9 @@ class UserType extends AbstractType
                 'class' => Customer::class,
                 'choice_label' => 'alias',
                 'multiple' => true,
-                'required' => false,
-                'by_reference' => false
+                //'attr' => ['class' => 'kt-dual-listbox']
+                //'required' => false,
+                //'by_reference' => false
             ]);
     }
 }

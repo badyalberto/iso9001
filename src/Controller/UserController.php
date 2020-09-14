@@ -68,7 +68,7 @@ class UserController extends AbstractController
                 ));
             }
 
-            if (!empty($_POST['user']['customers'])) {
+            /*if (!empty($_POST['user']['customers'])) {
                 $array = $_POST['user']['customers'];
                 foreach ($array as $valor) {
                     $customer = $this->getDoctrine()
@@ -76,7 +76,7 @@ class UserController extends AbstractController
                         ->find($valor);
                     $user->addCustomer($customer);
                 }
-            }
+            }*/
 
             if ($_REQUEST['user']['tipo'] == "WIIP") {
                 $user->setRoles(['ROLE_WIP']);
@@ -89,6 +89,8 @@ class UserController extends AbstractController
 
             $em->persist($user);
             $em->flush();
+
+            $this->addFlash('success', 'Se ha creado correctamente al usuario '.$user->getNombre());
 
             return $this->redirectToRoute('listar-usuarios');
 
@@ -152,6 +154,8 @@ class UserController extends AbstractController
 
             $em->persist($user);
             $em->flush();
+
+            $this->addFlash('success', 'Se ha editado correctamente al usuario '.$user->getNombre());
 
             return $this->redirectToRoute('listar-usuarios');
 

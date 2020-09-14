@@ -2,9 +2,7 @@
 
 namespace App\Controller;
 
-use App\Entity\Customer;
 use App\Entity\Project;
-use App\Entity\User;
 use App\Form\ProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -52,6 +50,8 @@ class ProjectController extends AbstractController
             $em->persist($project);
             $em->flush();
 
+            $this->addFlash('success', 'Se ha creado correctamente el proyecto '.$project->getAlias());
+
             return $this->redirectToRoute('listar-proyectos');
 
         }
@@ -77,6 +77,8 @@ class ProjectController extends AbstractController
 
             $em->persist($project);
             $em->flush();
+
+            $this->addFlash('success', 'Se ha editado correctamente el proyecto '.$project->getAlias());
 
             return $this->redirectToRoute('listar-proyectos');
 
