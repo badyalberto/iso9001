@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\TestRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -51,6 +53,16 @@ class Test
      * @ORM\Column(type="string", length=255)
      */
     private $estado;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Block::class, mappedBy="test")
+     */
+    private $blocks;
+
+    public function __construct()
+    {
+        $this->blocks = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -137,6 +149,37 @@ class Test
     public function setEstado(string $estado): self
     {
         $this->estado = $estado;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Block[]
+     */
+    public function getBlocks(): Collection
+    {
+        return $this->blocks;
+    }
+
+    public function addBlock(Block $block): self
+    {
+        if (!$this->blocks->contains($block)) {
+            $this->blocks[] = $block;
+            $block->setTest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBlock(Block $block): self
+    {
+        if ($this->blocks->contains($block)) {
+            $this->blocks->removeElement($block);
+            // set the owning side to null (unless already changed)
+            if ($block->getTest() === $this) {
+                $block->setTest(null);
+            }
+        }
 
         return $this;
     }

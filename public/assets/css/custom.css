@@ -28,3 +28,14 @@
     width: 40%;
     font-size: 1, 2rem
 }
+
+.alias{
+    display: none;
+}
+.position{
+    display: none;
+}
+
+.failed_block {
+    display: none;
+}

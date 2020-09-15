@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Block;
 use App\Entity\Customer;
 use App\Entity\Project;
 use App\Entity\Test;
@@ -33,7 +34,6 @@ class TestController extends AbstractController
     {
 
         $test = new Test();
-        $customers = $this->getDoctrine()->getRepository(Customer::class)->findAll();
         $form = $this->createForm(TestType::class, $test, [
             'action' => $this->generateUrl('crear-test'),
             'method' => 'POST'
@@ -46,10 +46,10 @@ class TestController extends AbstractController
             $em = $this->getDoctrine()->getManager();
             $test->setEstado("No Iniciado");
 
+
             //GUARDA EL CLIENTE EN LA BBDD
             if (!empty($_POST["test"]["customer"])) {
                 $id = $_POST["test"]["customer"];
-                //exit;
                 $customer = $this->getDoctrine()->getRepository(Customer::class)->find($id);
                 $test->setCustomer($customer);
             } else {
@@ -65,10 +65,25 @@ class TestController extends AbstractController
                 $test->setProject(null);
             }
 
+            //BUSCA LOS BLOQUES CREADOS RECIENTEMENTE QUE SERAN NULLS
+            $blocks = $this->getDoctrine()
+                ->getRepository(Block::class)
+                ->findBy([
+                    'test' => null
+                ]);
+            //var_dump(isset($blocks));
+            //exit;
+            //GUARDA TODOS LOS BLOQUES DEL TEST CREADO
+            if (isset($blocks)) {
+                foreach ($blocks as $clave => $valor) {
+                    $test->addBlock($valor);
+                }
+            }
+
             $em->persist($test);
             $em->flush();
 
-            $this->addFlash('success', 'Se ha creado correctamente el Test '.$test->getAlias());
+            $this->addFlash('success', 'Se ha creado correctamente el Test ' . $test->getAlias());
 
             return $this->redirectToRoute('listar-tests');
 
@@ -85,20 +100,44 @@ class TestController extends AbstractController
             ->getRepository(Test::class)
             ->find($id);
 
+        $proyecto = $test->getProject();
+
         $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
-        //var_dump($_POST);
-        //exit;
+
+
         if ($form->isSubmitted() && $form->isValid()) {
-            var_dump("hola");
-            exit;
+
             $em = $this->getDoctrine()->getManager();
-            //$test->setEstado($test->getEstado());
+
+            //GUARDA EL CLIENTE EN LA BBDD
+            if (!empty($_POST["test"]["customer"])) {
+                $id = $_POST["test"]["customer"];
+                $customer = $this->getDoctrine()->getRepository(Customer::class)->find($id);
+                $test->setCustomer($customer);
+            } else {
+                $test->setCustomer(null);
+            }
+
+            //GUARDA EL PROYECTO EN LA BBDD
+            if (!empty($_POST["test"]["project"])) {
+                $id = $_POST["test"]["project"];
+                $project = $this->getDoctrine()->getRepository(Project::class)->find($id);
+                $test->setProject($project);
+            } else {
+                $test->setProject($proyecto);
+            }
+
+            if (isset($_POST['test']['desactivar'])) {
+                $test->setEstado("Desactivado");
+            } else {
+                $test->setEstado("No Iniciado");
+            }
 
             $em->persist($test);
             $em->flush();
 
-            $this->addFlash('success', 'Se ha editado correctamente el Test '.$test->getAlias());
+            $this->addFlash('success', 'Se ha editado correctamente el Test ' . $test->getAlias());
 
             return $this->redirectToRoute('listar-tests');
 
@@ -107,5 +146,23 @@ class TestController extends AbstractController
         return $this->render('test/edit.html.twig', array(
             'form' => $form->createView()
         ));
+    }
+
+    public function desactivar($id)
+    {
+        $test = $this->getDoctrine()
+            ->getRepository(Test::class)
+            ->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        $test->setDesactivar(true);
+        $test->setEstado("Desactivado");
+        $em->persist($test);
+        $em->flush();
+
+        $this->addFlash('success', 'Se ha desactivado correctamente el Test ' . $test->getAlias());
+
+        return $this->redirectToRoute('listar-tests');
+
     }
 }

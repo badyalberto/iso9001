@@ -70,6 +70,7 @@ eliminar-proyecto:
   controller: App\Controller\ProjectController::delete
 
 # PROYECTOS DE UN CLIENTE EN CONCRETO #
+
 projects_by_user:
   path: /proyectos
   controller: App\Controller\ProjectController::projectsByUser
@@ -117,3 +118,18 @@ crear-test:
 editar-test:
   path: /tests/editar/{id}
   controller: App\Controller\TestController::edit
+
+desactivar-test:
+  path: /tests/desactivar/{id}
+  controller: App\Controller\TestController::desactivar
+
+# BLOCKS #
+
+crear-block:
+  path: /blocks/crear
+  controller: App\Controller\BlockController::create
+  methods: [ POST ]
+
+consulta-blocks:
+  path: /blocks/listar
+  controller: App\Controller\BlockController::blocks

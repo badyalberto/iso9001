@@ -77,6 +77,11 @@
                                     <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
                                     <span class="kt-font-bold kt-font-dark"> Realizado</span>
                                 </td>
+                            {% elseif test.estado == "Desactivado" %}
+                                <td>
+                                    <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
+                                    <span class="kt-font-bold kt-font-dark"> Desactivado</span>
+                                </td>
                             {% else %}
                                 <td>
                                     <span class="kt-badge kt-badge--brand kt-badge--dot"></span>
@@ -87,7 +92,8 @@
                                 <a href="{{ path('editar-test',{'id' : test.id }) }}"
                                    class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                    title="Editar Tests"> <i class="la la-edit"></i> </a>
-                                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
+                                   class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                    title="Desactivar Test"> <i class="la la-trash"></i> </a>
                                 <a href="realizar-test.html" class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                    title="Realizar Test"> <i class="la la-clock-o"></i> </a>
