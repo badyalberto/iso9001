@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
@@ -20,9 +21,9 @@ class ProjectController extends AbstractController
 
     public function list()
     {
-        if($this->getUser()->getRoles()[0] == "ROLE_WIP"){
+        if ($this->getUser()->getRoles()[0] == "ROLE_WIP") {
             $projects = $this->getDoctrine()->getRepository(Project::class)->findAll();
-        }else{
+        } else {
             $projects = $this->getUser()->getProjects2();
         }
 
@@ -50,7 +51,7 @@ class ProjectController extends AbstractController
             $em->persist($project);
             $em->flush();
 
-            $this->addFlash('success', 'Se ha creado correctamente el proyecto '.$project->getAlias());
+            $this->addFlash('success', 'Se ha creado correctamente el proyecto ' . $project->getAlias());
 
             return $this->redirectToRoute('listar-proyectos');
 
@@ -78,7 +79,7 @@ class ProjectController extends AbstractController
             $em->persist($project);
             $em->flush();
 
-            $this->addFlash('success', 'Se ha editado correctamente el proyecto '.$project->getAlias());
+            $this->addFlash('success', 'Se ha editado correctamente el proyecto ' . $project->getAlias());
 
             return $this->redirectToRoute('listar-proyectos');
 
@@ -110,5 +111,30 @@ class ProjectController extends AbstractController
 
         }
         return $this->redirectToRoute('listar-proyectos');
+    }
+
+    public function projectsByUser(Request $request)
+    {
+
+        //id es el nombre que recibe en la peticion ajax
+        $id = $request->request->get('id', NULL);
+
+        $projects = $this->getDoctrine()
+            ->getRepository(Project::class)
+            ->findBy(
+                ['customers' => $id]
+            );
+
+        if ($projects != null) {
+            $array = array();
+            for ($i = 0;$i<count($projects);$i++){
+                $array[$i]['id'] = $projects[$i]->getId();
+                $array[$i]['alias'] = $projects[$i]->getAlias();
+            }
+
+            return new JsonResponse($array);
+        } else {
+            return null;
+        }
     }
 }

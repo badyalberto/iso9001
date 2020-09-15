@@ -186,4 +186,5 @@ class UserController extends AbstractController
 
         return $this->redirectToRoute('listar-usuarios');
     }
+
 }

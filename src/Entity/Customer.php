@@ -58,7 +58,6 @@ class Customer
      * @ORM\OneToMany(targetEntity=Test::class, mappedBy="customer")
      */
     private $tests;
-    
 
     public function __construct()
     {

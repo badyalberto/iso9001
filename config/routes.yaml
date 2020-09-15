@@ -69,6 +69,12 @@ eliminar-proyecto:
   path: /proyectos/eliminar/{id}
   controller: App\Controller\ProjectController::delete
 
+# PROYECTOS DE UN CLIENTE EN CONCRETO #
+projects_by_user:
+  path: /proyectos
+  controller: App\Controller\ProjectController::projectsByUser
+  methods: [ POST ]
+
 # CALENDARIO #
 
 calendario:
@@ -107,3 +113,7 @@ listar-tests:
 crear-test:
   path: /tests/crear
   controller: App\Controller\TestController::create
+
+editar-test:
+  path: /tests/editar/{id}
+  controller: App\Controller\TestController::edit

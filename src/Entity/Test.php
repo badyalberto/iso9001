@@ -38,14 +38,9 @@ class Test
     private $tipo;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="tests")
      */
-    private $estado;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $password;
+    private $user;
 
     /**
      * @ORM\Column(type="boolean")
@@ -55,7 +50,7 @@ class Test
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $usuario;
+    private $estado;
 
     public function getId(): ?int
     {
@@ -110,26 +105,14 @@ class Test
         return $this;
     }
 
-    public function getEstado(): ?string
+    public function getUser(): ?User
     {
-        return $this->estado;
+        return $this->user;
     }
 
-    public function setEstado(string $estado): self
+    public function setUser(?User $user): self
     {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
-    public function getPassword(): ?string
-    {
-        return $this->password;
-    }
-
-    public function setPassword(string $password): self
-    {
-        $this->password = $password;
+        $this->user = $user;
 
         return $this;
     }
@@ -146,14 +129,14 @@ class Test
         return $this;
     }
 
-    public function getUsuario(): ?string
+    public function getEstado(): ?string
     {
-        return $this->usuario;
+        return $this->estado;
     }
 
-    public function setUsuario(string $usuario): self
+    public function setEstado(string $estado): self
     {
-        $this->usuario = $usuario;
+        $this->estado = $estado;
 
         return $this;
     }

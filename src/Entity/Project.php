@@ -76,7 +76,6 @@ class Project
      */
     private $tests;
 
-
     public function __construct()
     {
         $this->manager_wip = new ArrayCollection();
@@ -268,5 +267,7 @@ class Project
         return $this;
     }
 
-
+    public function __ToString(){
+        return $this->alias;
+    }
 }

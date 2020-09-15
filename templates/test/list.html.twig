@@ -2,9 +2,20 @@
 
 {% set cabecera = "WIP | Tests" %}
 {% set titulo = "Tests" %}
-{% set subtitulo = "Crear y editar Tests" %}
+{% set subtitulo =  "Crear y editar Tests" %}
 
 {% block body %}
+
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__head kt-portlet__head--lg">
@@ -28,7 +39,7 @@
             </div>
             <div class="kt-portlet__body">
                 <!--begin: Datatable -->
-                <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_4">
+                <table class="table table-striped- table-bordered table-hover table-checkable">
                     <thead>
                     <tr>
                         <th>Alias Test</th>
@@ -42,12 +53,47 @@
                     <tbody>
                     {% for test in tests %}
                         <tr>
-                            <td>Gestion Pacientes</td>
-                            <td>Pulso</td>
-                            <td>MYGSK</td>
-                            <td>1</td>
-                            <td>1</td>
-                            <td nowrap></td>
+                            <td>{{ test.alias }}</td>
+                            <td>{{ test.customer }}</td>
+                            <td>{{ test.project }}</td>
+                            {% if test.tipo == "ALPHA" %}
+                                <td>
+                                    <span class="kt-badge kt-badge--success kt-badge--dot"></span>
+                                    <span class="kt-font-bold kt-font-success"> ALPHA</span>
+                                </td>
+                            {% else %}
+                                <td>
+                                    <span class="kt-badge kt-badge--danger kt-badge--dot"></span>
+                                    <span class="kt-font-bold kt-font-danger"> BETA</span>
+                                </td>
+                            {% endif %}
+                            {% if test.estado == "No Iniciado" %}
+                                <td>
+                                    <span class="kt-badge kt-badge--brand kt-badge--dot"></span>
+                                    <span class="kt-font-bold kt-font-brand"> No Iniciado</span>
+                                </td>
+                            {% elseif test.estado == "Realizado" %}
+                                <td>
+                                    <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
+                                    <span class="kt-font-bold kt-font-dark"> Realizado</span>
+                                </td>
+                            {% else %}
+                                <td>
+                                    <span class="kt-badge kt-badge--brand kt-badge--dot"></span>
+                                    <span class="kt-font-bold kt-font-warning">En Curso</span>
+                                </td>
+                            {% endif %}
+                            <td nowrap>
+                                <a href="{{ path('editar-test',{'id' : test.id }) }}"
+                                   class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                   title="Editar Tests"> <i class="la la-edit"></i> </a>
+                                <a href="javascript:;" class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                   title="Desactivar Test"> <i class="la la-trash"></i> </a>
+                                <a href="realizar-test.html" class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                   title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                <a href="preguntas-tests.html" class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                   title="Ver Preguntas"> <i class="la la-tasks"></i> </a>
+                            </td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -57,5 +103,4 @@
         </div>
         <!--begin::Portlet-->
     </div>
-
 {% endblock %}

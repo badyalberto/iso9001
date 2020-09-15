@@ -1,7 +1,7 @@
 {% extends 'base.html.twig' %}
-{% set cabecera = "WIP | Añadir Tests" %}
-{% set titulo = "Añadir Test" %}
-{% set subtitulo = "Crear Test" %}
+{% set cabecera = "WIP | Editar Tests" %}
+{% set titulo = "Editar Test" %}
+{% set subtitulo = "Editar Test" %}
 
 {% block body %}
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
@@ -12,12 +12,11 @@
                     <div class="kt-portlet__head">
                         <div class="kt-portlet__head-label">
                             <h3 class="kt-portlet__head-title">
-                                Datos del Test <small>Test y bloques</small>
+                                Datos del Test <small>Bloques y preguntas</small>
                             </h3>
                         </div>
                     </div>
                     <!--begin::Form-->
-                    {{ form_start(form,{'attr':{'id':'form_test'}}) }}
                     <form class="kt-form">
                         <div class="kt-portlet__body">
                             <div class="form-group row">
@@ -32,16 +31,27 @@
                             <div class="form-group row">
                                 <label for="kt_select2_1" class="col-lg-3 col-form-label">Cliente</label>
                                 <div class="col-lg-9">
+                                    <select class="form-control" id="kt_select2_1" name="param">
+                                        <option value="BD">BDB</option>
+                                        <option value="Pu">Pulso</option>
+                                        <option value="AD">ADN</option>
+                                        <option value="Ax">Axel</option>
+                                        <option value="Bo">Boston</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group row">
+                                <label for="kt_select2_2" class="col-lg-3 col-form-label">Proyecto</label>
+                                <div class="col-lg-9">
                                     <div class="invalid-feedback">Seleccione un cliente</div>
                                     {{ form_errors(form.customer) }}
                                     {{ form_widget(form.customer,{ 'attr': {
                                         'class' : 'form-control',
                                     } }) }}
                                 </div>
-
                             </div>
                             <div class="form-group row">
-                                <label for="kt_select2_2" class="col-lg-3 col-form-label">Proyecto</label>
+                                <label for="rol" class="col-lg-3 col-form-label">Rol Usuario</label>
                                 <div class="col-lg-9">
                                     <div class="invalid-feedback">Seleccione un proyecto</div>
                                     {{ form_errors(form.project) }}
@@ -49,7 +59,6 @@
                                         'class' : 'form-control',
                                     } }) }}
                                 </div>
-
                             </div>
                             <div class="form-group row">
                                 <label for="tipo" class="col-lg-3 col-form-label">Tipo Test</label>
@@ -75,7 +84,7 @@
                                         <label class="col-lg-2 col-form-label">Bloques:</label>
                                         <div data-repeater-list="" class="col-lg-10">
                                             <div data-repeater-item class="form-group row align-items-center">
-                                                <div class="col-md-3">
+                                                <div class="col-md-6">
                                                     <div class="kt-form__group--inline">
                                                         <div class="kt-form__label">
                                                             <label>Alias:</label>
@@ -100,15 +109,6 @@
                                                     <div class="d-md-none kt-margin-b-10"></div>
                                                 </div>
                                                 <div class="col-md-4">
-                                                    <label for="exampleSelect1">Bloque Padre
-                                                    </label>
-                                                    <select class="form-control" id="exampleSelect1">
-                                                        <option>No</option>
-                                                        <option>Diseño Avisos</option>
-                                                        <option>Diseño Alertas</option>
-                                                    </select>
-                                                </div>
-                                                <div class="col-md-3">
                                                     <a href="javascript:;" data-repeater-delete=""
                                                        class="btn-sm btn btn-label-danger btn-bold"
                                                        style="margin-top:20px;">
@@ -118,6 +118,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                     <div class="form-group form-group-last row">
                                         <label class="col-lg-2 col-form-label"></label>
                                         <div class="col-lg-4">
@@ -142,8 +143,7 @@
                                                             <input type="checkbox" checked="checked" name="">
                                                             <span></span>
                                                     </label>
-                                                    </span>
-                                    #}
+                                                    </span> #}
                                 </div>
                             </div>
 
@@ -154,9 +154,8 @@
                                 <button type="reset" class="btn btn-warning">Cancelar</button>
                             </div>
                         </div>
-                        {# </form> #}
-                        {{ form_end(form) }}
-                        <!--end::Form-->
+                    </form>
+                    <!--end::Form-->
                 </div>
                 <!--end::Portlet-->
             </div>
@@ -237,7 +236,6 @@
             </div>
         </div>
     </div>
-    <!-- end:: Content -->
 {% endblock %}
 {% block scripts %}
     <script>
