@@ -6,9 +6,9 @@ var KTFormRepeater = function() {
         $('#kt_repeater_1').repeater({
             initEmpty: false,
            
-            defaultValues: {
+            /*defaultValues: {
                 'text-input': 'foo'
-            },
+            },*/
              
             show: function () {
                 $(this).slideDown();

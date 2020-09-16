@@ -74,8 +74,8 @@
                                 </td>
                             {% elseif test.estado == "Realizado" %}
                                 <td>
-                                    <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
-                                    <span class="kt-font-bold kt-font-dark"> Realizado</span>
+                                    <span class="kt-badge kt-badge--success kt-badge--dot"></span>
+                                    <span class="kt-font-bold kt-font-success"> Realizado</span>
                                 </td>
                             {% elseif test.estado == "Desactivado" %}
                                 <td>
@@ -84,7 +84,7 @@
                                 </td>
                             {% else %}
                                 <td>
-                                    <span class="kt-badge kt-badge--brand kt-badge--dot"></span>
+                                    <span class="kt-badge kt-badge--warning kt-badge--dot"></span>
                                     <span class="kt-font-bold kt-font-warning">En Curso</span>
                                 </td>
                             {% endif %}
@@ -97,8 +97,8 @@
                                    title="Desactivar Test"> <i class="la la-trash"></i> </a>
                                 <a href="realizar-test.html" class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                    title="Realizar Test"> <i class="la la-clock-o"></i> </a>
-                                <a href="preguntas-tests.html" class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                   title="Ver Preguntas"> <i class="la la-tasks"></i> </a>
+                                <a href="{{ path('listar-preguntas-blocks',{'id' : test.id }) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                   title="Ver Preguntas del test"> <i class="la la-tasks"></i> </a>
                             </td>
                         </tr>
                     {% endfor %}

@@ -133,3 +133,21 @@ crear-block:
 consulta-blocks:
   path: /blocks/listar
   controller: App\Controller\BlockController::blocks
+
+desactivar-block:
+  path: /blocks/desactivar/{id}
+  controller: App\Controller\BlockController::desactivar
+
+# QUESTIONS  #
+
+listar-preguntas-blocks:
+  path: /preguntas/listar/{id}
+  controller: App\Controller\QuestionController::listQuestionsBlock
+
+crear-pregunta:
+  path: /preguntas/crear/{id}
+  controller: App\Controller\QuestionController::create
+
+desactivar-pregunta:
+  path: /preguntas/desactivar/{id}
+  controller: App\Controller\QuestionController::desactivar

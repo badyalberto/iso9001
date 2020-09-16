@@ -18,134 +18,151 @@
                     </div>
                     <!--begin::Form-->
                     {{ form_start(form,{'attr':{'id':'form_test'}}) }}
-                    {#  <form class="kt-form"> #}
-                        <div class="kt-portlet__body">
-                            <div class="form-group row">
-                                <label for="alias" class="col-lg-3 col-form-label">Alias del Test</label>
-                                <div class="col-lg-9">
-                                    {{ form_errors(form.alias) }}
-                                    {{ form_widget(form.alias,{ 'attr': {
-                                        'class' : 'form-control',
-                                    } }) }}
-                                </div>
+                    {# <form class="kt-form"> #}
+                    <div class="kt-portlet__body">
+                        <div class="form-group row">
+                            <label for="alias" class="col-lg-3 col-form-label">Alias del Test</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.alias) }}
+                                {{ form_widget(form.alias,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
                             </div>
-                            <div class="form-group row">
-                                <label for="kt_select2_1" class="col-lg-3 col-form-label">Cliente</label>
-                                <div class="col-lg-9">
-                                    <div class="invalid-feedback">Seleccione un cliente</div>
-                                    {{ form_errors(form.customer) }}
-                                    {{ form_widget(form.customer,{ 'attr': {
-                                        'class' : 'form-control',
-                                    } }) }}
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="kt_select2_1" class="col-lg-3 col-form-label">Cliente</label>
+                            <div class="col-lg-9">
+                                <div class="invalid-feedback">Seleccione un cliente</div>
+                                {{ form_errors(form.customer) }}
+                                {{ form_widget(form.customer,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
                             </div>
-                            <div class="form-group row">
-                                <label for="kt_select2_2" class="col-lg-3 col-form-label">Proyecto</label>
-                                <div class="col-lg-9">
-                                    <div class="invalid-feedback">Seleccione un proyecto</div>
-                                    {{ form_errors(form.project) }}
-                                    {{ form_widget(form.project,{ 'attr': {
-                                        'class' : 'form-control',
-                                    } }) }}
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="kt_select2_2" class="col-lg-3 col-form-label">Proyecto</label>
+                            <div class="col-lg-9">
+                                <div class="invalid-feedback">Seleccione un proyecto</div>
+                                {{ form_errors(form.project) }}
+                                {{ form_widget(form.project,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
                             </div>
-                            <div class="form-group row">
-                                <label for="tipo" class="col-lg-3 col-form-label">Tipo Test</label>
-                                <div class="col-lg-9">
-                                    {{ form_errors(form.tipo) }}
-                                    {{ form_widget(form.tipo,{ 'attr': {
-                                        'class' : 'form-control ',
-                                    } }) }}
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="tipo" class="col-lg-3 col-form-label">Tipo Test</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.tipo) }}
+                                {{ form_widget(form.tipo,{ 'attr': {
+                                    'class' : 'form-control ',
+                                } }) }}
                             </div>
-                            <div class="form-group row">
-                                <label for="usuario" class="col-lg-3 col-form-label">Usuario TEST</label>
-                                <div class="col-lg-9">
-                                    {{ form_errors(form.user) }}
-                                    {{ form_widget(form.user,{ 'attr': {
-                                        'class' : 'form-control',
-                                    } }) }}
-                                </div>
+                        </div>
+                        <div class="form-group row">
+                            <label for="usuario" class="col-lg-3 col-form-label">Usuario TEST</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.user) }}
+                                {{ form_widget(form.user,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
                             </div>
-                            <div class="form-group form-group-last row">
-                                <div id="kt_repeater_1">
-                                    <div class="form-group form-group-last row" id="kt_repeater_1">
-                                        <label class="col-lg-2 col-form-label">Bloques:</label>
-                                        <div data-repeater-list="" class="col-lg-10">
-                                            <div data-repeater-item class="form-group row align-items-center">
-                                                <div class="col-md-6">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label>Alias:</label>
-                                                        </div>
-                                                        <div class="kt-form__control">
-                                                            <input type="text" class="form-control"
-                                                                   placeholder="Diseño Mails">
-                                                        </div>
+                        </div>
+                        <div class="form-group form-group-last row">
+                            <div id="kt_repeater_1">
+                                <div class="form-group form-group-last row" id="kt_repeater_1">
+                                    <label class="col-lg-2 col-form-label">Bloques:</label>
+                                    <div data-repeater-list="blocks" class="col-lg-10">
+                                        <div id="errorblock" class="failed_block">Es obligatorio crear un bloque como
+                                            minimo
+                                        </div>
+                                        <div data-repeater-item class="form-group row align-items-center">
+                                            <div class="col-md-3">
+                                                <div class="kt-form__group--inline">
+                                                    <div class="kt-form__label">
+                                                        <label>Alias:</label>
                                                     </div>
-                                                    <div class="d-md-none kt-margin-b-10"></div>
-                                                </div>
-                                                <div class="col-md-2">
-                                                    <div class="kt-form__group--inline">
-                                                        <div class="kt-form__label">
-                                                            <label class="kt-label m-label--single">Posición:</label>
+                                                    <div class="kt-form__control">
+                                                        <div id="failedalias" class="invalid-feedback">Es obligatorio el
+                                                            alias
                                                         </div>
-                                                        <div class="kt-form__control">
-                                                            <input type="number" class="form-control"
-                                                                   placeholder="Ej: 1">
-                                                        </div>
+                                                        <input type="text" id="alias" name="alias" class="form-control"
+                                                               placeholder="Diseño Mails">
                                                     </div>
-                                                    <div class="d-md-none kt-margin-b-10"></div>
                                                 </div>
-                                                <div class="col-md-4">
-                                                    <a href="javascript:;" data-repeater-delete=""
-                                                       class="btn-sm btn btn-label-danger btn-bold"
-                                                       style="margin-top:20px;">
-                                                        <i class="la la-trash-o"></i> Eliminar Bloque
-                                                    </a>
+                                                <div class="d-md-none kt-margin-b-10"></div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="kt-form__group--inline">
+                                                    <div class="kt-form__label">
+                                                        <label class="kt-label m-label--single">Posición:</label>
+                                                    </div>
+                                                    <div class="kt-form__control">
+                                                        <div id="failedposition" class="invalid-feedback">Es obligatoria
+                                                            la posicion
+                                                        </div>
+                                                        <input type="number" id="position" name="position" class="form-control"
+                                                               placeholder="Ej: 1">
+                                                    </div>
                                                 </div>
+                                                <div class="d-md-none kt-margin-b-10"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <label for="exampleSelect1">Bloque Padre
+                                                </label>
+                                                <select class="form-control" id="exampleSelect1" name="padre">
+                                                    <option value="No">No</option>
+                                                    <option value="Diseno Avisos">Diseño Avisos</option>
+                                                    <option value="Diseño Alertas">Diseño Alertas</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <a href="javascript:;" data-repeater-delete=""
+                                                   class="btn-sm btn btn-label-danger btn-bold"
+                                                   style="margin-top:20px;">
+                                                    <i class="la la-trash-o"></i> Eliminar Bloque
+                                                </a>
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div class="form-group form-group-last row">
-                                        <label class="col-lg-2 col-form-label"></label>
-                                        <div class="col-lg-4">
-                                            <a href="javascript:;" data-repeater-create=""
-                                               class="btn btn-bold btn-sm btn-label-brand">
-                                                <i class="la la-plus"></i> Añadir Bloque
-                                            </a>
-                                        </div>
+                                </div>
+                                <div class="form-group form-group-last row">
+                                    <label class="col-lg-2 col-form-label"></label>
+                                    <div class="col-lg-4">
+                                        <a href="javascript:;" {# id="addblock" #} data-repeater-create=""
+                                           class="btn btn-bold btn-sm btn-label-brand">
+                                            <i class="la la-plus"></i> Añadir Bloque
+                                        </a>
                                     </div>
                                 </div>
-
                             </div>
-                            <div class="form-group row">
-                                <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar Test</label>
-                                <div class="col-lg-9">
-                                    {{ form_errors(form.desactivar) }}
-                                    {{ form_widget(form.desactivar,{ 'attr': {
-                                        'class' : 'form-control',
-                                    } }) }}
-                                    {# <span class="kt-switch kt-switch--lg">
+
+                        </div>
+                        <div class="form-group row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar Test</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.desactivar) }}
+                                {{ form_widget(form.desactivar,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
+                                {# <span class="kt-switch kt-switch--lg">
                                                         <label>
                                                             <input type="checkbox" checked="checked" name="">
                                                             <span></span>
                                                     </label>
                                                     </span> #}
-                                </div>
                             </div>
+                        </div>
 
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <button type="submit" class="btn btn-brand">Guardar</button>
+                            <button type="reset" class="btn btn-warning">Cancelar</button>
                         </div>
-                        <div class="kt-portlet__foot">
-                            <div class="kt-form__actions">
-                                <button type="submit" class="btn btn-brand">Guardar</button>
-                                <button type="reset" class="btn btn-warning">Cancelar</button>
-                            </div>
-                        </div>
-                        {# </form> #}
-                        {{ form_end(form) }}
-                        <!--end::Form-->
+                    </div>
+                    {# </form> #}
+                    {{ form_end(form) }}
+                    <!--end::Form-->
                 </div>
                 <!--end::Portlet-->
             </div>
@@ -160,25 +177,27 @@
                                 Bloques del TEST
                             </h3>
                         </div>
+                        {#
                         <div class="kt-portlet__head-toolbar">
-                            <div class="kt-portlet__head-wrapper">
-                                <div class="kt-portlet__head-actions">
-                                    <div class="dropdown dropdown-inline">
-                                        <div class="dropdown-menu dropdown-menu-right">
+                           <div class="kt-portlet__head-wrapper">
+                               <div class="kt-portlet__head-actions">
+                                   <div class="dropdown dropdown-inline">
+                                       <div class="dropdown-menu dropdown-menu-right">
 
-                                        </div>
-                                    </div>
-                                    &nbsp;
-                                    <a href="add-preguntas-tests.html" class="btn btn-brand btn-elevate btn-icon-sm">
-                                        <i class="la la-plus"></i> Nueva Pregunta Test
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
+                                       </div>
+                                   </div>
+                                   &nbsp;
+                                   <a href="add-preguntas-tests.html" class="btn btn-brand btn-elevate btn-icon-sm">
+                                       <i class="la la-plus"></i> Nueva Pregunta Test
+                                   </a>
+                               </div>
+                           </div>
+                       </div> #}
+
                     </div>
                     <div class="kt-portlet__body">
                         <!--begin: Datatable -->
-                        <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_5">
+                        <table class="table table-striped- table-bordered table-hover table-checkable">
                             <thead>
                             <tr>
                                 <th>Posición</th>
@@ -187,37 +206,32 @@
                                 <th>Acciones</th>
                             </tr>
                             </thead>
-                            <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Diseño Mails</td>
-                                <td>1</td>
-                                <td nowrap></td>
-                            </tr>
-                            <tr>
-                                <td>2</td>
-                                <td>Diseño mails Avisos</td>
-                                <td>1</td>
-                                <td nowrap></td>
-                            </tr>
-                            <tr>
-                                <td>3</td>
-                                <td>Diseño Mails al Doctor</td>
-                                <td>2</td>
-                                <td nowrap></td>
-                            </tr>
-                            <tr>
-                                <td>4</td>
-                                <td>Diseño mails al Paciente</td>
-                                <td>1</td>
-                                <td nowrap></td>
-                            </tr>
-                            <tr>
-                                <td>5</td>
-                                <td>Diseño Mails al Admin</td>
-                                <td>1</td>
-                                <td nowrap></td>
-                            </tr>
+                            <tbody id="bloquestabla">
+                            {% for block in blocks %}
+                                <tr>
+                                    <td>{{ block.position }}</td>
+                                    <td>{{ block.alias }}</td>
+                                    <td>
+                                        {% if block.estado == "Realizada" %}
+                                            <span class="kt-badge kt-badge--success kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-success"> Realizada</span>
+                                        {% elseif block.estado == "No realizada" %}
+                                            <span class="kt-badge kt-badge--danger kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-danger"> No realizada</span>
+                                        {% else %}
+                                            <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-dark"> Desactivado</span>
+                                        {% endif %}
+                                    </td>
+                                    <td nowrap=""><a href="{{ path('crear-pregunta',{ 'id' : block.id }) }}"
+                                                     class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                                     title="Añadir preguntas al block"> <i class="la la-edit"></i> </a>
+                                        <a
+                                                href="{{ path('desactivar-block',{ 'id' : block.id}) }}"
+                                                class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                                title="Desactivar el block"> <i class="la la-trash"></i> </a></td>
+                                </tr>
+                            {% endfor %}
                             </tbody>
                         </table>
                     </div>
@@ -230,5 +244,7 @@
 {% block scripts %}
     <script>
         var url_cargar_tests = '{{ path('projects_by_user') }}';
+        var url_blocks = '{{ path('crear-block') }}';
+        var url_consulta_blocks = '{{ path('consulta-blocks') }}';
     </script>
 {% endblock %}

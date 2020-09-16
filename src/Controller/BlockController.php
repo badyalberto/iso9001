@@ -18,16 +18,6 @@ class BlockController extends AbstractController
         ]);
     }
 
-    public function list($id)
-    {
-        $test = $this->getDoctrine()->getRepository(Test::class)->findBy($id);
-        $blocks = $this->getDoctrine()->getRepository(Block::class)->findAll();
-
-        return $this->render('block/list.html.twig', [
-            'blocks' => $blocks
-        ]);
-    }
-
     public function create(Request $request)
     {
         $block = new Block();
@@ -70,5 +60,23 @@ class BlockController extends AbstractController
         } else {
             return new JsonResponse(false);
         }
+    }
+
+    public function desactivar($id)
+    {
+        $block = $this->getDoctrine()
+            ->getRepository(Block::class)
+            ->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+        //$block->setDesactivar(true);
+        $block->setEstado("Desactivado");
+        $em->persist($block);
+        $em->flush();
+
+        $this->addFlash('success', 'Se ha desactivado correctamente el bloque ' . $block->getAlias());
+
+        return $this->redirectToRoute('listar-tests');
+
     }
 }

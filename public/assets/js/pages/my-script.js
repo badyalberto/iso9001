@@ -116,12 +116,16 @@ $('#guardartest').click(function (e) {
         } else {
             p = true;
         }
+        if (c == true && p == true) {
+            //console.log(c, p);
+            $('#form_test').submit();
+        }
 
-        $.ajax({
+        /*$.ajax({
             type: "POST",
             url: url_consulta_blocks,
             success: function (r) {
-                console.log(r);
+                //console.log(r);
                 if (r == true) {
                     //e.preventDefault();
                     $('#errorblock').removeClass('failed_block')
@@ -129,7 +133,7 @@ $('#guardartest').click(function (e) {
                     $('#errorblock').css('display', 'block');
                 } else {
                     if (c == true && p == true) {
-                        console.log(c, p);
+                        //console.log(c, p);
                         $('#form_test').submit();
                     }
                 }
@@ -137,7 +141,7 @@ $('#guardartest').click(function (e) {
             error: function () {
                 console.log("No se ha podido obtener la información");
             }
-        });
+        });*/
 
     }
 );
@@ -187,7 +191,7 @@ $('#addblock').click(function () {
             },
             success: function (r) {
                 console.log(r);
-                let texto = `<tr><td>${r.alias}</td><td>${r.position}</td><td>${r.padre}</td><td nowrap=\"\"><a href=\"edit-preguntas-tests.html\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Ver preguntas Tests\">                        <i class=\"la la-edit\"></i>                      </a>                      <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Desactivar Test\">                        <i class=\"la la-trash\"></i>                        </a></td></tr>`;
+                let texto = `<tr><td>${r.alias}</td><td>${r.position}</td><td>${r.padre}</td><td nowrap=\"\"><a href=\"{{ path('crear-pregunta')}}\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Añadir pregunta bloque\">                        <i class=\"la la-edit\"></i>                      </a>                      <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Desactivar Test\">                        <i class=\"la la-trash\"></i>                        </a></td></tr>`;
                 $('#bloquestabla').append(texto);
                 $('#alias').val("");
                 $('#position').val("");
@@ -213,3 +217,10 @@ $('#alias').blur(function () {
 $('#position').blur(function () {
     $('#failedposition').css('display', 'none');
 });
+
+$("#form_test").submit(function (e) {
+    //e.preventDefault();
+    console.log($("#form_test").val());
+})
+
+

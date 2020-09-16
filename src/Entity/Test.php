@@ -153,6 +153,10 @@ class Test
         return $this;
     }
 
+    public function __toString(){
+        return $this->alias;
+    }
+
     /**
      * @return Collection|Block[]
      */

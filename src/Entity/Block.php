@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\BlockRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,6 +43,16 @@ class Block
      * @ORM\ManyToOne(targetEntity=Test::class, inversedBy="blocks")
      */
     private $test;
+
+    /**
+     * @ORM\OneToMany(targetEntity=Question::class, mappedBy="block")
+     */
+    private $questions;
+
+    public function __construct()
+    {
+        $this->questions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -103,6 +115,42 @@ class Block
     public function setTest(?Test $test): self
     {
         $this->test = $test;
+
+        return $this;
+    }
+
+
+    public function __toString(){
+        return $this->alias;
+    }
+
+    /**
+     * @return Collection|Question[]
+     */
+    public function getQuestions(): Collection
+    {
+        return $this->questions;
+    }
+
+    public function addQuestion(Question $question): self
+    {
+        if (!$this->questions->contains($question)) {
+            $this->questions[] = $question;
+            $question->setBlock($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestion(Question $question): self
+    {
+        if ($this->questions->contains($question)) {
+            $this->questions->removeElement($question);
+            // set the owning side to null (unless already changed)
+            if ($question->getBlock() === $this) {
+                $question->setBlock(null);
+            }
+        }
 
         return $this;
     }

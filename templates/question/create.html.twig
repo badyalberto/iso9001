@@ -1,0 +1,140 @@
+{% extends 'base.html.twig' %}
+{% set cabecera = "WIP | Añadir Preguntas Bloque" %}
+{% set titulo = "Crear preguntas para el bloque" %}
+{% set subtitulo = "Crear preguntas para el bloque" %}
+
+{% block body %}
+    <!-- begin:: Content Head -->
+    <div class="kt-subheader  kt-grid__item" id="kt_subheader">
+        <div class="kt-container  kt-container--fluid ">
+            <div class="kt-subheader__main">
+                <h3 class="kt-subheader__title">{{ block.alias }}<small>{{ block.test.project.alias }}</small></h3>
+                <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                <span class="kt-subheader__desc">Crear Preguntas para el bloque</span>
+            </div>
+            <div class="kt-subheader__toolbar">
+                <div class="kt-subheader__wrapper">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end:: Content Head -->
+    <!-- begin:: Content -->
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!--begin::Portlet-->
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+                                Nueva Pregunta
+                            </h3>
+                        </div>
+                    </div>
+                    <!--begin::Form-->
+                    {{ form_start(form, {'attr': {'id': 'form_question'}}) }}
+                    {# <form class="kt-form"> #}
+                    <div class="kt-portlet__body">
+                        <div class="form-group row">
+                            <div id="kt_repeater_1" style="width:100%">
+                                <div class="form-group form-group-last row" id="kt_repeater_1">
+                                    <div data-repeater-list="questions" class="col-lg-12">
+                                        <div data-repeater-item class="form-group row align-items-center">
+                                            <div class="col-md-4">
+                                                <div class="kt-form__group--inline">
+                                                    <div class="kt-form__label">
+                                                        <label>Descripción:</label>
+                                                    </div>
+                                                    <div class="kt-form__control">
+                                                        {{ form_errors(form.description) }}
+                                                        {{ form_widget(form.description,{ 'attr': {
+                                                            'class' : 'form-control'
+                                                        } }) }}
+                                                    </div>
+                                                </div>
+                                                <div class="d-md-none kt-margin-b-10"></div>
+                                            </div>
+                                            <div class="col-md-4">
+                                                <div class="kt-form__group--inline">
+                                                    <div class="kt-form__label">
+                                                        <label class="kt-label m-label--single">Observaciones:</label>
+                                                    </div>
+                                                    <div class="kt-form__control">
+                                                        {{ form_errors(form.observaciones) }}
+                                                        {{ form_widget(form.observaciones,{ 'attr': {
+                                                            'class' : 'form-control',
+                                                        } }) }}
+                                                    </div>
+                                                </div>
+                                                <div class="d-md-none kt-margin-b-10"></div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <div class="kt-form__label">
+                                                    <label class="kt-label m-label--single">Imagen:</label>
+                                                </div>
+                                                <div class="kt-form__control">
+                                                    {{ form_errors(form.imagen) }}
+                                                    {{ form_widget(form.imagen,{ 'attr': {
+                                                        'class' : 'form-control',
+                                                        'id' : 'customFile'
+                                                    } }) }}
+                                                </div>
+                                            </div>
+                                            <div class="col-md-2">
+                                                <a href="javascript:;" data-repeater-delete=""
+                                                   class="btn-sm btn btn-label-danger btn-bold"
+                                                   style="margin-top:20px;">
+                                                    <i class="la la-trash-o"></i> Eliminar Pregunta
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="kt-divider"></div>
+                                <div class="form-group form-group-last row">
+                                    <div class="col-lg-4">
+                                        <a href="javascript:;" data-repeater-create=""
+                                           class="btn btn-bold btn-sm btn-label-brand">
+                                            <i class="la la-plus"></i> Añadir Pregunta
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="kt-divider"></div>
+                        <div class="form-group form-group-last row">
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar
+                                Pregunta</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.desactivar) }}
+                                {{ form_widget(form.desactivar,{ 'attr': {
+                                    'class' : 'form-control'
+                                } }) }}
+                                {# <span class="kt-switch kt-switch--lg">
+                                                        <label>
+                                                            <input type="checkbox" checked="checked" name="">
+                                                            <span></span>
+                                                    </label>
+                                                    </span> #}
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="kt-portlet__foot">
+                        <div class="kt-form__actions">
+                            <button type="submit" class="btn btn-brand">Guardar</button>
+                            <button type="reset" class="btn btn-warning">Cancelar</button>
+                        </div>
+                    </div>
+                    {# </form> #}
+                    {{ form_end(form) }}
+                    <!--end::Form-->
+                </div>
+                <!--end::Portlet-->
+            </div>
+        </div>
+    </div>
+{% endblock %}

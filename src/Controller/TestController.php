@@ -7,6 +7,7 @@ use App\Entity\Customer;
 use App\Entity\Project;
 use App\Entity\Test;
 use App\Form\TestType;
+use phpDocumentor\Reflection\DocBlock;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -44,6 +45,9 @@ class TestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
+            //echo '<pre>' . var_export($_POST, true) . '</pre>';
+            //var_dump($_POST['blocks'][0]["alias"]);
+            //exit;
             $test->setEstado("No Iniciado");
 
 
@@ -65,27 +69,40 @@ class TestController extends AbstractController
                 $test->setProject(null);
             }
 
-            //BUSCA LOS BLOQUES CREADOS RECIENTEMENTE QUE SERAN NULLS
-            $blocks = $this->getDoctrine()
-                ->getRepository(Block::class)
-                ->findBy([
-                    'test' => null
-                ]);
-            //var_dump(isset($blocks));
-            //exit;
-            //GUARDA TODOS LOS BLOQUES DEL TEST CREADO
-            if (isset($blocks)) {
-                foreach ($blocks as $clave => $valor) {
-                    $test->addBlock($valor);
-                }
+            if (isset($_POST['test']['desactivar'])) {
+                $test->setDesactivar(true);
+                $test->setEstado("Desactivado");
+            } else {
+                $test->setDesactivar(false);
+                $test->setEstado("No Iniciado");
             }
 
+            //GUARDA EL TEST
             $em->persist($test);
             $em->flush();
 
+            //GUARDA TODOS LOS BLOQUES DEL TEST CREADO
+            if (isset($_POST['blocks']) && empty($_POST['blocks'])) {
+                foreach ($_POST['blocks'] as $clave => $valor) {
+                    //var_dump($valor['position']);
+                    //exit;
+                    $block = new Block();
+                    $block->setAlias($valor['alias']);
+                    $block->setPosition($valor['position']);
+                    $block->setBloquePadre($valor['padre']);
+                    $block->setEstado("No realizada");
+
+                    $block->setTest($test);
+
+                    //GUARDA UN BLOQUE EN CONCRETO
+                    $em->persist($block);
+                    $em->flush();
+                }
+            }
+
             $this->addFlash('success', 'Se ha creado correctamente el Test ' . $test->getAlias());
 
-            return $this->redirectToRoute('listar-tests');
+            return $this->redirectToRoute('listar-tests-questions');
 
         }
 
@@ -100,14 +117,22 @@ class TestController extends AbstractController
             ->getRepository(Test::class)
             ->find($id);
 
+        //POR SI NO SE MODIFICA EL CAMPO PROYECTO
         $proyecto = $test->getProject();
+
+        $blocks = $this->getDoctrine()
+            ->getRepository(Block::class)
+            ->findBy([
+                'test' => $test
+            ]);
 
         $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            //var_dump($_POST);
+            //exit;
             $em = $this->getDoctrine()->getManager();
 
             //GUARDA EL CLIENTE EN LA BBDD
@@ -129,13 +154,32 @@ class TestController extends AbstractController
             }
 
             if (isset($_POST['test']['desactivar'])) {
+                $test->setDesactivar(true);
                 $test->setEstado("Desactivado");
             } else {
+                $test->setDesactivar(false);
                 $test->setEstado("No Iniciado");
             }
 
             $em->persist($test);
             $em->flush();
+
+            if (isset($_POST['blocks']) && empty($_POST['blocks'])) {
+                foreach ($_POST['blocks'] as $clave => $valor) {
+
+                    $block = new Block();
+                    $block->setAlias($valor['alias']);
+                    $block->setPosition($valor['position']);
+                    $block->setBloquePadre($valor['padre']);
+                    $block->setEstado("No realizada");
+
+                    $block->setTest($test);
+
+                    //GUARDA UN BLOQUE EN CONCRETO
+                    $em->persist($block);
+                    $em->flush();
+                }
+            }
 
             $this->addFlash('success', 'Se ha editado correctamente el Test ' . $test->getAlias());
 
@@ -144,7 +188,8 @@ class TestController extends AbstractController
         }
 
         return $this->render('test/edit.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'blocks' => $blocks
         ));
     }
 

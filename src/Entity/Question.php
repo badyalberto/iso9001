@@ -37,6 +37,16 @@ class Question
      */
     private $estado;
 
+    /**
+     * @ORM\ManyToOne(targetEntity=Block::class, inversedBy="questions")
+     */
+    private $block;
+
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $desactivar;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -88,5 +98,33 @@ class Question
         $this->estado = $estado;
 
         return $this;
+    }
+
+    public function getBlock(): ?Block
+    {
+        return $this->block;
+    }
+
+    public function setBlock(?Block $block): self
+    {
+        $this->block = $block;
+
+        return $this;
+    }
+
+    public function getDesactivar(): ?bool
+    {
+        return $this->desactivar;
+    }
+
+    public function setDesactivar(bool $desactivar): self
+    {
+        $this->desactivar = $desactivar;
+
+        return $this;
+    }
+
+    public function __toString(){
+        return $this->description;
     }
 }
