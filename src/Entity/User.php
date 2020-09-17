@@ -170,7 +170,7 @@ class User implements UserInterface
     public function addCustomer(Customer $customer = null): self
     {
 
-        if (!$this->customers->contains($customer)) {
+        if ($this->customers->contains($customer)) {
             $this->customers[] = $customer;
             $customer->addUser($this);
             //var_dump("Funcion add");

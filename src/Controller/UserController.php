@@ -68,7 +68,7 @@ class UserController extends AbstractController
                 ));
             }
 
-            /*if (!empty($_POST['user']['customers'])) {
+            if (!empty($_POST['user']['customers'])) {
                 $array = $_POST['user']['customers'];
                 foreach ($array as $valor) {
                     $customer = $this->getDoctrine()
@@ -76,7 +76,7 @@ class UserController extends AbstractController
                         ->find($valor);
                     $user->addCustomer($customer);
                 }
-            }*/
+            }
 
             if ($_REQUEST['user']['tipo'] == "WIIP") {
                 $user->setRoles(['ROLE_WIP']);
@@ -137,6 +137,20 @@ class UserController extends AbstractController
                         'status' => true
 
                     ));
+                }
+            }
+
+
+
+            if (!empty($_POST['user']['customers'])) {
+                $array = $_POST['user']['customers'];
+                foreach ($array as $valor) {
+                    $customer = $this->getDoctrine()
+                        ->getRepository(Customer::class)
+                        ->find($valor);
+                    //echo '<pre>';var_dump($customer->getAlias());
+                    //exit;
+                    $user->addCustomer($customer);
                 }
             }
 

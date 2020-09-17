@@ -9,7 +9,10 @@ use App\Form\QuestionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
+use App\Service\FileUploader;
+
 
 class QuestionController extends AbstractController
 {
@@ -21,7 +24,7 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    public function create($id, Request $request)
+    public function create($id, Request $request, FileUploader $fileUploader)
     {
 
         $block = $this->getDoctrine()->getRepository(Block::class)->find($id);
@@ -37,49 +40,28 @@ class QuestionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+
             $em = $this->getDoctrine()->getManager();
 
-            //echo '<pre>' . var_export($_POST, true) . '</pre>';
-            //exit;
-            //var_dump($_POST);
-            //exit;
+            $question2 = new Question();
+            $question2->setDescription($_POST['question']['description']);
+            $question2->setObservaciones($_POST['question']['observaciones']);
+            $question2->setEstado("NO TESTADO");
 
-            for ($i = 0; $i < count($_POST['questions']); $i++) {
-                $question2 = new Question();
-                $question2->setDescription($_POST['questions'][$i]['description']);
-                $question2->setObservaciones($_POST['questions'][$i]['observaciones']);
-                $question2->setEstado("NO TESTADO");
-                if (isset($valor['desactivar'])) {
-                    $question2->setDesactivar($_POST['questions'][$i]['desactivar']);
-                } else {
-                    $question2->setDesactivar(0);
-                }
-                $question2->setBlock($block);
+            if (isset($valor['desactivar'])) {
+                $question2->setDesactivar(1);
+            } else {
+                $question2->setDesactivar(0);
+            }
 
-                $brochureFile = $form->get('imagen')->getData();
+            $question2->setBlock($block);
 
-                // this condition is needed because the 'brochure' field is not required
-                // so the PDF file must be processed only when a file is uploaded
-                if ($brochureFile) {
-                    $originalFilename = pathinfo($brochureFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safeFilename = transliterator_transliterate('Any-Latin; Latin-ASCII; [^A-Za-z0-9_] remove; Lower()', $originalFilename);
-                    $newFilename = $safeFilename . '-' . uniqid() . '.' . $brochureFile->guessExtension();
+            $brochureFile = $form->get('imagen')->getData();
 
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        $brochureFile->move(
-                            $this->getParameter('images_directory'),
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
+            if ($brochureFile instanceof UploadedFile) {
 
-                    // updates the 'brochureFilename' property to store the PDF file name
-                    // instead of its contents
-                    $question->setImagen($newFilename);
-                }
+                $brochureFileName = $fileUploader->upload($brochureFile);
+                $question2->setImagen($brochureFileName);
 
                 $em->persist($question2);
                 $em->flush();

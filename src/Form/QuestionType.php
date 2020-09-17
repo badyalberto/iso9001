@@ -11,6 +11,10 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Validator\Constraints\Image;
+
 
 class QuestionType extends AbstractType
 {
@@ -27,21 +31,10 @@ class QuestionType extends AbstractType
                 'attr' => ['name' => 'observaciones']
             ))
             ->add('imagen', FileType::class, [
-                'label' => false,
-                'mapped' => false,
-                'required' => true,
-                'attr' => ['name' => 'imagen'],
+                'required' => false,
                 'constraints' => [
-                    new File([
-                        'maxSize' => '1024k',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpg',
-                            'image/jpeg'
-                        ],
-                        'mimeTypesMessage' => 'Solo imagenes en JPG JPEG y PNG',
-                    ])
-                ],
+                    new Image(),
+                ]
             ])
             ->add('desactivar', CheckboxType::class, array(
                 'required' => false,

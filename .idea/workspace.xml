@@ -17,25 +17,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="7a16c7ee-19b6-48ac-a757-1617967fa24c" name="Default Changelist" comment="actualizacion">
-      <change afterPath="$PROJECT_DIR$/src/Controller/QuestionController.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Form/QuestionType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/question/create.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/question/list.html.twig" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/FileUploader.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/config/services.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/services.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/pages/crud/forms/widgets/form-repeater.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/pages/crud/forms/widgets/form-repeater.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/js/pages/my-script.js" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/js/pages/my-script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BlockController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BlockController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TestController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TestController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Block.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Block.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Question.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Question.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Test.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Test.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/test/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/create.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/test/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/test/list.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/test/list.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/QuestionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/QuestionController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/QuestionType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/QuestionType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/question/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/question/create.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/create.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,6 +46,7 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="ROOT_SYNC" value="SYNC" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -209,7 +200,9 @@
       <workItem from="1599737408688" duration="14467000" />
       <workItem from="1600067032290" duration="28298000" />
       <workItem from="1600152832603" duration="30273000" />
-      <workItem from="1600239312540" duration="30209000" />
+      <workItem from="1600239312540" duration="30368000" />
+      <workItem from="1600326083450" duration="9079000" />
+      <workItem from="1600335647438" duration="14731000" />
     </task>
     <task id="LOCAL-00001" summary="actualizacion">
       <created>1599743131127</created>
@@ -290,10 +283,18 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="740" y="275" key="FileChooserDialogImpl/0.0.1920.1040@0.0.1920.1040" timestamp="1599737492489" />
-    <state x="60" y="41" key="SettingsEditor" timestamp="1599743045310">
+    <state x="295" y="243" key="NewPhpClassDialog" timestamp="1600348245396">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="60" y="41" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1599743045310" />
+    <state x="295" y="243" key="NewPhpClassDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1600348245396" />
+    <state x="314" y="443" key="NewPhpFileDialog" timestamp="1600347969183">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="314" y="443" key="NewPhpFileDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1600347969183" />
+    <state x="60" y="41" key="SettingsEditor" timestamp="1600337467119">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="60" y="41" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1600337467119" />
     <state x="552" y="253" key="Vcs.Push.Dialog.v2" timestamp="1599746576479">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -302,10 +303,10 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="297" y="434" key="com.intellij.openapi.vcs.update.UpdateOrStatusOptionsDialogupdate-v2/0.0.1920.1040@0.0.1920.1040" timestamp="1599746773246" />
-    <state x="953" y="0" width="974" height="1047" key="dock-window-1" timestamp="1600245320360">
+    <state x="953" y="0" width="974" height="1047" key="dock-window-1" timestamp="1600343047846">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="953" y="0" width="974" height="1047" key="dock-window-1/0.0.1920.1040@0.0.1920.1040" timestamp="1600245320360" />
+    <state x="953" y="0" width="974" height="1047" key="dock-window-1/0.0.1920.1040@0.0.1920.1040" timestamp="1600343047846" />
     <state x="953" y="0" width="974" height="1047" key="dock-window-2" timestamp="1600254081213">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
