@@ -55,8 +55,44 @@ $('.detalle-btn').click(function () {
 ;
 
 //MUESTRA EL DESPLEGABLE DE PROYECTOS EN EL APARTADO DE TESTS
-$(document).ready(function () {
+/*$(document).ready(function () {
     $('#test_project').prop('disabled', true);
+});*/
+
+$('#test_customer').ready(function () {
+    var ruta = window.location.pathname;
+    //console.log(ruta);
+    var vars = ruta.split("/");
+    let valor = parseInt(vars[vars.length-1]);
+    console.log(isNaN(valor));
+
+    //SI NO VIENE DE EDIT ENTRA
+    if (isNaN(valor)) {
+        console.log("entra")
+        $.ajax({
+            type: "POST",
+            url: url_cargar_tests_default,//'/wiip/public/index.php/proyectos/default',
+            data: {},
+            success: function (respuesta) {
+                //console.log(respuesta);
+                //Borra todo el contenido del select
+                $('#test_project').html('');
+                let cont = 0;
+                for (let value of respuesta) {
+                    if (cont == 0) {
+                        $('#test_project').append('<option value="' + value.id + '" selected>' + value.alias + '</option>')
+                    } else {
+                        $('#test_project').append('<option value="' + value.id + '">' + value.alias + '</option>')
+                    }
+
+                }
+            },
+            error: function () {
+                console.log("No se ha podido obtener la información");
+            }
+        });
+    }
+
 });
 
 $('#test_customer').click(function () {
@@ -86,7 +122,7 @@ $('#test_customer').click(function () {
 
 //VALIDA QUE LOS CAMPOS CUSTOMER Y PROJECT ESTEN RELLENOS EN TEST
 $('#guardartest').click(function (e) {
-        let customer = $('#test_customer').val();
+        /*let customer = $('#test_customer').val();
         let project = $('#test_project').val();
         e.preventDefault();
         //console.log(customer);
@@ -115,11 +151,22 @@ $('#guardartest').click(function (e) {
             }, 1000);
         } else {
             p = true;
-        }
-        if (c == true && p == true) {
+        }*/
+
+        /*if($('#alias').val() != ""){
+            for (let cont = 0; cont<$(''))
+            $("[name='blocks['"+cont+"']'")
+            $("[name='blocks[0][alias]'").val();
+            e.preventDefault();
+            $('#position').val();
+            $('#exampleSelect1').val();
+
+            console.log($('#alias').val(),$('#position').val(),$('#exampleSelect1').val())
+        }*/
+        /*if (c == true && p == true) {
             //console.log(c, p);
             $('#form_test').submit();
-        }
+        }*/
 
         /*$.ajax({
             type: "POST",
@@ -218,9 +265,9 @@ $('#position').blur(function () {
     $('#failedposition').css('display', 'none');
 });
 
-$("#form_test").submit(function (e) {
+/*$("#form_test").submit(function (e) {
     //e.preventDefault();
     console.log($("#form_test").val());
-})
+})*/
 
 

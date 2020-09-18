@@ -102,7 +102,7 @@ class TestController extends AbstractController
 
             $this->addFlash('success', 'Se ha creado correctamente el Test ' . $test->getAlias());
 
-            return $this->redirectToRoute('listar-tests-questions');
+            return $this->redirectToRoute('listar-tests');
 
         }
 
@@ -163,8 +163,9 @@ class TestController extends AbstractController
 
             $em->persist($test);
             $em->flush();
-
-            if (isset($_POST['blocks']) && empty($_POST['blocks'])) {
+            //print_r($_POST);
+            //exit;
+            if (isset($_POST['blocks']) && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['padre'] != "") {
                 foreach ($_POST['blocks'] as $clave => $valor) {
 
                     $block = new Block();
@@ -172,7 +173,8 @@ class TestController extends AbstractController
                     $block->setPosition($valor['position']);
                     $block->setBloquePadre($valor['padre']);
                     $block->setEstado("No realizada");
-
+                    //var_dump($test->getAlias());
+                    //exit;
                     $block->setTest($test);
 
                     //GUARDA UN BLOQUE EN CONCRETO

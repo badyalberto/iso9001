@@ -45,6 +45,10 @@ security:
     - { path: ^/clientes, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/dashboard, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/calendario, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/proyectos, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/tests, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/blocks, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/preguntas, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/servidores, roles: [ ROLE_WIP ] }
     -
     # - { path: ^/profile, roles: ROLE_USER }

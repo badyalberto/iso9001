@@ -76,6 +76,11 @@ projects_by_user:
   controller: App\Controller\ProjectController::projectsByUser
   methods: [ POST ]
 
+projects_by_user_default:
+  path: /proyectos/default
+  controller: App\Controller\ProjectController::projectsByUserDefault
+  methods: [ POST ]
+
 # CALENDARIO #
 
 calendario:

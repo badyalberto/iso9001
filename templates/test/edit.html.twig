@@ -44,9 +44,7 @@
                             <div class="col-lg-9">
                                 <div class="invalid-feedback">Seleccione un proyecto</div>
                                 {{ form_errors(form.project) }}
-                                {{ form_widget(form.project,{ 'attr': {
-                                    'class' : 'form-control',
-                                } }) }}
+                                {{ form_widget(form.project) }}
                             </div>
                         </div>
                         <div class="form-group row">
@@ -110,6 +108,7 @@
                                                 <label for="exampleSelect1">Bloque Padre
                                                 </label>
                                                 <select class="form-control" id="exampleSelect1" name="padre">
+                                                    <option value=""></option>
                                                     <option value="No">No</option>
                                                     <option value="Diseno Avisos">Diseño Avisos</option>
                                                     <option value="Diseño Alertas">Diseño Alertas</option>
@@ -156,7 +155,7 @@
                     </div>
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-brand">Guardar</button>
+                            <button type="submit" id="guardartest" class="btn btn-brand">Guardar</button>
                             <button type="reset" class="btn btn-warning">Cancelar</button>
                         </div>
                     </div>
@@ -243,6 +242,7 @@
 {% endblock %}
 {% block scripts %}
     <script>
+        var url_cargar_tests_default = '{{ path('projects_by_user_default') }}';
         var url_cargar_tests = '{{ path('projects_by_user') }}';
         var url_blocks = '{{ path('crear-block') }}';
         var url_consulta_blocks = '{{ path('consulta-blocks') }}';

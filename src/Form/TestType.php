@@ -33,7 +33,7 @@ class TestType extends AbstractType
                 'class' => Customer::class,
                 'choice_label' => 'alias',
                 'multiple' => false,
-                'required' => false,
+                'required' => true,
                 'query_builder' => function (CustomerRepository $c) {
                     return $c->createQueryBuilder('c')
                         ->leftJoin('c.projects', 'p') //P es proyecto que lo reconoce por el tipo de array
@@ -45,8 +45,7 @@ class TestType extends AbstractType
                 'class' => Project::class,
                 'choice_label' => 'alias',
                 'multiple' => false,
-                'required' => false
-                //'attr' => ['class' => 'kt-dual-listbox']
+                'required' => true
             ])
             ->add('tipo', ChoiceType::class, array(
                 'choices' => self::TYPES,

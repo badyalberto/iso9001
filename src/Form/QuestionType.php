@@ -31,7 +31,7 @@ class QuestionType extends AbstractType
                 'attr' => ['name' => 'observaciones']
             ))
             ->add('imagen', FileType::class, [
-                'required' => false,
+                'required' => true,
                 'constraints' => [
                     new Image(),
                 ]

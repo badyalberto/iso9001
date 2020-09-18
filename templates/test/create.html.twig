@@ -220,7 +220,9 @@
 {% endblock %}
 {% block scripts %}
     <script>
+        var url_cargar_tests_default = '{{ path('projects_by_user_default') }}';
         var url_cargar_tests = '{{ path('projects_by_user') }}';
+
         var url_blocks = '{{ path('crear-block') }}';
         var url_consulta_blocks = '{{ path('consulta-blocks') }}';
     </script>

@@ -25,9 +25,8 @@ class BlockType extends AbstractType
             ))
             ->add('bloque_padre', ChoiceType::class, array(
                 'choices' => self::TYPES,
-                'required' => true
-            ))
-            ->add('test');
+                'required' => false
+            ));
     }
 
     public function configureOptions(OptionsResolver $resolver)

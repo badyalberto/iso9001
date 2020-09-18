@@ -40,10 +40,9 @@ class QuestionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-
             $em = $this->getDoctrine()->getManager();
 
-            $question2 = new Question();
+            /*$question2 = new Question();
             $question2->setDescription($_POST['question']['description']);
             $question2->setObservaciones($_POST['question']['observaciones']);
             $question2->setEstado("NO TESTADO");
@@ -65,6 +64,48 @@ class QuestionController extends AbstractController
 
                 $em->persist($question2);
                 $em->flush();
+            }*/
+            $cont = 0;
+            foreach ($_POST['questions'] as $valor) {
+
+                $question2 = new Question();
+                $question2->setDescription($valor['description']);
+                $question2->setObservaciones($valor['observaciones']);
+                $question2->setEstado("NO TESTADO");
+
+                if (isset($valor['desactivar'])) {
+                    $question2->setDesactivar(1);
+                } else {
+                    $question2->setDesactivar(0);
+                }
+
+                $question2->setBlock($block);
+
+                $file = $_FILES['questions'];
+                print_r($file);
+                exit;
+
+                $ruta = $file['tmp_name'][$cont]['imagen'];
+                $type = $file['type'][$cont]['imagen'];
+
+                if($type == "image/png"){
+                    $extension = ".png";
+                }elseif($type = "image/jpeg"){
+                    $extension = ".jpeg";
+                }else{
+                    $extension = ".jpg";
+                }
+
+                //CREA EL NUEVO NOMBRE DE LA IMAGEN
+                $filename = md5(uniqid()).$extension;
+
+                //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
+                move_uploaded_file($ruta,$fileUploader->getTargetDirectory().$filename);
+                $question2->setImagen($filename);
+
+                $em->persist($question2);
+                $em->flush();
+                $cont++;
             }
 
             $this->addFlash('success', 'Se han creado correctamente!');

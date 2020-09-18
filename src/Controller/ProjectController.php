@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Customer;
 use App\Entity\Project;
 use App\Form\ProjectType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -70,6 +71,7 @@ class ProjectController extends AbstractController
 
         $form = $this->createForm(ProjectType::class, $project);
 
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -127,7 +129,33 @@ class ProjectController extends AbstractController
 
         if ($projects != null) {
             $array = array();
-            for ($i = 0;$i<count($projects);$i++){
+            for ($i = 0; $i < count($projects); $i++) {
+                $array[$i]['id'] = $projects[$i]->getId();
+                $array[$i]['alias'] = $projects[$i]->getAlias();
+            }
+
+            return new JsonResponse($array);
+        } else {
+            return null;
+        }
+    }
+
+    public function projectsByUserDefault()
+    {
+
+        $customers = $this->getDoctrine()
+            ->getRepository(Customer::class)
+            ->findBy(array(), array('id' => 'ASC'));
+
+        $projects = $this->getDoctrine()
+            ->getRepository(Project::class)
+            ->findBy(
+                ['customers' => $customers[0]->getId()]
+            );
+
+        if ($projects != null) {
+            $array = array();
+            for ($i = 0; $i < count($projects); $i++) {
                 $array[$i]['id'] = $projects[$i]->getId();
                 $array[$i]['alias'] = $projects[$i]->getAlias();
             }

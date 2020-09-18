@@ -110,3 +110,8 @@
         <!--begin::Portlet-->
     </div>
 {% endblock %}
+{% block scripts %}
+    <script>
+        var url_cargar_tests_default = '{{ path('projects_by_user_default') }}';
+    </script>
+{% endblock %}
