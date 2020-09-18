@@ -1,0 +1,149 @@
+{% extends 'base.html.twig' %}
+{% set cabecera = "WIP | Realizar Test" %}
+{% set titulo = " Realizar Test" %}
+{% set subtitulo = " Realizar Test" %}
+
+{% block body %}
+    <!-- begin:: Content Head -->
+    <div class="kt-subheader  kt-grid__item" id="kt_subheader">
+        <div class="kt-container  kt-container--fluid ">
+            <div class="kt-subheader__main">
+                <h3 class="kt-subheader__title"> TEST {{ test }} <small>Pulso Ediciones SL</small></h3>
+                <span class="kt-subheader__separator kt-subheader__separator--v"></span>
+                <span class="kt-subheader__desc">Realizar TEST</span>
+            </div>
+            <div class="kt-subheader__toolbar">
+                <div class="kt-subheader__wrapper">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- end:: Content Head -->
+    <!-- begin:: Content -->
+    <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <!--begin::Portlet-->
+                <div class="kt-portlet">
+                    <div class="kt-portlet__head">
+                        <div class="kt-portlet__head-label">
+                            <h3 class="kt-portlet__head-title">
+
+                            </h3>
+                        </div>
+                        <div class="kt-portlet__head-toolbar">
+                            <div class="kt-portlet__head-wrapper">
+                                <div class="kt-portlet__head-actions">
+                                    <div class="dropdown dropdown-inline">
+                                        <div class="dropdown-menu dropdown-menu-right">
+
+                                        </div>
+                                    </div>
+                                    &nbsp;
+                                    <a href="javascript:;" class="btn btn-brand btn-elevate btn-icon-sm">
+                                        <i class="la la-print"></i> EXPORTAR INFORME
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="kt-portlet__body">
+                        <!--begin::Form-->
+                        {{ form_start(form,{'attr':{'id':'form_realize'}}) }}
+                        {# <form class="kt-form"> #}
+                        {% for question in questions %}
+                            {% set cont = 0 %}
+                            {% if cont is divisible by(2) %}
+                                <div class="form-group row" style="background-color: #ececec;padding-bottom:20px">
+                                    <label class="col-lg-6 col-form-label"><h3>Revisar diseño footer textos legales</h3>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <div class="kt-checkbox-inline">
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox"> Si
+                                                <span></span>
+                                            </label>
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox"> No
+                                                <span></span>
+                                            </label>
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox"> Funcionalidad no implementada
+                                                <span></span>
+                                            </label>
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox"> No Testeado
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                    <div class="col-lg-12"></div>
+                                    <label class="col-lg-2 col-form-label">Observaciones:</label>
+                                    <div class="col-lg-4">
+                                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                                    </div>
+                                    <label class="col-lg-2 col-form-label">Imagen:</label>
+                                    <div class="col-lg-4">
+                                        <input type="file" class="form-control" id="customFile">
+                                    </div>
+                                    <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                </div>
+                                {% set cont = cont +1 %}
+                            {% else %}
+                                <div class="form-group row" style="padding-bottom:20px">
+                                    <label class="col-lg-6 col-form-label"><h3>Revisar diseño Página Pacientes</h3>
+                                    </label>
+                                    <div class="col-lg-6">
+                                        <div class="kt-checkbox-inline">
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox"> Si
+                                                <span></span>
+                                            </label>
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox"> No
+                                                <span></span>
+                                            </label>
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox"> Funcionalidad no implementada
+                                                <span></span>
+                                            </label>
+                                            <label class="kt-checkbox">
+                                                <input type="checkbox"> No Testeado
+                                                <span></span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                    <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                    <div class="col-lg-12"></div>
+                                    <label class="col-lg-2 col-form-label">Observaciones:</label>
+                                    <div class="col-lg-4">
+                                        <textarea class="form-control" id="exampleTextarea" rows="3"></textarea>
+                                    </div>
+                                    <label class="col-lg-2 col-form-label">Imagen:</label>
+                                    <div class="col-lg-4">
+                                        <input type="file" class="form-control" id="customFile">
+                                    </div>
+                                    <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                </div>
+                                {% set cont = cont +1 %}
+                            {% endif %}
+                        {% endfor %}
+                        <div class="kt-portlet__foot">
+                            <div class="kt-form__actions">
+                                <button type="submit" class="btn btn-brand">Guardar</button>
+                                <button type="reset" class="btn btn-warning">Cancelar</button>
+                            </div>
+                        </div>
+                        {# </form> #}
+                        {{ form_end(form) }}
+                    </div>
+
+                </div>
+                <!--end::Portlet-->
+            </div>
+        </div>
+    </div>
+    <!-- end:: Content -->
+{% endblock %}

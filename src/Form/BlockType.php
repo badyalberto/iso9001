@@ -17,15 +17,18 @@ class BlockType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('position', IntegerType::class, array(
+
+            ->add('alias', TextType::class, array(
                 'required' => true
             ))
-            ->add('alias', TextType::class, array(
+            ->add('position', IntegerType::class, array(
                 'required' => true
             ))
             ->add('bloque_padre', ChoiceType::class, array(
                 'choices' => self::TYPES,
-                'required' => false
+                'required' => false,
+                'empty_data' => '',
+
             ));
     }
 

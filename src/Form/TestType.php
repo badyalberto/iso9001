@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Block;
 use App\Entity\Customer;
 use App\Entity\Project;
 use App\Entity\Test;
@@ -14,6 +15,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -63,6 +65,11 @@ class TestType extends AbstractType
                 'required' => false,
                 'label' => false,
                 'label_attr' => ['class' => 'checkbox_custom']
+            ])
+            ->add('blocks', CollectionType::class, [
+                'entry_type' => BlockType::class,
+                'entry_options' => ['label' => false],
+                'allow_add' => true,
             ]);
     }
 

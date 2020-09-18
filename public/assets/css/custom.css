@@ -39,3 +39,7 @@
 .failed_block {
     display: none;
 }
+
+fieldset{
+    display: none; !important
+}

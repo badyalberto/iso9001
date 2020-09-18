@@ -128,6 +128,10 @@ desactivar-test:
   path: /tests/desactivar/{id}
   controller: App\Controller\TestController::desactivar
 
+realizar-test:
+  path: /tests/realizar/{id}
+  controller: App\Controller\TestController::realizeTest
+
 # BLOCKS #
 
 crear-block:
@@ -156,3 +160,5 @@ crear-pregunta:
 desactivar-pregunta:
   path: /preguntas/desactivar/{id}
   controller: App\Controller\QuestionController::desactivar
+
+

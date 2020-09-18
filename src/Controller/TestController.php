@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Block;
 use App\Entity\Customer;
 use App\Entity\Project;
+use App\Entity\Question;
 use App\Entity\Test;
+use App\Form\QuestionType;
 use App\Form\TestType;
 use phpDocumentor\Reflection\DocBlock;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -80,18 +82,19 @@ class TestController extends AbstractController
             //GUARDA EL TEST
             $em->persist($test);
             $em->flush();
-
+            //print_r($_POST);
+            //exit;
             //GUARDA TODOS LOS BLOQUES DEL TEST CREADO
-            if (isset($_POST['blocks']) && empty($_POST['blocks'])) {
+            if (isset($_POST['blocks']) && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['padre'] != "") {
                 foreach ($_POST['blocks'] as $clave => $valor) {
-                    //var_dump($valor['position']);
-                    //exit;
+
                     $block = new Block();
                     $block->setAlias($valor['alias']);
                     $block->setPosition($valor['position']);
                     $block->setBloquePadre($valor['padre']);
                     $block->setEstado("No realizada");
-
+                    //var_dump($test->getAlias());
+                    //exit;
                     $block->setTest($test);
 
                     //GUARDA UN BLOQUE EN CONCRETO
@@ -163,17 +166,24 @@ class TestController extends AbstractController
 
             $em->persist($test);
             $em->flush();
+
             //print_r($_POST);
             //exit;
-            if (isset($_POST['blocks']) && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['padre'] != "") {
+
+            if (isset($_POST['blocks'])  && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
                 foreach ($_POST['blocks'] as $clave => $valor) {
 
                     $block = new Block();
                     $block->setAlias($valor['alias']);
-                    $block->setPosition($valor['position']);
-                    $block->setBloquePadre($valor['padre']);
+                    $block->setPosition(intval($valor['position']));
+                    if(isset($valor['bloque_padre'])){
+                        $block->setBloquePadre($valor['bloque_padre']);
+                    }else{
+                        $block->setBloquePadre("");
+                    }
+
                     $block->setEstado("No realizada");
-                    //var_dump($test->getAlias());
+                    //print_r()
                     //exit;
                     $block->setTest($test);
 
@@ -211,5 +221,60 @@ class TestController extends AbstractController
 
         return $this->redirectToRoute('listar-tests');
 
+    }
+
+    public function realizeTest($id, Request $request){
+
+        //BUSCO EL TEST
+        $test = $this->getDoctrine()
+            ->getRepository(Test::class)
+            ->find($id);
+
+        //BUSCOS LOS BLOQUES DE ESE TEST
+        $blocks = $this->getDoctrine()->getRepository(Block::class)->findBy([
+            'test' => $test
+        ]);
+
+        //BUSCO LAS PREGUNTAS DE CADA BLOQUE DEL TEST
+        $questions = [];
+        $cont = 0;
+        foreach ($blocks as $clave => $valor) {
+
+            $questionsB = $this->getDoctrine()->getRepository(Question::class)->findBy([
+                'block' => $valor
+            ]);
+
+            $questions[$cont] = $questionsB;
+            $cont++;
+        }
+
+        $question = new Question();
+
+        $form = $this->createForm(QuestionType::class, $question, [
+            'action' => $this->generateUrl('realizar-test', array('id' => $test->getId())),
+            'method' => 'POST'
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($question);
+            $em->flush();
+
+            $this->addFlash('success', 'Se ha realizado correctamente el Test ');
+
+            return $this->redirectToRoute('listar-tests');
+
+        }
+
+        return $this->render('test/realize.html.twig', array(
+            'form' => $form->createView(),
+            'test' => $test,
+            'blocks' => $blocks,
+            'questions' => $questions
+        ));
     }
 }

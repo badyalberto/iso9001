@@ -63,7 +63,7 @@ $('#test_customer').ready(function () {
     var ruta = window.location.pathname;
     //console.log(ruta);
     var vars = ruta.split("/");
-    let valor = parseInt(vars[vars.length-1]);
+    let valor = parseInt(vars[vars.length - 1]);
     console.log(isNaN(valor));
 
     //SI NO VIENE DE EDIT ENTRA
@@ -121,7 +121,51 @@ $('#test_customer').click(function () {
 });
 
 //VALIDA QUE LOS CAMPOS CUSTOMER Y PROJECT ESTEN RELLENOS EN TEST
-$('#guardartest').click(function (e) {
+/*$('#guardartest').click(function (e) {
+        /*e.preventDefault();
+        console.log($('div[data-repeater-item]').length);
+        console.log($("input[name='blocks[0][alias]']").val());
+        let cont = $('div[data-repeater-item]').length;
+        var array = [cont][2];
+        for (let i = 0; i < cont; i++) {
+            //SI EL ALIAS NO ESTA VACIO
+            if ($("input[name='blocks[" + i + "][alias]']").val() != "") {
+                //COMPRUEBO QUE LA POSICION NO ESTA VACIA
+                if ($("input[name='blocks[" + i + "][position]']").val() == "") {
+                    $("input[name='blocks[" + i + "][position]']").prev().addClass('invalid-feedback');
+                    $("input[name='blocks[" + i + "][position]']").prev().html("Es obligatoria la posición");
+                    $("input[name='blocks[" + i + "][position]']").prev().css('display', 'block');
+                    $('#failedposition').addClass('invalid-feedback');
+                    $('#failedposition').html("Es obligatoria la posición");
+                    $('#failedposition').css('display', 'block');
+                    array[i][0] = true;
+                } else {
+                    array[i][0] = false;
+                }
+                j++;*/
+                //COMPRUEBA QUE EL BLOQUE PADRE NO ESTE  VACIO
+               /* if ($("input[name='blocks[" + i + "][padre]']").val() == "") {
+                    $("input[name='blocks[" + i + "][padre]']").prev().addClass('invalid-feedback');
+                    $("input[name='blocks[" + i + "][padre]']").prev().html("Es obligatoria la posición");
+                    $("input[name='blocks[" + i + "][padre]']").prev().css('display', 'block');
+                    $('#failedpadre').addClass('invalid-feedback');
+                    $('#failedpadre').html("Es obligatorio elegir un bloque padre");
+                    $('#failedpadre').css('display', 'block');
+                    array[i][1] = true;
+                } else {
+                    array[i][1] = false;
+                }
+            }
+        }
+
+        for (let i = 0; i < array[i].length; i++) {
+            for (let j = 0; i < array[i].length; j++) {
+                console.log(array[i][j])
+            }
+            //$('#form_test').submit();
+        }
+
+        console.log($("input[name='blocks[0][alias]']").val());
         /*let customer = $('#test_customer').val();
         let project = $('#test_project').val();
         e.preventDefault();
@@ -190,8 +234,8 @@ $('#guardartest').click(function (e) {
             }
         });*/
 
-    }
-);
+  //  }
+//);
 
 $('#test_customer').blur(function () {
     $('#test_customer').removeClass('is-invalid');
@@ -227,7 +271,7 @@ $('#addblock').click(function () {
     console.log($('#exampleSelect1').val());
 
     if (!isEmpty($('#alias').val()) && !isEmpty($('#position').val())) {
-        console.log("correcto")
+        console.log("correcto");
         $.ajax({
             type: "POST",
             url: url_blocks,
@@ -258,11 +302,25 @@ $('#addblock').click(function () {
     }
 });
 
-$('#alias').blur(function () {
-    $('#failedalias').css('display', 'none');
-});
+// ERROR DE LA POSICION DEL BLOQUE
 $('#position').blur(function () {
-    $('#failedposition').css('display', 'none');
+    console.log($('#position').val())
+    if ($('#position').val() !== "") {
+        $('#failedposition').css('display', 'none');
+    } else {
+        $('#failedposition').css('display', 'block');
+    }
+
+});
+
+//ERROR DEL BLOQUE PADRE
+$('#exampleSelect1').blur(function () {
+    if ($('#failedpadre').val() !== "") {
+        $('#failedpadre').css('display', 'none');
+    } else {
+        $('#failedpadre').css('display', 'block');
+    }
+
 });
 
 /*$("#form_test").submit(function (e) {

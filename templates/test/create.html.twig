@@ -75,7 +75,9 @@
                                 <div class="form-group form-group-last row" id="kt_repeater_1">
                                     <label class="col-lg-2 col-form-label">Bloques:</label>
                                     <div data-repeater-list="blocks" class="col-lg-10">
-                                        <div id="errorblock" class="failed_block">Es obligatorio crear un bloque como minimo</div>
+                                        <div id="errorblock" class="failed_block">Es obligatorio crear un bloque como
+                                            minimo
+                                        </div>
                                         <div data-repeater-item class="form-group row align-items-center">
                                             <div class="col-md-3">
                                                 <div class="kt-form__group--inline">
@@ -83,9 +85,7 @@
                                                         <label>Alias:</label>
                                                     </div>
                                                     <div class="kt-form__control">
-                                                        <div id="failedalias" class="invalid-feedback">Es obligatorio el
-                                                            alias
-                                                        </div>
+                                                        <div id="failedalias"></div>
                                                         <input type="text" id="alias" name="alias" class="form-control"
                                                                placeholder="Diseño Mails">
                                                     </div>
@@ -98,10 +98,10 @@
                                                         <label class="kt-label m-label--single">Posición:</label>
                                                     </div>
                                                     <div class="kt-form__control">
-                                                        <div id="failedposition" class="invalid-feedback">Es obligatoria
-                                                            la posicion
+                                                        <div id="failedposition">
                                                         </div>
-                                                        <input type="number" id="position" name="position" class="form-control"
+                                                        <input type="number" id="position" name="position"
+                                                               class="form-control"
                                                                placeholder="Ej: 1">
                                                     </div>
                                                 </div>
@@ -110,6 +110,8 @@
                                             <div class="col-md-4">
                                                 <label for="exampleSelect1">Bloque Padre
                                                 </label>
+                                                <div id="failedpadre">
+                                                </div>
                                                 <select class="form-control" id="exampleSelect1" name="padre">
                                                     <option value="No">No</option>
                                                     <option value="Diseno Avisos">Diseño Avisos</option>
@@ -129,7 +131,7 @@
                                 <div class="form-group form-group-last row">
                                     <label class="col-lg-2 col-form-label"></label>
                                     <div class="col-lg-4">
-                                        <a href="javascript:;" {#  id="addblock"#} data-repeater-create=""
+                                        <a href="javascript:;" {# id="addblock" #} data-repeater-create=""
                                            class="btn btn-bold btn-sm btn-label-brand">
                                             <i class="la la-plus"></i> Añadir Bloque
                                         </a>
@@ -159,7 +161,7 @@
                     </div>
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-brand" id="guardartest">Guardar</button>
+                            <button type="submit" class="btn btn-brand">Guardar</button>
                             <button type="reset" class="btn btn-warning">Cancelar</button>
                         </div>
                     </div>
@@ -171,7 +173,7 @@
             </div>
 
         </div>
-        {#  <div class="row">
+        {# <div class="row">
             <div class="col-lg-12">
                 <div class="kt-portlet" id="kt_portlet">
                     <div class="kt-portlet__head">
@@ -214,7 +216,7 @@
                 </div>
                 <!--end::Portlet-->
             </div>
-        </div>#}
+        </div> #}
     </div>
     <!-- end:: Content -->
 {% endblock %}

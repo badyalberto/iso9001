@@ -83,8 +83,9 @@
                                                         <div id="failedalias" class="invalid-feedback">Es obligatorio el
                                                             alias
                                                         </div>
-                                                        <input type="text" id="alias" name="alias" class="form-control"
-                                                               placeholder="Diseño Mails">
+                                                        {{ form_widget(form.blocks.vars.prototype.alias) }}
+                                                        {#  <input type="text" id="alias" name="alias" class="form-control"
+                                                               placeholder="Diseño Mails"> #}
                                                     </div>
                                                 </div>
                                                 <div class="d-md-none kt-margin-b-10"></div>
@@ -98,8 +99,9 @@
                                                         <div id="failedposition" class="invalid-feedback">Es obligatoria
                                                             la posicion
                                                         </div>
-                                                        <input type="number" id="position" name="position" class="form-control"
-                                                               placeholder="Ej: 1">
+                                                        {{ form_widget(form.blocks.vars.prototype.position) }}
+                                                       {# <input type="number" id="position" name="position" class="form-control"
+                                                               placeholder="Ej: 1">#}
                                                     </div>
                                                 </div>
                                                 <div class="d-md-none kt-margin-b-10"></div>
@@ -107,12 +109,13 @@
                                             <div class="col-md-4">
                                                 <label for="exampleSelect1">Bloque Padre
                                                 </label>
-                                                <select class="form-control" id="exampleSelect1" name="padre">
+                                                {{ form_widget(form.blocks.vars.prototype.bloque_padre) }}
+                                                {#  <select class="form-control" id="exampleSelect1" name="padre">
                                                     <option value=""></option>
                                                     <option value="No">No</option>
                                                     <option value="Diseno Avisos">Diseño Avisos</option>
                                                     <option value="Diseño Alertas">Diseño Alertas</option>
-                                                </select>
+                                                </select>#}
                                             </div>
                                             <div class="col-md-3">
                                                 <a href="javascript:;" data-repeater-delete=""
@@ -155,7 +158,7 @@
                     </div>
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
-                            <button type="submit" id="guardartest" class="btn btn-brand">Guardar</button>
+                            <button type="submit" class="btn btn-brand">Guardar</button>
                             <button type="reset" class="btn btn-warning">Cancelar</button>
                         </div>
                     </div>
