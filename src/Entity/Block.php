@@ -52,6 +52,7 @@ class Block
     public function __construct()
     {
         $this->questions = new ArrayCollection();
+        $this->blockquestions = new ArrayCollection();
     }
 
     public function getId(): ?int

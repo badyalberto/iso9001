@@ -33,11 +33,6 @@ class Question
     private $imagen;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $estado;
-
-    /**
      * @ORM\ManyToOne(targetEntity=Block::class, inversedBy="questions")
      */
     private $block;
@@ -88,18 +83,6 @@ class Question
         return $this;
     }
 
-    public function getEstado(): ?string
-    {
-        return $this->estado;
-    }
-
-    public function setEstado(string $estado): self
-    {
-        $this->estado = $estado;
-
-        return $this;
-    }
-
     public function getBlock(): ?Block
     {
         return $this->block;
@@ -127,4 +110,6 @@ class Question
     public function __toString(){
         return $this->description;
     }
+
+
 }

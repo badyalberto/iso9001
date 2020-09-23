@@ -26,10 +26,10 @@ class ProjectType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('fechaalta', DateType::class,array(
+            /*->add('fechaalta', DateType::class,array(
                 'label' => 'Fecha de Alta',
                 'required'=>true
-            ))
+            ))*/
             ->add('customers', EntityType::class,array(
                 'label' => 'Cliente',
                 'class' => Customer::class,
@@ -82,11 +82,11 @@ class ProjectType extends AbstractType
                 'choices' => self::STATUS,
                 'required' => true
             ])
-            ->add('desactivar', CheckboxType::class,[
+            /*->add('desactivar', CheckboxType::class,[
                 'label'    => 'Desactivar Proyecto',
                 'label' => false,
                 'required' => false
-            ]);
+            ])*/;
 
     }
 }

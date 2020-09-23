@@ -51,57 +51,120 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for test in tests %}
-                        <tr>
-                            <td>{{ test.alias }}</td>
-                            <td>{{ test.customer }}</td>
-                            <td>{{ test.project }}</td>
-                            {% if test.tipo == "ALPHA" %}
-                                <td>
-                                    <span class="kt-badge kt-badge--success kt-badge--dot"></span>
-                                    <span class="kt-font-bold kt-font-success"> ALPHA</span>
+                    {# SI ES UN USUARIO CLIENTE MOSTRARA LOS TESTS DE LOS PROYECTOS DEL CLIENTE LOGUEADO #}
+                    {% if tests2 is defined %}
+                        {% for projects in tests2 %}
+                            {% for test in projects %}
+                                <tr>
+                                    <td>{{ test.alias }}</td>
+                                    <td>{{ test.customer }}</td>
+                                    <td>{{ test.project }}</td>
+                                    {% if test.tipo == "ALPHA" %}
+                                        <td>
+                                            <span class="kt-badge kt-badge--success kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-success"> ALPHA</span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span class="kt-badge kt-badge--danger kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-danger"> BETA</span>
+                                        </td>
+                                    {% endif %}
+                                    {% if test.estado == "No Iniciado" %}
+                                        <td>
+                                            <span class="kt-badge kt-badge--brand kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-brand"> No Iniciado</span>
+                                        </td>
+                                    {% elseif test.estado == "Realizado" %}
+                                        <td>
+                                            <span class="kt-badge kt-badge--success kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-success"> Realizado</span>
+                                        </td>
+                                    {% elseif test.estado == "Desactivado" %}
+                                        <td>
+                                            <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-dark"> Desactivado</span>
+                                        </td>
+                                    {% else %}
+                                        <td>
+                                            <span class="kt-badge kt-badge--warning kt-badge--dot"></span>
+                                            <span class="kt-font-bold kt-font-warning">En Curso</span>
+                                        </td>
+                                    {% endif %}
+                                    <td nowrap>
+                                        <a href="{{ path('editar-test',{'id' : test.id }) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                           title="Editar Tests"> <i class="la la-edit"></i> </a>
+                                        <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                           title="Desactivar Test"> <i class="la la-trash"></i> </a>
+                                        <a href="{{ path('realizar-test',{'id': test.id }) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
+                                           title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                        <a href="{{ path('listar-preguntas-blocks',{'id' : test.id }) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                           title="Ver Preguntas del test"> <i class="la la-tasks"></i> </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        {% endfor %}
+
+                    {% else %}
+                        {# SI ES UN USUARIO WIP MOSTRARA TODOS LOS TESTS DE TODOS LOS PROYECTOS #}
+                        {% for test in tests %}
+                            <tr>
+                                <td>{{ test.alias }}</td>
+                                <td>{{ test.customer }}</td>
+                                <td>{{ test.project }}</td>
+                                {% if test.tipo == "ALPHA" %}
+                                    <td>
+                                        <span class="kt-badge kt-badge--success kt-badge--dot"></span>
+                                        <span class="kt-font-bold kt-font-success"> ALPHA</span>
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        <span class="kt-badge kt-badge--danger kt-badge--dot"></span>
+                                        <span class="kt-font-bold kt-font-danger"> BETA</span>
+                                    </td>
+                                {% endif %}
+                                {% if test.estado == "No Iniciado" %}
+                                    <td>
+                                        <span class="kt-badge kt-badge--brand kt-badge--dot"></span>
+                                        <span class="kt-font-bold kt-font-brand"> No Iniciado</span>
+                                    </td>
+                                {% elseif test.estado == "Realizado" %}
+                                    <td>
+                                        <span class="kt-badge kt-badge--success kt-badge--dot"></span>
+                                        <span class="kt-font-bold kt-font-success"> Realizado</span>
+                                    </td>
+                                {% elseif test.estado == "Desactivado" %}
+                                    <td>
+                                        <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
+                                        <span class="kt-font-bold kt-font-dark"> Desactivado</span>
+                                    </td>
+                                {% else %}
+                                    <td>
+                                        <span class="kt-badge kt-badge--warning kt-badge--dot"></span>
+                                        <span class="kt-font-bold kt-font-warning">En Curso</span>
+                                    </td>
+                                {% endif %}
+                                <td nowrap>
+                                    <a href="{{ path('editar-test',{'id' : test.id }) }}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                       title="Editar Tests"> <i class="la la-edit"></i> </a>
+                                    <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                       title="Desactivar Test"> <i class="la la-trash"></i> </a>
+                                    <a href="{{ path('realizar-test',{'id': test.id }) }}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                       title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                    <a href="{{ path('listar-preguntas-blocks',{'id' : test.id }) }}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                       title="Ver Preguntas del test"> <i class="la la-tasks"></i> </a>
                                 </td>
-                            {% else %}
-                                <td>
-                                    <span class="kt-badge kt-badge--danger kt-badge--dot"></span>
-                                    <span class="kt-font-bold kt-font-danger"> BETA</span>
-                                </td>
-                            {% endif %}
-                            {% if test.estado == "No Iniciado" %}
-                                <td>
-                                    <span class="kt-badge kt-badge--brand kt-badge--dot"></span>
-                                    <span class="kt-font-bold kt-font-brand"> No Iniciado</span>
-                                </td>
-                            {% elseif test.estado == "Realizado" %}
-                                <td>
-                                    <span class="kt-badge kt-badge--success kt-badge--dot"></span>
-                                    <span class="kt-font-bold kt-font-success"> Realizado</span>
-                                </td>
-                            {% elseif test.estado == "Desactivado" %}
-                                <td>
-                                    <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
-                                    <span class="kt-font-bold kt-font-dark"> Desactivado</span>
-                                </td>
-                            {% else %}
-                                <td>
-                                    <span class="kt-badge kt-badge--warning kt-badge--dot"></span>
-                                    <span class="kt-font-bold kt-font-warning">En Curso</span>
-                                </td>
-                            {% endif %}
-                            <td nowrap>
-                                <a href="{{ path('editar-test',{'id' : test.id }) }}"
-                                   class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                   title="Editar Tests"> <i class="la la-edit"></i> </a>
-                                <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
-                                   class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                   title="Desactivar Test"> <i class="la la-trash"></i> </a>
-                                <a href="{{ path('realizar-test',{'id': test.id }) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                   title="Realizar Test"> <i class="la la-clock-o"></i> </a>
-                                <a href="{{ path('listar-preguntas-blocks',{'id' : test.id }) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                   title="Ver Preguntas del test"> <i class="la la-tasks"></i> </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
+                            </tr>
+                        {% endfor %}
+                    {% endif %}
                     </tbody>
                 </table>
                 <!--end: Datatable -->

@@ -12,29 +12,21 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BlockType extends AbstractType
+class BlockTestType extends AbstractType
 {
-    const TYPES = ['No' => 'No', 'Diseño Avisos' => 'Diseño Avisos', 'Diseño Alertas' => 'Diseño Alertas'];
 
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('alias', TextType::class, array(
-                'required' => true
-            ))
-            ->add('position', IntegerType::class, array(
-                'required' => true
-            ))
-            ->add('bloque_padre', ChoiceType::class, array(
-                'choices' => self::TYPES,
-                'required' => false,
-                'empty_data' => '',
-
-            ))->add('questions', CollectionType::class, [
+            /*->add('questions', CollectionType::class, [
                 'entry_type' => QuestionTestType::class,
-                'entry_options' => ['label' => false],
-                'allow_add' => true
-            ]);
+                'entry_options' => array('label' => false),
+                'allow_add' => true,
+                'required' => false,
+                'prototype' => true,
+                'mapped' => false,
+                'by_reference' => true
+            ])*/;
 
     }
 

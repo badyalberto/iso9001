@@ -44,11 +44,11 @@ class CustomerType extends AbstractType
                 //'attr' => ['class' => 'kt-dual-listbox', 'id' => 'kt-dual-listbox-2']
                 //'expanded' => true,
             ])
-            ->add('estado', CheckboxType::class, [
+            /*->add('estado', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
                 'label_attr' => ['class' => 'checkbox_custom']
-            ]);/*->add('submit', SubmitType::class,[
+            ])*/;/*->add('submit', SubmitType::class,[
                 'attr' => ['class' => 'btn btn-primary float-left'],
                 'label' => 'Guardar'
             ])

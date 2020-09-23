@@ -43,3 +43,7 @@
 fieldset{
     display: none; !important
 }
+
+.radio-inline{
+    padding-top: 10px;
+}

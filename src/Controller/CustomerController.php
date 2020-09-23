@@ -23,7 +23,15 @@ class CustomerController extends AbstractController
 
     public function list()
     {
-        $customers = $this->getDoctrine()->getRepository(Customer::class)->findAll();
+        if ($this->getUser()->getRoles()[0] == "ROLE_WIP") {
+            $customers = $this->getDoctrine()->getRepository(Customer::class)->findAll();
+        } else {
+            $customers = $this->getUser()->getCustomers();
+            //var_dump($customers);
+            //exit;
+        }
+
+
         return $this->render('customer/list.html.twig', [
             'customers' => $customers
         ]);
@@ -45,7 +53,6 @@ class CustomerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-
             $correo = $_POST['customer']['pmmail'];
 
             $customer2 = $this->getDoctrine()
@@ -64,8 +71,8 @@ class CustomerController extends AbstractController
                 ));
             }
 
-            var_dump($_POST);
-            exit;
+            //var_dump($_POST);
+            //exit;
             $array = $_POST['customer']['users'];
 
             foreach ($array as $valor) {
@@ -73,6 +80,12 @@ class CustomerController extends AbstractController
                     ->getRepository(User::class)
                     ->find($valor);
                 $customer->addUser($user);
+            }
+
+            if (isset($_POST['activo'])) {
+                $customer->setEstado(false);
+            } else {
+                $customer->setEstado(true);
             }
 
             $em->persist($customer);
@@ -96,13 +109,18 @@ class CustomerController extends AbstractController
             ->getRepository(Customer::class)
             ->find($id);
 
+        $activo = $customer->getEstado();
+        //var_dump($activo);
+        //exit;
+
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-
+            //'<pre>';var_dump($_POST);
+            //exit;
             //PARAMETRO DEL FORM
             $correo = $_POST['customer']['pmmail'];
 
@@ -125,17 +143,24 @@ class CustomerController extends AbstractController
                 }
             }
 
+            if (isset($_POST['activo']) && $_POST['activo'] == "on") {
+                $customer->setEstado(1);
+            } else {
+                $customer->setEstado(0);
+            }
+
             $em->persist($customer);
             $em->flush();
 
-            $this->addFlash('success', 'Se ha editado correctamente al cliente '.$customer->getNombre());
+            $this->addFlash('success', 'Se ha editado correctamente al cliente ' . $customer->getNombre());
 
             return $this->redirectToRoute('listar-clientes');
         }
 
         return $this->render('customer/edit.html.twig', array(
             'form' => $form->createView(),
-            'status' => false
+            'status' => false,
+            'activo' => $activo
         ));
     }
 
@@ -148,14 +173,17 @@ class CustomerController extends AbstractController
             ->getRepository(Customer::class)
             ->find($id);
 
-        if (count($customer->getUsers()) == 0) {
+        //var_dump($customer->getProjects()[0]->getId());
+        //exit;
+
+        if ($customer->getProjects()[0] == null) {
             $em->remove($customer);
             $em->flush();
 
-            $this->addFlash('success', 'Se ha elimnado correctamente al cliente!');
+            $this->addFlash('success', 'Se ha eliminado correctamente al cliente!');
 
         } else {
-            $this->addFlash('failed', 'No se ha podido eliminar el cliente porque tiene asociados usuarios!');
+            $this->addFlash('failed', 'No se ha podido eliminar el cliente porque tiene proyectos asociados!');
 
         }
         return $this->redirectToRoute('listar-clientes');

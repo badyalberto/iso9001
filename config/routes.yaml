@@ -69,6 +69,10 @@ eliminar-proyecto:
   path: /proyectos/eliminar/{id}
   controller: App\Controller\ProjectController::delete
 
+tests-project:
+  path: /proyectos/tests/{id}
+  controller: App\Controller\ProjectController::testsByProjects
+
 # PROYECTOS DE UN CLIENTE EN CONCRETO #
 
 projects_by_user:

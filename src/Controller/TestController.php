@@ -2,13 +2,19 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Entity\Block;
 use App\Entity\Customer;
 use App\Entity\Project;
 use App\Entity\Question;
 use App\Entity\Test;
+use App\Form\AnswerType;
+use App\Form\BlockTestType;
+use App\Form\BlockType;
+use App\Form\QuestionTestType;
 use App\Form\QuestionType;
 use App\Form\TestType;
+use App\Service\FileUploader;
 use phpDocumentor\Reflection\DocBlock;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,11 +32,29 @@ class TestController extends AbstractController
 
     public function list()
     {
-        $tests = $this->getDoctrine()->getRepository(Test::class)->findAll();
+        if ($this->getUser()->getRoles()[0] == "ROLE_WIP") {
+            $tests = $this->getDoctrine()->getRepository(Test::class)->findAll();
+            return $this->render('test/list.html.twig', [
+                'tests' => $tests
+            ]);
+        } else {
 
-        return $this->render('test/list.html.twig', [
-            'tests' => $tests
-        ]);
+            $projects = $this->getUser()->getProjects2();
+            $tests2 = [];
+            $cont = 0;
+            foreach ($projects as $clave => $valor) {
+
+                $testsB = $this->getDoctrine()->getRepository(Test::class)->findBy([
+                    'project' => $valor
+                ]);
+
+                $tests2[$cont] = $testsB;
+                $cont++;
+            }
+            return $this->render('test/list.html.twig', [
+                'tests2' => $tests2
+            ]);
+        }
     }
 
     public function create(Request $request)
@@ -170,15 +194,15 @@ class TestController extends AbstractController
             //print_r($_POST);
             //exit;
 
-            if (isset($_POST['blocks'])  && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
+            if (isset($_POST['blocks']) && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
                 foreach ($_POST['blocks'] as $clave => $valor) {
 
                     $block = new Block();
                     $block->setAlias($valor['alias']);
                     $block->setPosition(intval($valor['position']));
-                    if(isset($valor['bloque_padre'])){
+                    if (isset($valor['bloque_padre'])) {
                         $block->setBloquePadre($valor['bloque_padre']);
-                    }else{
+                    } else {
                         $block->setBloquePadre("");
                     }
 
@@ -223,8 +247,8 @@ class TestController extends AbstractController
 
     }
 
-    public function realizeTest($id, Request $request){
-
+    public function realizeTest($id, FileUploader $fileUploader)
+    {
         //BUSCO EL TEST
         $test = $this->getDoctrine()
             ->getRepository(Test::class)
@@ -248,33 +272,111 @@ class TestController extends AbstractController
             $cont++;
         }
 
-        $question = new Question();
+        $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
 
-        $form = $this->createForm(QuestionType::class, $question, [
-            'action' => $this->generateUrl('realizar-test', array('id' => $test->getId())),
-            'method' => 'POST'
-        ]);
-
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (isset($_POST) && !empty($_POST) && $_POST != null && $_POST != "") {
+            var_dump("hola");
+            exit;
 
             $em = $this->getDoctrine()->getManager();
 
-            $em->persist($question);
-            $em->flush();
+            for ($i = 0; $i < count($_POST['question']); $i++) {
+
+                $question = $this->getDoctrine()
+                    ->getRepository(Question::class)
+                    ->find($_POST['question'][$i]);
+
+                #BUSCO SI EXISTE UNA RESPUESTA
+                $answer = $this->getDoctrine()
+                    ->getRepository(Answer::class)
+                    ->findBy([
+                        'question' => $question
+                    ]);
+
+                /*'<pre>';
+                var_dump($answer[0]->getId());
+                exit;*/
+
+                #SINO EXISTE RESPUESTO CREO UNA DE NUEVO
+                if ($answer[0] == "" || $answer[0] == null) {
+                    $answer = new Answer();
+                    $answer->setQuestion($question);
+
+                    /* '<pre>';
+                    *var_dump($_POST['observaciones'][$i]);
+                     exit;*/
+                    $answer->setObservaciones($_POST['observaciones'][$i]);
+                    $answer->setEstado($_POST['estado'][$i]);
+
+                    $file = $_FILES['file'];
+                    $ruta = $file['tmp_name'][$i];
+                    $type = $file['type'][$i];
+
+                    if ($type == "image/png") {
+                        $extension = ".png";
+                    } elseif ($type = "image/jpeg") {
+                        $extension = ".jpeg";
+                    } else {
+                        $extension = ".jpg";
+                    }
+
+                    //CREA EL NUEVO NOMBRE DE LA IMAGEN
+                    $filename = md5(uniqid()) . $extension;
+
+                    //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
+                    move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
+
+                    $answer->setImagen($filename);
+
+                    $em->persist($answer);
+                    $em->flush();
+                    #SI EXISTE ANSWER REESCRIBO LA ANSWER
+                } else {
+                    $answer[0]->setQuestion($question);
+
+                    /* '<pre>';
+                    *var_dump($_POST['observaciones'][$i]);
+                     exit;*/
+                    $answer[0]->setObservaciones($_POST['observaciones'][$i]);
+                    $answer[0]->setEstado($_POST['estado'][$i]);
+
+                    $file = $_FILES['file'];
+                    $ruta = $file['tmp_name'][$i];
+                    $type = $file['type'][$i];
+
+                    if ($type == "image/png") {
+                        $extension = ".png";
+                    } elseif ($type = "image/jpeg") {
+                        $extension = ".jpeg";
+                    } else {
+                        $extension = ".jpg";
+                    }
+
+                    //CREA EL NUEVO NOMBRE DE LA IMAGEN
+                    $filename = md5(uniqid()) . $extension;
+
+                    //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
+                    move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
+
+                    $answer[0]->setImagen($filename);
+
+                    $em->persist($answer[0]);
+                    $em->flush();
+                }
+            }
 
             $this->addFlash('success', 'Se ha realizado correctamente el Test ');
 
             return $this->redirectToRoute('listar-tests');
-
         }
 
         return $this->render('test/realize.html.twig', array(
-            'form' => $form->createView(),
+            //'form' => $form->createView(),
             'test' => $test,
             'blocks' => $blocks,
-            'questions' => $questions
+            'questions' => $questions,
+            'answers' => $answers
         ));
     }
+
 }

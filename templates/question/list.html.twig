@@ -71,22 +71,6 @@
                                 <td>{{ q }}</td>
                                 <td>{{ q.block }}</td>
                                 <td>
-                                    {% if q.estado == "TEST OK" %}
-                                        <span class="kt-badge kt-badge--success kt-badge--dot"></span>&nbsp;<span
-                                            class="kt-font-bold kt-font-success">TEST OK</span>
-                                    {% elseif q.estado == "TEST KO" %}
-                                        <span class="kt-badge kt-badge--danger kt-badge--dot"></span>&nbsp;<span
-                                            class="kt-font-bold kt-font-danger">TEST KO</span>
-                                    {% elseif q.estado == "NO IMPLEMENTADO" %}
-                                        <span class="kt-badge kt-badge--warning kt-badge--dot"></span>&nbsp;<span
-                                            class="kt-font-bold kt-font-warning">NO IMPLEMENTADO</span>
-                                    {% elseif q.estado == "NO TESTEADO" %}
-                                        <span class="kt-badge kt-badge--dark kt-badge--dot"></span>&nbsp;<span
-                                            class="kt-font-bold kt-font-dark">NO TESTEADO</span>
-                                    {% else %}
-                                        <span class="kt-badge kt-badge--info kt-badge--dot"></span>&nbsp;<span
-                                            class="kt-font-bold kt-font-info">DESACTIVADO</span>
-                                    {% endif %}
                                 </td>
                                 <td>
                                     <span>100%</span>

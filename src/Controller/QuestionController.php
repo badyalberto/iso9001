@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Answer;
 use App\Entity\Block;
 use App\Entity\Question;
 use App\Entity\Test;
@@ -71,7 +72,6 @@ class QuestionController extends AbstractController
                 $question2 = new Question();
                 $question2->setDescription($valor['description']);
                 $question2->setObservaciones($valor['observaciones']);
-                $question2->setEstado("NO TESTADO");
 
                 if (isset($valor['desactivar'])) {
                     $question2->setDesactivar(1);
@@ -82,25 +82,22 @@ class QuestionController extends AbstractController
                 $question2->setBlock($block);
 
                 $file = $_FILES['questions'];
-                print_r($file);
-                exit;
-
                 $ruta = $file['tmp_name'][$cont]['imagen'];
                 $type = $file['type'][$cont]['imagen'];
 
-                if($type == "image/png"){
+                if ($type == "image/png") {
                     $extension = ".png";
-                }elseif($type = "image/jpeg"){
+                } elseif ($type = "image/jpeg") {
                     $extension = ".jpeg";
-                }else{
+                } else {
                     $extension = ".jpg";
                 }
 
                 //CREA EL NUEVO NOMBRE DE LA IMAGEN
-                $filename = md5(uniqid()).$extension;
+                $filename = md5(uniqid()) . $extension;
 
                 //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
-                move_uploaded_file($ruta,$fileUploader->getTargetDirectory().$filename);
+                move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
                 $question2->setImagen($filename);
 
                 $em->persist($question2);

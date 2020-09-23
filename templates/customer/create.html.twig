@@ -70,36 +70,34 @@
                             {{ form_widget(form.users,{ 'attr': {
                                 'class' : 'form-control',
                             } }) }}
-                             {#  <select id="customer_users" name="customer[users][]" class="kt-dual-listbox form-control" multiple="multiple" required="required"
+                          {#   <label for="exampleSelect1">Usuarios Asignados</label>
+                            <select id="kt-dual-listbox-2" class="kt-dual-listbox" multiple name="usuarios[][]"
                                     data-available-title="Source Options" data-selected-title="Destination Options"
                                     data-add="<i class='flaticon2-next'></i>"
                                     data-remove="<i class='flaticon2-back'></i>"
                                     data-add-all="<i class='flaticon2-fast-next'></i>"
                                     data-remove-all="<i class='flaticon2-fast-back'></i>">
                                 {% for user in users %}
-                                    <option value="{{ user.id }}">{{ user }}</option>
+                                    <option value="{{ user.id }}">{{ user.nombre }}</option>
                                 {% endfor %}
                             </select>#}
                         </div>
                         <div class="form-group row">
                             <label class="col-3 col-form-label">Activo</label>
 
-                            {{ form_errors(form.estado) }}
+                            {# {{ form_errors(form.estado) }}
                             {{ form_widget(form.estado,{ 'attr': {
                                 'class' : 'form-control',
-                            } }) }}
+                            } }) }} #}
 
-                            {# <div class="col-3">
-                                        <span class="kt-switch kt-switch--lg">
-                                            <label>
-                                                {{ form_errors(form.activo) }}
-                                                {{ form_widget(form.activo,{ 'attr': {
-                                                    'class' : 'form-control',
-                                                } }) }}
-                                                <span></span>
-                                            </label>
-                                        </span>
-                                    </div> #}
+                             <div class="col-3">
+                                 <span class="kt-switch kt-switch--lg">
+                                     <label>
+                                         <input type="checkbox" checked="checked" name="activo">
+                                         <span></span>
+                                     </label>
+                                 </span>
+                             </div>
                         </div>
                     </div>
                     <div class="kt-portlet__foot">

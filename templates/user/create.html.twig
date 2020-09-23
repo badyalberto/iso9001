@@ -68,22 +68,18 @@
                         <div class="form-group row">
                             <label class="col-3 col-form-label">Activo</label>
 
-                            {{ form_errors(form.activo) }}
+                            {#  {{ form_errors(form.activo) }}
                             {{ form_widget(form.activo,{ 'attr': {
                                 'class' : 'form-control',
-                            } }) }}
-
-                            {# <div class="col-3">
-                                        <span class="kt-switch kt-switch--lg">
-                                            <label>
-                                                {{ form_errors(form.activo) }}
-                                                {{ form_widget(form.activo,{ 'attr': {
-                                                    'class' : 'form-control',
-                                                } }) }}
-                                                <span></span>
-                                            </label>
-                                        </span>
-                                    </div> #}
+                            } }) }}#}
+                            <div class="col-3">
+                                 <span class="kt-switch kt-switch--lg">
+                                     <label>
+                                         <input type="checkbox" checked="checked" name="activo">
+                                         <span></span>
+                                     </label>
+                                 </span>
+                            </div>
                         </div>
                     </div>
                     <div class="kt-portlet__foot">

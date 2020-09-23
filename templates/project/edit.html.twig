@@ -6,6 +6,18 @@
 
 {% block body %}
 
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('failed') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="row">
             <div class="col-md-6">
@@ -25,11 +37,16 @@
                         <div class="kt-portlet__body">
                             <div class="form-group row">
                                 <label for="example-date-input" class="col-lg-3 col-form-label">Fecha de Alta</label>
-                                {{ form_errors(form.fechaalta) }}
+                                <div class="col-lg-9">
+                                    {# {{ form_errors(form.fechaalta) }}
                                 {{ form_widget(form.fechaalta,{ 'attr': {
                                     'class' : 'form-control',
                                     'id' : 'example-date-input'
-                                } }) }}
+                                } }) }} #}
+                                    <input class="form-control" required type="date"
+                                           value="{{ project.fechaalta|date('Y-m-d') }}"
+                                           id="example-date-input" name="date">
+                                </div>
 
                             </div>
                             <div class="form-group row">
@@ -82,9 +99,9 @@
                                     WIP</label>
                                 <div class="col-lg-9">
                                     {{ form_errors(form.manager_wip) }}
-                                        {{ form_widget(form.manager_wip,{ 'attr': {
-                                            'class' : 'form-control',
-                                        } }) }}
+                                    {{ form_widget(form.manager_wip,{ 'attr': {
+                                        'class' : 'form-control',
+                                    } }) }}
 
                                     {# <select class="form-control kt-select2" id="" name="manager_wip" required>
                                     {% for manager_wip in users_wip %}
@@ -122,18 +139,22 @@
                                 <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar
                                     Proyecto</label>
 
-                                {{ form_errors(form.desactivar) }}
+                                {# {{ form_errors(form.desactivar) }}
                                 {{ form_widget(form.desactivar,{ 'attr': {
                                     'class' : 'form-control',
-                                } }) }}
-                                {# <div class="col-lg-9">
-                                                    <span class="kt-switch kt-switch--lg">
-                                                        <label>
-                                                            <input type="checkbox" checked="checked" name="">
-                                                            <span></span>
-                                                    </label>
-                                                    </span>
-                                </div> #}
+                                } }) }} #}
+                                <div class="col-3">
+                                 <span class="kt-switch kt-switch--lg">
+                                     <label>
+                                         {% if desactivar == false %}
+                                             <input type="checkbox" name="desactivar">
+                                         {% else %}
+                                             <input type="checkbox" checked name="desactivar">
+                                         {% endif %}
+                                         <span></span>
+                                     </label>
+                                 </span>
+                                </div>
                             </div>
 
                         </div>

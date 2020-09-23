@@ -41,11 +41,17 @@ security:
   # Easy way to control access for large sections of your site
   # Note: Only the *first* access control that matches will be used
   access_control:
-    #- { path: ^/usuarios, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
-    - { path: ^/clientes, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/usuarios, roles: [ ROLE_WIP ] }
+    - { path: ^/clientes/listar, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/clientes/crear, roles: [ ROLE_WIP ] }
+    - { path: ^/clientes/editar, roles: [ ROLE_WIP ] }
+    - { path: ^/clientes/eliminar, roles: [ ROLE_WIP ] }
     - { path: ^/dashboard, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/calendario, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
-    - { path: ^/proyectos, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/proyectos/listar, roles: [ ROLE_WIP ] }
+    - { path: ^/proyectos/crear, roles: [ ROLE_WIP ] }
+    - { path: ^/proyectos/editar, roles: [ ROLE_WIP ] }
+    - { path: ^/proyectos/eliminar, roles: [ ROLE_WIP ] }
     - { path: ^/tests, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/blocks, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/preguntas, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }

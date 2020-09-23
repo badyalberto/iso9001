@@ -30,10 +30,11 @@
 
                                 </div>
                             </div>
-                            &nbsp;
+                            &nbsp;{% if is_granted('ROLE_WIP') %}
                             <a href="{{ path('crear-cliente') }}" class="btn btn-brand btn-elevate btn-icon-sm">
                                 <i class="la la-plus"></i> Nuevo Cliente
                             </a>
+                            {% endif %}
                         </div>
                     </div>
                 </div>
@@ -73,6 +74,7 @@
                                 {% endfor %}
                             <td> #}
                             <td nowrap>
+                                {% if is_granted('ROLE_WIP') %}
                                 <a href="{{ path('editar-cliente',{'id' : customer.id}) }}"
                                    class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Editar Cliente">
                                     <i class="la la-edit"></i>
@@ -81,6 +83,7 @@
                                    class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Eliminar Cliente">
                                     <i class="la la-trash"></i>
                                 </a>
+                                {% endif %}
                             </td>
                         </tr>
                     {% endfor %}

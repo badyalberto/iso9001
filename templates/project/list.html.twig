@@ -105,15 +105,17 @@
                                 {% endif %}
                             </td>
                             <td nowrap>
-                                <a href="{{ path('editar-proyecto',{'id' : project.id }) }}"
-                                   class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Editar Proyecto">
-                                    <i class="la la-edit"></i>
-                                </a>
-                                <a href="{{ path('eliminar-proyecto',{'id' : project.id }) }}"
-                                   class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Eliminar Proyecto">
-                                    <i class="la la-trash"></i>
-                                </a>
-                                <a href="" class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                {% if is_granted('ROLE_WIP') %}
+                                    <a href="{{ path('editar-proyecto',{'id' : project.id }) }}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Editar Proyecto">
+                                        <i class="la la-edit"></i>
+                                    </a>
+                                    <a href="{{ path('eliminar-proyecto',{'id' : project.id }) }}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Eliminar Proyecto">
+                                        <i class="la la-trash"></i>
+                                    </a>
+                                {% endif %}
+                                <a href="{{ path('tests-project',{'id' : project.id}) }}" class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                    title="Ver Tests"> <i class="la la-tasks"></i> </a>
                             </td>
                         </tr>

@@ -214,16 +214,6 @@
                                     <td>{{ block.position }}</td>
                                     <td>{{ block.alias }}</td>
                                     <td>
-                                        {% if block.estado == "Realizada" %}
-                                            <span class="kt-badge kt-badge--success kt-badge--dot"></span>
-                                            <span class="kt-font-bold kt-font-success"> Realizada</span>
-                                        {% elseif block.estado == "No realizada" %}
-                                            <span class="kt-badge kt-badge--danger kt-badge--dot"></span>
-                                            <span class="kt-font-bold kt-font-danger"> No realizada</span>
-                                        {% else %}
-                                            <span class="kt-badge kt-badge--dark kt-badge--dot"></span>
-                                            <span class="kt-font-bold kt-font-dark"> Desactivado</span>
-                                        {% endif %}
                                     </td>
                                     <td nowrap=""><a href="{{ path('crear-pregunta',{ 'id' : block.id }) }}"
                                                      class="btn btn-sm btn-clean btn-icon btn-icon-md"

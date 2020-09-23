@@ -143,98 +143,98 @@ $('#test_customer').click(function () {
                     array[i][0] = false;
                 }
                 j++;*/
-                //COMPRUEBA QUE EL BLOQUE PADRE NO ESTE  VACIO
-               /* if ($("input[name='blocks[" + i + "][padre]']").val() == "") {
-                    $("input[name='blocks[" + i + "][padre]']").prev().addClass('invalid-feedback');
-                    $("input[name='blocks[" + i + "][padre]']").prev().html("Es obligatoria la posición");
-                    $("input[name='blocks[" + i + "][padre]']").prev().css('display', 'block');
-                    $('#failedpadre').addClass('invalid-feedback');
-                    $('#failedpadre').html("Es obligatorio elegir un bloque padre");
-                    $('#failedpadre').css('display', 'block');
-                    array[i][1] = true;
-                } else {
-                    array[i][1] = false;
-                }
-            }
-        }
+//COMPRUEBA QUE EL BLOQUE PADRE NO ESTE  VACIO
+/* if ($("input[name='blocks[" + i + "][padre]']").val() == "") {
+     $("input[name='blocks[" + i + "][padre]']").prev().addClass('invalid-feedback');
+     $("input[name='blocks[" + i + "][padre]']").prev().html("Es obligatoria la posición");
+     $("input[name='blocks[" + i + "][padre]']").prev().css('display', 'block');
+     $('#failedpadre').addClass('invalid-feedback');
+     $('#failedpadre').html("Es obligatorio elegir un bloque padre");
+     $('#failedpadre').css('display', 'block');
+     array[i][1] = true;
+ } else {
+     array[i][1] = false;
+ }
+}
+}
 
-        for (let i = 0; i < array[i].length; i++) {
-            for (let j = 0; i < array[i].length; j++) {
-                console.log(array[i][j])
-            }
-            //$('#form_test').submit();
-        }
+for (let i = 0; i < array[i].length; i++) {
+for (let j = 0; i < array[i].length; j++) {
+ console.log(array[i][j])
+}
+//$('#form_test').submit();
+}
 
-        console.log($("input[name='blocks[0][alias]']").val());
-        /*let customer = $('#test_customer').val();
-        let project = $('#test_project').val();
-        e.preventDefault();
-        //console.log(customer);
-        //console.log(project);
-        let c = false;
-        let p = false;
-        if (customer == 0) {
+console.log($("input[name='blocks[0][alias]']").val());
+/*let customer = $('#test_customer').val();
+let project = $('#test_project').val();
+e.preventDefault();
+//console.log(customer);
+//console.log(project);
+let c = false;
+let p = false;
+if (customer == 0) {
+//e.preventDefault();
+
+$('#test_customer').addClass('is-invalid');
+$('#cliente').addClass('invalid-feedback');
+$('#cliente').css('display', 'block');
+$('html, body').animate({
+ scrollTop: 0
+}, 1000);
+} else {
+c = true;
+}
+if (project == 0) {
+//e.preventDefault();
+$('#test_project').addClass('is-invalid');
+$('#proyecto').addClass('invalid-feedback');
+$('#proyecto').css('display', 'block');
+$('html, body').animate({
+ scrollTop: 0
+}, 1000);
+} else {
+p = true;
+}*/
+
+/*if($('#alias').val() != ""){
+    for (let cont = 0; cont<$(''))
+    $("[name='blocks['"+cont+"']'")
+    $("[name='blocks[0][alias]'").val();
+    e.preventDefault();
+    $('#position').val();
+    $('#exampleSelect1').val();
+
+    console.log($('#alias').val(),$('#position').val(),$('#exampleSelect1').val())
+}*/
+/*if (c == true && p == true) {
+    //console.log(c, p);
+    $('#form_test').submit();
+}*/
+
+/*$.ajax({
+    type: "POST",
+    url: url_consulta_blocks,
+    success: function (r) {
+        //console.log(r);
+        if (r == true) {
             //e.preventDefault();
-
-            $('#test_customer').addClass('is-invalid');
-            $('#cliente').addClass('invalid-feedback');
-            $('#cliente').css('display', 'block');
-            $('html, body').animate({
-                scrollTop: 0
-            }, 1000);
+            $('#errorblock').removeClass('failed_block')
+            $('#errorblock').addClass('invalid-feedback');
+            $('#errorblock').css('display', 'block');
         } else {
-            c = true;
-        }
-        if (project == 0) {
-            //e.preventDefault();
-            $('#test_project').addClass('is-invalid');
-            $('#proyecto').addClass('invalid-feedback');
-            $('#proyecto').css('display', 'block');
-            $('html, body').animate({
-                scrollTop: 0
-            }, 1000);
-        } else {
-            p = true;
-        }*/
-
-        /*if($('#alias').val() != ""){
-            for (let cont = 0; cont<$(''))
-            $("[name='blocks['"+cont+"']'")
-            $("[name='blocks[0][alias]'").val();
-            e.preventDefault();
-            $('#position').val();
-            $('#exampleSelect1').val();
-
-            console.log($('#alias').val(),$('#position').val(),$('#exampleSelect1').val())
-        }*/
-        /*if (c == true && p == true) {
-            //console.log(c, p);
-            $('#form_test').submit();
-        }*/
-
-        /*$.ajax({
-            type: "POST",
-            url: url_consulta_blocks,
-            success: function (r) {
-                //console.log(r);
-                if (r == true) {
-                    //e.preventDefault();
-                    $('#errorblock').removeClass('failed_block')
-                    $('#errorblock').addClass('invalid-feedback');
-                    $('#errorblock').css('display', 'block');
-                } else {
-                    if (c == true && p == true) {
-                        //console.log(c, p);
-                        $('#form_test').submit();
-                    }
-                }
-            },
-            error: function () {
-                console.log("No se ha podido obtener la información");
+            if (c == true && p == true) {
+                //console.log(c, p);
+                $('#form_test').submit();
             }
-        });*/
+        }
+    },
+    error: function () {
+        console.log("No se ha podido obtener la información");
+    }
+});*/
 
-  //  }
+//  }
 //);
 
 $('#test_customer').blur(function () {
@@ -328,4 +328,25 @@ $('#exampleSelect1').blur(function () {
     console.log($("#form_test").val());
 })*/
 
+$(document).ready(function() {
+    $.ajax({
+        type: "POST",
+        url: url_blocks,
+        data: {
+            alias: $('#alias').val(),
+            position: $('#position').val(),
+            padre: $('#exampleSelect1').val()
+        },
+        success: function (r) {
+            console.log(r);
+            let texto = `<tr><td>${r.alias}</td><td>${r.position}</td><td>${r.padre}</td><td nowrap=\"\"><a href=\"{{ path('crear-pregunta')}}\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Añadir pregunta bloque\">                        <i class=\"la la-edit\"></i>                      </a>                      <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Desactivar Test\">                        <i class=\"la la-trash\"></i>                        </a></td></tr>`;
+            $('#bloquestabla').append(texto);
+            $('#alias').val("");
+            $('#position').val("");
+        },
+        error: function () {
+            console.log("No se ha podido obtener la información");
+        }
+    });
+});
 

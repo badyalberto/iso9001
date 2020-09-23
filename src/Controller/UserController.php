@@ -87,10 +87,16 @@ class UserController extends AbstractController
             $encoded = $encoder->encodePassword($user, $user->getPassword());
             $user->setPassword($encoded);
 
+            if (isset($_POST['activo'])) {
+                $user->setActivo(true);
+            } else {
+                $user->setActivo(false);
+            }
+
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Se ha creado correctamente al usuario '.$user->getNombre());
+            $this->addFlash('success', 'Se ha creado correctamente al usuario ' . $user->getNombre());
 
             return $this->redirectToRoute('listar-usuarios');
 
@@ -110,6 +116,8 @@ class UserController extends AbstractController
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->find($id);
+
+        $activo = $user->getActivo();
 
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
@@ -141,7 +149,6 @@ class UserController extends AbstractController
             }
 
 
-
             if (!empty($_POST['user']['customers'])) {
                 $array = $_POST['user']['customers'];
                 foreach ($array as $valor) {
@@ -166,10 +173,16 @@ class UserController extends AbstractController
 
             }
 
+            if (isset($_POST['activo']) && $_POST['activo'] == "on") {
+                $user->setActivo(1);
+            } else {
+                $user->setActivo(0);
+            }
+
             $em->persist($user);
             $em->flush();
 
-            $this->addFlash('success', 'Se ha editado correctamente al usuario '.$user->getNombre());
+            $this->addFlash('success', 'Se ha editado correctamente al usuario ' . $user->getNombre());
 
             return $this->redirectToRoute('listar-usuarios');
 
@@ -177,25 +190,29 @@ class UserController extends AbstractController
 
         return $this->render('user/edit.html.twig', array(
             'form' => $form->createView(),
-            'status' => false
+            'status' => false,
+            'activo' => $activo
         ));
     }
 
     public function delete($id)
     {
-
         $em = $this->getDoctrine()->getManager();
 
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->find($id);
 
-        if (empty($user->getProjects2()) && empty($user->getProjects())) {
-            $em->remove($user);
-            $em->flush();
-            $this->addFlash('success', 'Se ha eliminado correctamente al usuario!');
-        } else {
-            $this->addFlash('danger', 'No se ha podido eliminar al usuario porque tiene projectos asociados');
+        if ($user->getId() != $this->getUser()->getId()) {
+            if ($user->getProjects2()[0] == null && $user->getProjects()[0] == null) {
+                $em->remove($user);
+                $em->flush();
+                $this->addFlash('success', 'Se ha eliminado correctamente al usuario!');
+            } else {
+                $this->addFlash('danger', 'No se ha podido eliminar al usuario porque tiene projectos asociados');
+            }
+        }else{
+            $this->addFlash('danger', 'No se ha podido eliminar al usuario porque estas logueado con el');
         }
 
         return $this->redirectToRoute('listar-usuarios');

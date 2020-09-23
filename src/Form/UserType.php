@@ -37,11 +37,11 @@ class UserType extends AbstractType
             ->add('password', PasswordType::class,array(
                 'required' => true
             ))
-            ->add('activo', CheckboxType::class, [
+            /*->add('activo', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
                 'label_attr' => ['class' => 'checkbox_custom']
-            ])
+            ])*/
             ->add('customers', EntityType::class, [
                 'label' => 'Clientes asignados',
                 'class' => Customer::class,

@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Customer;
 use App\Entity\Project;
+use App\Entity\Test;
 use App\Form\ProjectType;
+use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -49,6 +51,26 @@ class ProjectController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
 
+            //'<pre>';var_dump($_POST["date"]);
+            //exit;
+
+            if (isset($_POST['activo'])) {
+                $project->setDesactivar(true);
+            } else {
+                $project->setDesactivar(false);
+            }
+
+            if(isset($_POST['date']) && $_POST['date'] != "" && $_POST['date'] != null){
+                //TRANSFORMA LA STRING DATE A LA EL FORMAATO DATETIME
+                $ymd = DateTime::createFromFormat('Y-m-d', $_POST['date']);
+                $project->setFechaAlta($ymd);
+            }else{
+
+                return $this->render('project/create.html.twig', array(
+                    'form' => $form->createView()
+                ));
+            }
+
             $em->persist($project);
             $em->flush();
 
@@ -69,6 +91,8 @@ class ProjectController extends AbstractController
             ->getRepository(Project::class)
             ->find($id);
 
+        $desactivar = $project->getDesactivar();
+
         $form = $this->createForm(ProjectType::class, $project);
 
 
@@ -77,6 +101,25 @@ class ProjectController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
+
+            if (isset($_POST['desactivar']) && $_POST['desactivar'] == "on") {
+                $project->setDesactivar(1);
+            } else {
+                $project->setDesactivar(0);
+            }
+
+            if(isset($_POST['date']) && $_POST['date'] != "" && $_POST['date'] != null){
+                //TRANSFORMA LA STRING DATE A LA EL FORMAATO DATETIME
+                $ymd = DateTime::createFromFormat('Y-m-d', $_POST['date']);
+                $project->setFechaAlta($ymd);
+            }else{
+                return $this->render('project/edit.html.twig', array(
+                    'form' => $form->createView(),
+                    'desactivar' => $desactivar,
+                    'project' => $project
+
+                ));
+            }
 
             $em->persist($project);
             $em->flush();
@@ -89,6 +132,8 @@ class ProjectController extends AbstractController
 
         return $this->render('project/edit.html.twig', array(
             'form' => $form->createView(),
+            'desactivar' => $desactivar,
+            'project' => $project
 
         ));
     }
@@ -164,5 +209,18 @@ class ProjectController extends AbstractController
         } else {
             return null;
         }
+    }
+
+    public function testsByProjects($id)
+    {
+        $project = $this->getDoctrine()
+            ->getRepository(Project::class)
+            ->find($id);
+
+        $tests  = $project->getTests();
+
+        return $this->render('test/list.html.twig', [
+            'tests' => $tests
+        ]);
     }
 }

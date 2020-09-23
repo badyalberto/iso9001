@@ -45,7 +45,6 @@ class BlockController extends AbstractController
         return new JsonResponse($array);
 
     }
-
     public function blocks()
     {
         $blocks = $this->getDoctrine()
