@@ -49,6 +49,11 @@ class Block
      */
     private $questions;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private $desactivar;
+
     public function __construct()
     {
         $this->questions = new ArrayCollection();
@@ -152,6 +157,18 @@ class Block
                 $question->setBlock(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDesactivar(): ?bool
+    {
+        return $this->desactivar;
+    }
+
+    public function setDesactivar(bool $desactivar): self
+    {
+        $this->desactivar = $desactivar;
 
         return $this;
     }

@@ -33,6 +33,11 @@ eliminar-usuario:
   path: /usuarios/eliminar/{id}
   controller: App\Controller\UserController::delete
 
+busca-user:
+  path: /usuarios/busca/{id}
+  controller: App\Controller\UserController::buscaUser
+  methods: [ GET ]
+
 # CLIENTE #
 
 listar-clientes:
@@ -50,6 +55,11 @@ editar-cliente:
 eliminar-cliente:
   path: /clientes/eliminar/{id}
   controller: App\Controller\CustomerController::delete
+
+busca-customer:
+  path: /clientes/busca/{id}
+  controller: App\Controller\CustomerController::buscaCustomer
+  methods: [GET]
 
 # PROYECTOS #
 
@@ -136,12 +146,24 @@ realizar-test:
   path: /tests/realizar/{id}
   controller: App\Controller\TestController::realizeTest
 
+tests-realizados:
+  path: /tests/realizados
+  controller: App\Controller\TestController::testesCompleted
+
+pdf:
+  path: /tests/pdf/{id}
+  controller: App\Controller\TestController::pdf
+
 # BLOCKS #
 
 crear-block:
   path: /blocks/crear
   controller: App\Controller\BlockController::create
   methods: [ POST ]
+
+edit-block:
+  path: /blocks/edit/{id}
+  controller: App\Controller\BlockController::edit
 
 consulta-blocks:
   path: /blocks/listar
@@ -150,6 +172,10 @@ consulta-blocks:
 desactivar-block:
   path: /blocks/desactivar/{id}
   controller: App\Controller\BlockController::desactivar
+
+ver-preguntas-bloque:
+  path: /blocks/questions/{id}
+  controller: App\Controller\BlockController::listBlockQuestions
 
 # QUESTIONS  #
 
@@ -162,7 +188,10 @@ crear-pregunta:
   controller: App\Controller\QuestionController::create
 
 desactivar-pregunta:
-  path: /preguntas/desactivar/{id}
+  path: /preguntas/desactivar/{id}/{q_tests}
   controller: App\Controller\QuestionController::desactivar
 
+edit-question:
+  path: /preguntas/editar/{id}
+  controller: App\Controller\QuestionController::edit
 

@@ -19,7 +19,16 @@
                     <!--begin::Form-->
                     {{ form_start(form,{'attr':{'id':'form_test'}}) }}
                     {# <form class="kt-form"> #}
-                    <div class="kt-portlet__body">
+                   <div class="kt-portlet__body">
+                       {# <div class="form-group row">
+                            <label for="alias" class="col-lg-3 col-form-label">Alias del Test</label>
+                            <div class="col-lg-9">
+                                {{ form_errors(form.fecha) }}
+                                {{ form_widget(form.fecha,{ 'attr': {
+                                    'class' : 'form-control',
+                                } }) }}
+                            </div>
+                        </div> #}
                         <div class="form-group row">
                             <label for="alias" class="col-lg-3 col-form-label">Alias del Test</label>
                             <div class="col-lg-9">
@@ -144,17 +153,17 @@
                             <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar
                                 Test</label>
                             <div class="col-lg-9">
-                                {{ form_errors(form.desactivar) }}
+                                {#    {{ form_errors(form.desactivar) }}
                                 {{ form_widget(form.desactivar,{ 'attr': {
                                     'class' : 'form-control',
-                                } }) }}
-                                {# <span class="kt-switch kt-switch--lg">
+                                } }) }}#}
+                                <span class="kt-switch kt-switch--lg">
                                                         <label>
-                                                            <input type="checkbox" checked="checked" name="">
+                                                            <input type="checkbox" name="desactivar">
                                                             <span></span>
                                                     </label>
                                                     </span>
-                                #}
+
                             </div>
                         </div>
 

@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,20 +41,16 @@ class CustomerController extends AbstractController
     public function create(Request $request)
     {
         $customer = new Customer();
-        $form = $this->createForm(CustomerType::class, $customer, [
-            'action' => $this->generateUrl('crear-cliente'),
-            'method' => 'POST'
-        ]);
+
         $users = $this->getDoctrine()
             ->getRepository(User::class)
             ->findAll();
-        $form->handleRequest($request);
 
+        if (isset($_POST) && !empty($_POST) && $_POST != null && $_POST != "") {
 
-        if ($form->isSubmitted() && $form->isValid()) {
             $em = $this->getDoctrine()->getManager();
 
-            $correo = $_POST['customer']['pmmail'];
+            $correo = $_POST['email'];
 
             $customer2 = $this->getDoctrine()
                 ->getRepository(Customer::class)
@@ -64,39 +61,53 @@ class CustomerController extends AbstractController
             if ($customer2 != null) {
 
                 return $this->render('customer/create.html.twig', array(
-                    'form' => $form->createView(),
+                    //'form' => $form->createView(),
                     'users' => $users,
                     'status' => true
 
                 ));
             }
 
-            //var_dump($_POST);
-            //exit;
-            $array = $_POST['customer']['users'];
+            $customer->setNombre($_POST['nombre']);
+            $customer->setAlias($_POST['alias']);
+            $customer->setPmNombre($_POST['contacto']);
+            $customer->setPmMail($_POST['email']);
 
-            foreach ($array as $valor) {
-                $user = $this->getDoctrine()
-                    ->getRepository(User::class)
-                    ->find($valor);
-                $customer->addUser($user);
+            if (isset($_POST['users'])) {
+                $array = $_POST['users'];
+
+                foreach ($array as $valor) {
+                    $user = $this->getDoctrine()
+                        ->getRepository(User::class)
+                        ->find($valor);
+                    $customer->addUser($user);
+                }
             }
 
             if (isset($_POST['activo'])) {
-                $customer->setEstado(false);
+                $customer->setEstado(1);
             } else {
-                $customer->setEstado(true);
+                $customer->setEstado(0);
             }
 
             $em->persist($customer);
             $em->flush();
+
+            $data = [
+                'correcto' => 200,
+                'ruta' => 'http://localhost/wiip/public/index.php/clientes/listar'
+            ];
+
+
+            /*$serializer = \SerializerBuilder::create()->build();
+            $jsonContent = $serializer->serialize($data, 'json');*/
+            $this->addFlash('success', 'Se ha creado correctamente al cliente ' . $customer->getNombre());
 
             return $this->redirectToRoute('listar-clientes');
 
         }
 
         return $this->render('customer/create.html.twig', array(
-            'form' => $form->createView(),
             'users' => $users,
             'status' => false
         ));
@@ -110,19 +121,16 @@ class CustomerController extends AbstractController
             ->find($id);
 
         $activo = $customer->getEstado();
-        //var_dump($activo);
-        //exit;
 
-        $form = $this->createForm(CustomerType::class, $customer);
-        $form->handleRequest($request);
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        if (isset($_POST) && !empty($_POST) && $_POST != null && $_POST != "") {
 
             $em = $this->getDoctrine()->getManager();
-            //'<pre>';var_dump($_POST);
-            //exit;
-            //PARAMETRO DEL FORM
-            $correo = $_POST['customer']['pmmail'];
+
+            $correo = $_POST['email'];
 
             //BUSCA SI EXISTE UN CUSTOMER CON ESE CORREO
             $customer2 = $this->getDoctrine()
@@ -136,18 +144,53 @@ class CustomerController extends AbstractController
                 //ID DISTINTA Y MISMO CORREO (CORREO REPETIDO EN OTRO USER)
                 if ($correo == $customer2->getPmMail() && $id != $customer2->getId()) {
                     return $this->render('customer/edit.html.twig', array(
-                        'form' => $form->createView(),
-                        'status' => true
-
+                        'status' => false,
+                        'activo' => $activo,
+                        'customer' => $customer,
+                        'users' => $users
                     ));
                 }
             }
 
-            if (isset($_POST['activo']) && $_POST['activo'] == "on") {
+            $customer->setNombre($_POST['nombre']);
+            $customer->setAlias($_POST['alias']);
+            $customer->setPmNombre($_POST['contacto']);
+            $customer->setPmMail($_POST['email']);
+
+            /*echo '<pre>';
+            var_dump($_REQUEST);
+            echo '</pre>';
+            die();*/
+
+            if (isset($_REQUEST['users'])) {
+
+                $array = $_POST['users'];
+
+                foreach ($customer->getUsers() as $clave => $valor) {
+                    $customer->removeUser($valor);
+                }
+
+                foreach ($array as $valor) {
+                    $user = $this->getDoctrine()
+                        ->getRepository(User::class)
+                        ->find($valor);
+                    $customer->addUser($user);
+                }
+            }
+
+            if (isset($_POST['activo'])) {
                 $customer->setEstado(1);
             } else {
                 $customer->setEstado(0);
             }
+
+            $em->persist($customer);
+            $em->flush();
+
+            $data = [
+                'correcto' => 200,
+                'ruta' => 'http://localhost/wiip/public/index.php/clientes/listar'
+            ];
 
             $em->persist($customer);
             $em->flush();
@@ -158,9 +201,10 @@ class CustomerController extends AbstractController
         }
 
         return $this->render('customer/edit.html.twig', array(
-            'form' => $form->createView(),
             'status' => false,
-            'activo' => $activo
+            'activo' => $activo,
+            'customer' => $customer,
+            'users' => $users
         ));
     }
 
@@ -187,6 +231,36 @@ class CustomerController extends AbstractController
 
         }
         return $this->redirectToRoute('listar-clientes');
+    }
+
+    public function buscaCustomer($id)
+    {
+
+        $customer = $this->getDoctrine()
+            ->getRepository(Customer::class)
+            ->find($id);
+
+        if (isset($customer) && !empty($customer) && $customer != null) {
+            $users = [];
+            $cont = 0;
+            foreach ($customer->getUsers() as $clave => $valor) {
+                $users[$cont]['nombre'] = $valor->getNombre();
+                $users[$cont]['id'] = $valor->getId();
+                $cont++;
+            }
+
+            $data = [
+                'users' => $users,
+                'correcto' => 200
+            ];
+        } else {
+            $data = [
+                'customer' => null,
+                'success' => 400
+            ];
+        }
+
+        return new JsonResponse($data);
     }
 
 }

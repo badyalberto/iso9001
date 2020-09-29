@@ -16,9 +16,12 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Date;
 
 class TestType extends AbstractType
 {
@@ -27,6 +30,10 @@ class TestType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('fecha', DateType::class, array(
+                'required' => true,
+                'data' => new \DateTime()
+            ))
             ->add('alias', TextType::class, array(
                 'required' => true
             ))
@@ -61,11 +68,11 @@ class TestType extends AbstractType
                 'required' => true
                 //'attr' => ['class' => 'kt-dual-listbox']
             ])
-            ->add('desactivar', CheckboxType::class, [
+            /*->add('desactivar', CheckboxType::class, [
                 'required' => false,
                 'label' => false,
                 'label_attr' => ['class' => 'checkbox_custom']
-            ])
+            ])*/
             ->add('blocks', CollectionType::class, [
                 'entry_type' => BlockType::class,
                 'entry_options' => ['label' => false],

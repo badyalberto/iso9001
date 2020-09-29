@@ -35,7 +35,7 @@ class CustomerType extends AbstractType
                 'label' => 'Correo electronico de Contacto',
                 'required' => true
             ))
-            ->add('users', EntityType::class, [
+            /*->add('users', EntityType::class, [
                 'label' => 'Usuarios asignados',
                 'class' => User::class,
                 'choice_label' => 'nombre',
@@ -43,7 +43,7 @@ class CustomerType extends AbstractType
                 //'by_reference' => false
                 //'attr' => ['class' => 'kt-dual-listbox', 'id' => 'kt-dual-listbox-2']
                 //'expanded' => true,
-            ])
+            ])*/
             /*->add('estado', CheckboxType::class, [
                 'required' => false,
                 'label' => false,

@@ -1,6 +1,7 @@
 <?php
 namespace App\Service;
 
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class FileUploader
@@ -31,13 +32,16 @@ class FileUploader
      */
     public function upload(UploadedFile $file) : string
     {
-
-        //'<pre>';var_dump($file);
-        //exit;
         $fileName = md5(uniqid()) . '.' . $file->guessExtension();
 
         $file->move($this->targetDirectory, $fileName);
 
         return $fileName;
+    }
+
+    public function delete(String $file){
+
+        $filesystem = new Filesystem();
+        $filesystem->remove($file);
     }
 }

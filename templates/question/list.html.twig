@@ -45,9 +45,9 @@
                                 </div>
                             </div>
                             &nbsp;
-                            <a href="add-preguntas-tests.html" class="btn btn-brand btn-elevate btn-icon-sm">
+                            {# <a href="add-preguntas-tests.html" class="btn btn-brand btn-elevate btn-icon-sm">
                                 <i class="la la-plus"></i> Nueva Pregunta Test
-                            </a>
+                            </a> #}
                         </div>
                     </div>
                 </div>
@@ -60,37 +60,77 @@
                         <th>Pregunta</th>
                         <th>Block</th>
                         <th>Estado</th>
-                        <th>%</th>
+                        {# <th>%</th> #}
                         <th>Acciones</th>
                     </tr>
                     </thead>
                     <tbody>
                     {% for question in questions %}
+                        <tr>
                         {% for q in question %}
-                            <tr>
-                                <td>{{ q }}</td>
-                                <td>{{ q.block }}</td>
+                            <td>{{ q }}</td>
+                            <td>{{ q.block }}</td>
+                            {% set encontrado = false %}
+                            {% for answer in answers %}
+                                {% if q.id == answer.question.id %}
+                                    {% set encontrado = true %}
+                                    {% if q.desactivar == 0 %}
+                                        {% if answer.estado == "NO" %}
+                                            <td><span class="kt-badge kt-badge--danger kt-badge--dot"></span>&nbsp;<span
+                                                        class="kt-font-bold kt-font-danger">TEST KO</span></td>
+                                        {% elseif answer.estado == "SI" %}
+                                            <td>
+                                                <span class="kt-badge kt-badge--success kt-badge--dot"></span>&nbsp;<span
+                                                        class="kt-font-bold kt-font-success">TEST OK</span></td>
+                                        {% elseif answer.estado == "NO IMPLEMENTADA" %}
+                                            <td>
+                                                <span class="kt-badge kt-badge--warning kt-badge--dot"></span>&nbsp;<span
+                                                        class="kt-font-bold kt-font-warning">NO IMPLEMENTADO</span></td>
+                                        {% else %}
+                                            <td>
+                                                <span class="kt-badge kt-badge--dark kt-badge--dot"></span>&nbsp;<span
+                                                        class="kt-font-bold kt-font-dark">NO TESTEADO</span>
+                                            </td>
+                                        {% endif %}
+                                    {% else %}
+                                        <td>
+                                            <span class="kt-badge kt-badge--info kt-badge--dot"></span>&nbsp;<span
+                                                    class="kt-font-bold kt-font-info">DESACTIVADO</span>
+                                        </td>
+                                    {% endif %}
+                                {% endif %}
+                            {% endfor %}
+                            {% if encontrado == false %}
                                 <td>
+                                    <span class="kt-badge kt-badge--dark kt-badge--dot"></span>&nbsp;<span
+                                            class="kt-font-bold kt-font-dark">NO TESTEADO</span>
                                 </td>
-                                <td>
-                                    <span>100%</span>
-                                    <div class="progress progress-sm">
-                                        <div class="progress-bar bg-success" role="progressbar" style="width: 75%"
-                                             aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                            {% endif %}
+                            <td nowrap>
+                                {# <tr>
+                                   <td>
+                                        <span>100%</span>
+                                        <div class="progress progress-sm">
+                                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%"
+                                                 aria-valuenow="100" aria-valuemin="0" aria-valuemax="100">
+                                            </div>
                                         </div>
-                                    </div>
-                                </td>
-                                <td nowrap>
-                                    <a href="{{ path('crear-pregunta',{ 'id' : q.block.id}) }}"
-                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                       title="Añadir pregunta al bloque">
-                                        <i
-                                                class="la la-edit"></i> </a>
-                                    <a href="{{ path('desactivar-pregunta', {'id' : q.id}) }}"
-                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                       title="Desactivar pregunta"> <i class="la la-trash"></i> </a>
-                                </td>
+                                    </td>
+                                    <td nowrap> #}
+                                <a href="{{ path('crear-pregunta',{ 'id' : q.block.id}) }}"
+                                   class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                   title="Añadir pregunta al bloque">
+                                    <i class="la la-plus"></i> </a>
+                                <a href="{{ path('edit-question',{ 'id' : q.id}) }}"
+                                   class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                   title="Editar pregunta">
+                                    <i class="la la-edit"></i> </a>
+                                <a href="{{ path('desactivar-pregunta', {'id' : q.id, 'q_tests': 1}) }}"
+                                   class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                   title="Desactivar pregunta"> <i class="la la-trash"></i> </a>
+                            </td>
                             </tr>
+                            {# </td> #}
                         {% endfor %}
                     {% endfor %}
                     </tbody>

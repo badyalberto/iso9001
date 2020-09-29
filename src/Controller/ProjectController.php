@@ -24,6 +24,7 @@ class ProjectController extends AbstractController
 
     public function list()
     {
+
         if ($this->getUser()->getRoles()[0] == "ROLE_WIP") {
             $projects = $this->getDoctrine()->getRepository(Project::class)->findAll();
         } else {

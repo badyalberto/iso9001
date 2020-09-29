@@ -16,85 +16,75 @@
                         </div>
                     </div>
                     <!--begin::Form-->
-                    {{ form_start(form) }}
-                    {# <form class="kt-form" action="{{ path('crear-cliente') }}" method="POST"> #}
-                    <div class="kt-portlet__body">
-                        <div class="form-group">
-                            <label>Nombre</label>
-                            {{ form_errors(form.nombre) }}
-                            {{ form_widget(form.nombre,{ 'attr': {
-                                'class' : 'form-control',
-                            } }) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Alias</label>
-                            {{ form_errors(form.alias) }}
-                            {{ form_widget(form.alias,{ 'attr': {
-                                'class' : 'form-control',
-                            } }) }}
-                        </div>
-                        <div class="form-group">
-                            <label>Persona de Contacto</label>
-                            {{ form_errors(form.pmnombre) }}
-                            {{ form_widget(form.pmnombre,{ 'attr': {
-                                'class' : 'form-control',
-                            } }) }}
-                        </div>
 
-                        {% if status == true %}
-                            <div class="invalid-feedback emailcustomer" style="display: block">Este email ya esta en uso
+                    <form class="kt-form" action="{{ path('editar-cliente',{'id' : customer.id}) }}" id="edit-cliente"
+                          method="POST">
+                        <div class="kt-portlet__body">
+                            <div class="form-group">
+                                <label>Nombre</label>
+                                <input type="text" class="form-control" id="nombrec" required
+                                       placeholder="Pulso Ediciones SL"
+                                       name="nombre" value="{{ customer.nombre }}">
                             </div>
-                        {% else %}
-                            <div class="invalid-feedback emailcustomer" style="display: block"></div>
-                        {% endif %}
+                            <div class="form-group">
+                                <label>Alias</label>
+                                <input type="text" class="form-control" id="aliasc" required placeholder="Pulso"
+                                       name="alias" value="{{ customer.alias }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Persona de Contacto</label>
+                                <input type="text" class="form-control" id="contactoc" required placeholder="Carles"
+                                       name="contacto" value="{{ customer.pmnombre }}">
+                            </div>
 
-                        <div class="form-group">
-                            <label>Correo electrónico Contacto</label>
-                            {{ form_errors(form.pmmail) }}
-                            {{ form_widget(form.pmmail,{ 'attr': {
-                                'class' : 'form-control',
-                            } }) }}
-                        </div>
-                        <div class="form-group">
-                            <label for="exampleSelect1">Usuarios Asignados</label>
-                            {{ form_errors(form.users) }}
-                            {{ form_widget(form.users,{ 'attr': {
-                                'class' : 'form-control'
-                            } }) }}
-                        </div>
-                        <div class="form-group row">
-                            <label class="col-3 col-form-label">Activo</label>
-                            {#
-                            {{ form_errors(form.estado) }}
-                            {{ form_widget(form.estado,{ 'attr': {
-                                'class' : 'form-control',
-                            } }) }} #}
-                            <div class="col-3">
+                            {% if status == true %}
+                                <div class="invalid-feedback emailcustomer" style="display: block">Este email ya esta en
+                                    uso
+                                </div>
+                            {% else %}
+                                <div class="invalid-feedback emailcustomer" style="display: block"></div>
+                            {% endif %}
+
+                            <div class="form-group">
+                                <label>Correo electrónico Contacto</label>
+                                <input type="email" class="form-control" required aria-describedby="emailHelp"
+                                       placeholder="Enter email" name="email" id="emailc" value="{{ customer.pmmail }}">
+                            </div>
+                            <div class="form-group">
+                                <label>Usuarios Asociados</label>
+                                <select name="users[]" id="selectusers[]" multiple="multiple" class="form-control">
+                                    {% for user in users %}
+                                        <option value="{{ user.id }}">{{ user.nombre }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div class="form-group row">
+                                <label class="col-3 col-form-label">Activo</label>
+                                <div class="col-3">
                                  <span class="kt-switch kt-switch--lg">
                                      <label>
                                          {% if activo == false %}
-                                             <input type="checkbox" name="activo">
+                                             <input type="checkbox" id="activoc" name="activo">
                                          {% else %}
-                                             <input type="checkbox" checked name="activo">
+                                             <input type="checkbox" checked id="activoc" name="activo">
                                          {% endif %}
                                          <span></span>
                                      </label>
                                  </span>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="kt-portlet__foot">
-                        <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-brand">
-                                Guardar
-                            </button>
-                            <button type="reset" class="btn btn-warning">
-                                Cancelar
-                            </button>
+                        <div class="kt-portlet__foot">
+                            <div class="kt-form__actions">
+                                <button type="submit" class="btn btn-brand">
+                                    Guardar
+                                </button>
+                                <button type="reset" class="btn btn-warning">
+                                    Cancelar
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    {{ form_end(form) }}
-                    {# </form> #}
+                    </form>
                     <!--end::Form-->
                 </div>
                 <!--end::Portlet-->

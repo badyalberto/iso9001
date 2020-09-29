@@ -48,9 +48,9 @@ security:
     - { path: ^/clientes/eliminar, roles: [ ROLE_WIP ] }
     - { path: ^/dashboard, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/calendario, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
-    - { path: ^/proyectos/listar, roles: [ ROLE_WIP ] }
-    - { path: ^/proyectos/crear, roles: [ ROLE_WIP ] }
-    - { path: ^/proyectos/editar, roles: [ ROLE_WIP ] }
+    - { path: ^/proyectos/listar, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/proyectos/crear, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
+    - { path: ^/proyectos/editar, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/proyectos/eliminar, roles: [ ROLE_WIP ] }
     - { path: ^/tests, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/blocks, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }

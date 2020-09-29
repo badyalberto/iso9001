@@ -27,23 +27,26 @@ class QuestionType extends AbstractType
 
             ))
             ->add('observaciones', TextareaType::class, array(
-                'required' => true,
+                'required' => false,
                 'attr' => ['name' => 'observaciones']
             ))
             ->add('imagen', FileType::class, [
-                'required' => true,
+                'required' => false,
                 'data_class' => null,
                 'constraints' => [
-                    new Image(),
+                    new Image([
+                        'maxSize' => '1024k',
+                        'mimeTypesMessage' => 'Sube una imagen en jpg, jpeg o png',
+                    ]),
                 ]
 
             ])
-            ->add('desactivar', CheckboxType::class, array(
+            /*->add('desactivar', CheckboxType::class, array(
                 'required' => false,
                 'label' => false,
                 'attr' => ['name' => 'desactivar'],
                 'label_attr' => ['class' => 'checkbox_custom']
-            ));
+            ))*/;
     }
 
     public function configureOptions(OptionsResolver $resolver)

@@ -8,7 +8,9 @@ use App\Entity\Question;
 use App\Entity\Test;
 use App\Form\QuestionType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DomCrawler\Image;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Routing\Annotation\Route;
@@ -43,29 +45,6 @@ class QuestionController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
 
-            /*$question2 = new Question();
-            $question2->setDescription($_POST['question']['description']);
-            $question2->setObservaciones($_POST['question']['observaciones']);
-            $question2->setEstado("NO TESTADO");
-
-            if (isset($valor['desactivar'])) {
-                $question2->setDesactivar(1);
-            } else {
-                $question2->setDesactivar(0);
-            }
-
-            $question2->setBlock($block);
-
-            $brochureFile = $form->get('imagen')->getData();
-
-            if ($brochureFile instanceof UploadedFile) {
-
-                $brochureFileName = $fileUploader->upload($brochureFile);
-                $question2->setImagen($brochureFileName);
-
-                $em->persist($question2);
-                $em->flush();
-            }*/
             $cont = 0;
             foreach ($_POST['questions'] as $valor) {
 
@@ -73,10 +52,10 @@ class QuestionController extends AbstractController
                 $question2->setDescription($valor['description']);
                 $question2->setObservaciones($valor['observaciones']);
 
-                if (isset($valor['desactivar'])) {
-                    $question2->setDesactivar(1);
+                if (isset($_POST['desactivar'])) {
+                    $question2->setDesactivar(true);
                 } else {
-                    $question2->setDesactivar(0);
+                    $question2->setDesactivar(false);
                 }
 
                 $question2->setBlock($block);
@@ -99,15 +78,24 @@ class QuestionController extends AbstractController
                 //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
                 move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
                 $question2->setImagen($filename);
+                $block->setEstado("EN CURSO");
 
+                $answer = new Answer();
+                $answer->setObservaciones("");
+                $answer->setImagen("");
+                $answer->setEstado("NO TESTEADO");
+                $answer->setQuestion($question2);
+
+                $em->persist($answer);
                 $em->persist($question2);
+                $em->persist($block);
                 $em->flush();
                 $cont++;
             }
 
             $this->addFlash('success', 'Se han creado correctamente!');
 
-            return $this->redirectToRoute('listar-preguntas-blocks', ['id' => $block->getTest()->getId()]);
+            return $this->redirectToRoute('ver-preguntas-bloque', ['id' => $block->getId()]);
 
         }
 
@@ -131,6 +119,10 @@ class QuestionController extends AbstractController
             'test' => $test
         ]);
 
+        $answers = $this->getDoctrine()
+            ->getRepository(Answer::class)
+            ->findAll();
+
         //BUSCO LAS PREGUNTAS DE CADA BLOQUE DEL TEST
         $questions = [];
         $cont = 0;
@@ -147,32 +139,122 @@ class QuestionController extends AbstractController
         return $this->render('question/list.html.twig', [
             'blocks' => $blocks,
             'test' => $test,
-            'questions' => $questions
+            'questions' => $questions,
+            'answers' => $answers
         ]);
     }
 
-    public function desactivar($id)
+    public function desactivar($id,$q_tests)
     {
         $question = $this->getDoctrine()
             ->getRepository(Question::class)
             ->find($id);
 
+        $answer = $this->getDoctrine()
+            ->getRepository(Answer::class)
+            ->findOneBy([
+                'question' => $question
+            ]);
+
         $em = $this->getDoctrine()->getManager();
+
         if ($question->getDesactivar()) {
             $question->setDesactivar(false);
-            $question->setEstado("NO TESTADO");
-        }
-        {
+            $answer->setEstado("NO TESTEADO");
+            $this->addFlash('success', 'Se ha ACTIVADO correctamente la question');
+        } else {
             $question->setDesactivar(true);
-            $question->setEstado("DESACTIVADO");
+            $answer->setEstado("DESACTIVADO");
+            $this->addFlash('success', 'Se ha DESACTIVADO correctamente la question');
         }
 
+
+        $em->persist($answer);
         $em->persist($question);
         $em->flush();
 
-        $this->addFlash('success', 'Se ha desactivado correctamente la question');
+        if($q_tests == 1){
+            return $this->redirectToRoute('listar-preguntas-blocks', ['id' => $question->getBlock()->getTest()->getId()]);
+        }else{
+            return $this->redirectToRoute('ver-preguntas-bloque', ['id' => $question->getBlock()->getId()]);
+        }
+    }
 
-        return $this->redirectToRoute('listar-preguntas-blocks', ['id' => $question->getBlock()->getTest()->getId()]);
+    public function edit($id,Request $request, FileUploader $fileUploader){
 
+        $question = $this->getDoctrine()
+            ->getRepository(Question::class)
+            ->find($id);
+
+        $desactivar = $question->getDesactivar();
+
+        $form = $this->createForm(QuestionType::class, $question, [
+            'action' => $this->generateUrl('edit-question', array('id' => $question->getId())),
+            'method' => 'POST'
+        ]);
+
+        $oldFileName = $question->getImagen();
+        $oldFileNamePath = $fileUploader->getTargetDirectory().$oldFileName;
+
+        $form->handleRequest($request);
+
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $em = $this->getDoctrine()->getManager();
+
+            if (isset($_POST['desactivar'])) {
+                $question->setDesactivar(true);
+            } else {
+                $question->setDesactivar(false);
+            }
+
+            $file = $_FILES['question'];
+
+            if($file['name']['imagen'] != ""){
+
+                $ruta = $file['tmp_name']['imagen'];
+                $type = $file['type']['imagen'];
+
+                if ($type == "image/png") {
+                    $extension = ".png";
+                } elseif ($type = "image/jpeg") {
+                    $extension = ".jpeg";
+                } else {
+                    $extension = ".jpg";
+                }
+
+                //CREA EL NUEVO NOMBRE DE LA IMAGEN
+                $filename = md5(uniqid()) . $extension;
+
+                //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
+                move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
+                $question->setImagen($filename);
+
+                //ELIMINA LA IMAGEN ANTIGUA SI HAY ALGUNA
+                if($oldFileName != null){
+                    $fileUploader->delete($oldFileNamePath);
+                }
+
+            }
+            else{
+                $question->setImagen($oldFileName);
+            }
+
+            $em->persist($question);
+            $em->flush();
+
+            $this->addFlash('success', 'Se ha editado correctamente la pregunta ');
+
+            return $this->redirectToRoute('listar-preguntas-blocks', ['id' => $question->getBlock()->getTest()->getId()]);
+
+        }
+
+        return $this->render('question/edit.html.twig', array(
+            'form' => $form->createView(),
+            'question' => $question,
+            'desactivar' => $desactivar
+        ));
     }
 }

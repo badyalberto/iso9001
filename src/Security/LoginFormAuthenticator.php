@@ -74,6 +74,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
         if (!$user) {
             // fail authentication with a custom error
             throw new CustomUserMessageAuthenticationException('Correo could not be found.');
+        }elseif(!$user->getActivo()){
+            throw new CustomUserMessageAuthenticationException('Usuario desactivado');
         }
 
         return $user;

@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\ResetPasswordRequest;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -33,8 +34,8 @@ class UserController extends AbstractController
 
     public function create(Request $request, UserPasswordEncoderInterface $encoder)
     {
-
         $user = new User();
+
         $form = $this->createForm(UserType::class, $user, [
             'action' => $this->generateUrl('crear-usuario'),
             'method' => 'POST'
@@ -68,8 +69,9 @@ class UserController extends AbstractController
                 ));
             }
 
-            if (!empty($_POST['user']['customers'])) {
-                $array = $_POST['user']['customers'];
+            if (isset($_POST['customers'])) {
+                $array = $_POST['customers'];
+
                 foreach ($array as $valor) {
                     $customer = $this->getDoctrine()
                         ->getRepository(Customer::class)
@@ -77,6 +79,16 @@ class UserController extends AbstractController
                     $user->addCustomer($customer);
                 }
             }
+
+            /*if (!empty($_POST['user']['customers'])) {
+                $array = $_POST['user']['customers'];
+                foreach ($array as $valor) {
+                    $customer = $this->getDoctrine()
+                        ->getRepository(Customer::class)
+                        ->find($valor);
+                    $user->addCustomer($customer);
+                }
+            }*/
 
             if ($_REQUEST['user']['tipo'] == "WIIP") {
                 $user->setRoles(['ROLE_WIP']);
@@ -117,14 +129,26 @@ class UserController extends AbstractController
             ->getRepository(User::class)
             ->find($id);
 
+        $pass = $user->getPassword();
+
         $activo = $user->getActivo();
 
-        $form = $this->createForm(UserType::class, $user);
+        $required = false;
+
+        $customers = $this->getDoctrine()
+            ->getRepository(Customer::class)
+            ->findAll();
+
+        $form = $this->createForm(UserType::class, $user, [
+            'required_password' => $required,
+        ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
+
 
             //PARAMETRO DEL FORM
             $correo = $_POST['user']['correo'];
@@ -149,28 +173,37 @@ class UserController extends AbstractController
             }
 
 
-            if (!empty($_POST['user']['customers'])) {
-                $array = $_POST['user']['customers'];
+            if (isset($_POST['customers'])) {
+
+                $array = $_POST['customers'];
+
+                foreach ($user->getCustomers() as $clave => $valor) {
+                    $user->removeCustomer($valor);
+                }
+
                 foreach ($array as $valor) {
                     $customer = $this->getDoctrine()
                         ->getRepository(Customer::class)
                         ->find($valor);
-                    //echo '<pre>';var_dump($customer->getAlias());
-                    //exit;
+                    echo $customer->getAlias() . '<br>';
                     $user->addCustomer($customer);
                 }
             }
 
+
             $data = $form->getData();
 
-            $encoded = $encoder->encodePassword($user, $data->getPassword());
-            $user->setPassword($encoded);
+            if ($data->getPassword() != '' && $data->getPassword() != null) {
+                $encoded = $encoder->encodePassword($user, $data->getPassword());
+                $user->setPassword($encoded);
+            } else {
+                $user->setPassword($pass);
+            }
 
             if ($_REQUEST['user']['tipo'] == "WIIP") {
                 $user->setRoles(["ROLE_WIP"]);
             } else {
                 $user->setRoles(["ROLE_USER"]);
-
             }
 
             if (isset($_POST['activo']) && $_POST['activo'] == "on") {
@@ -191,7 +224,8 @@ class UserController extends AbstractController
         return $this->render('user/edit.html.twig', array(
             'form' => $form->createView(),
             'status' => false,
-            'activo' => $activo
+            'activo' => $activo,
+            'customers' => $customers
         ));
     }
 
@@ -211,11 +245,55 @@ class UserController extends AbstractController
             } else {
                 $this->addFlash('danger', 'No se ha podido eliminar al usuario porque tiene projectos asociados');
             }
-        }else{
+        } else {
             $this->addFlash('danger', 'No se ha podido eliminar al usuario porque estas logueado con el');
         }
 
         return $this->redirectToRoute('listar-usuarios');
+    }
+
+    private function resjon($data)
+    {
+        //serializar datos con servicio serializer
+        $json = $this->get('serializer')->serializer($data, 'json');
+        //response con httpfoundation
+        $response = new Response();
+        //asignar cotenido a la respuesta
+        $response->setContent('json');
+        // Indicar formato de respuesta
+        $response->headers->set('Content-Type', 'application/json');
+        //devolver respuesta
+        return response;
+    }
+
+    public function buscaUser($id)
+    {
+
+        $user = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->find($id);
+
+        if (isset($user) && !empty($user) && $user != null) {
+            $customers = [];
+            $cont = 0;
+            foreach ($user->getCustomers() as $clave => $valor) {
+                $customers[$cont]['nombre'] = $valor->getNombre();
+                $customers[$cont]['id'] = $valor->getId();
+                $cont++;
+            }
+
+            $data = [
+                'customers' => $customers,
+                'correcto' => 200
+            ];
+        } else {
+            $data = [
+                'customer' => null,
+                'success' => 400
+            ];
+        }
+
+        return new JsonResponse($data);
     }
 
 }

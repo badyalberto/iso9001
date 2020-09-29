@@ -8,11 +8,12 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
 /**
  * @ORM\Entity(repositoryClass=UserRepository::class)
  */
-class User implements UserInterface
+class User implements UserInterface, \JsonSerializable
 {
     /**
      * @ORM\Id
@@ -70,6 +71,8 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity=Test::class, mappedBy="user")
      */
     private $tests;
+
+    private $plainPassword;
 
     public function __construct()
     {
@@ -170,10 +173,10 @@ class User implements UserInterface
     public function addCustomer(Customer $customer = null): self
     {
 
-        if ($this->customers->contains($customer)) {
+        if (!$this->customers->contains($customer)) {
             $this->customers[] = $customer;
             $customer->addUser($this);
-            //var_dump("Funcion add");
+            var_dump("Funcion add");
         }
 
         return $this;
@@ -303,5 +306,28 @@ class User implements UserInterface
         }
 
         return $this;
+    }
+
+    public function setPlainPassword(string $plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
+    }
+
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    public function jsonSerialize()
+    {
+        return $data = [
+            'id' => $this->id,
+            'nombre' => $this->nombre,
+            'correo' => $this->correo,
+            'tipo' => $this->tipo,
+            'activo' => $this->activo,
+            'roles' => $this->roles
+
+        ];
     }
 }

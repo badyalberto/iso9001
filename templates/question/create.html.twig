@@ -108,16 +108,16 @@
                             <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar
                                 Pregunta</label>
                             <div class="col-lg-9">
-                                {{ form_errors(form.desactivar) }}
+                                {# {{ form_errors(form.desactivar) }}
                                 {{ form_widget(form.desactivar,{ 'attr': {
                                     'class' : 'form-control'
-                                } }) }}
-                                {# <span class="kt-switch kt-switch--lg">
+                                } }) }} #}
+                                <span class="kt-switch kt-switch--lg">
                                                         <label>
-                                                            <input type="checkbox" checked="checked" name="">
+                                                            <input type="checkbox"  name="desactivar">
                                                             <span></span>
                                                     </label>
-                                                    </span> #}
+                                                    </span>
                             </div>
                         </div>
 

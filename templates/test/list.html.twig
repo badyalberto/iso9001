@@ -98,9 +98,15 @@
                                         <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
                                            class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                            title="Desactivar Test"> <i class="la la-trash"></i> </a>
-                                        <a href="{{ path('realizar-test',{'id': test.id }) }}"
-                                           class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
-                                           title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                        {% if test.desactivar == true %}
+                                            <a href="#"
+                                               class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
+                                               title="Realizar Test" id="disabled-test"> <i class="la la-clock-o"></i> </a>
+                                        {% else %}
+                                            <a href="{{ path('realizar-test',{'id': test.id }) }}"
+                                               class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
+                                               title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                        {% endif %}
                                         <a href="{{ path('listar-preguntas-blocks',{'id' : test.id }) }}"
                                            class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                            title="Ver Preguntas del test"> <i class="la la-tasks"></i> </a>
@@ -155,9 +161,15 @@
                                     <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
                                        class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                        title="Desactivar Test"> <i class="la la-trash"></i> </a>
-                                    <a href="{{ path('realizar-test',{'id': test.id }) }}"
-                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                       title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                    {% if test.desactivar == true %}
+                                        <a href="#"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
+                                           title="Realizar Test" id="disabled-test"> <i class="la la-clock-o"></i> </a>
+                                    {% else %}
+                                        <a href="{{ path('realizar-test',{'id': test.id }) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
+                                           title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                    {% endif %}
                                     <a href="{{ path('listar-preguntas-blocks',{'id' : test.id }) }}"
                                        class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                        title="Ver Preguntas del test"> <i class="la la-tasks"></i> </a>

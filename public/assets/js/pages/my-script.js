@@ -1,6 +1,5 @@
 "use strict"
 
-
 // VALIDACION DEL CORREO DEL USER
 
 $('#user_correo').blur(function () {
@@ -64,7 +63,7 @@ $('#test_customer').ready(function () {
     //console.log(ruta);
     var vars = ruta.split("/");
     let valor = parseInt(vars[vars.length - 1]);
-    console.log(isNaN(valor));
+    //console.log(isNaN(valor));
 
     //SI NO VIENE DE EDIT ENTRA
     if (isNaN(valor)) {
@@ -88,7 +87,7 @@ $('#test_customer').ready(function () {
                 }
             },
             error: function () {
-                console.log("No se ha podido obtener la información");
+                //console.log("No se ha podido obtener la información");
             }
         });
     }
@@ -113,129 +112,12 @@ $('#test_customer').click(function () {
                 }
             },
             error: function () {
-                console.log("No se ha podido obtener la información");
+                //console.log("No se ha podido obtener la información");
             }
         });
     }
 
 });
-
-//VALIDA QUE LOS CAMPOS CUSTOMER Y PROJECT ESTEN RELLENOS EN TEST
-/*$('#guardartest').click(function (e) {
-        /*e.preventDefault();
-        console.log($('div[data-repeater-item]').length);
-        console.log($("input[name='blocks[0][alias]']").val());
-        let cont = $('div[data-repeater-item]').length;
-        var array = [cont][2];
-        for (let i = 0; i < cont; i++) {
-            //SI EL ALIAS NO ESTA VACIO
-            if ($("input[name='blocks[" + i + "][alias]']").val() != "") {
-                //COMPRUEBO QUE LA POSICION NO ESTA VACIA
-                if ($("input[name='blocks[" + i + "][position]']").val() == "") {
-                    $("input[name='blocks[" + i + "][position]']").prev().addClass('invalid-feedback');
-                    $("input[name='blocks[" + i + "][position]']").prev().html("Es obligatoria la posición");
-                    $("input[name='blocks[" + i + "][position]']").prev().css('display', 'block');
-                    $('#failedposition').addClass('invalid-feedback');
-                    $('#failedposition').html("Es obligatoria la posición");
-                    $('#failedposition').css('display', 'block');
-                    array[i][0] = true;
-                } else {
-                    array[i][0] = false;
-                }
-                j++;*/
-//COMPRUEBA QUE EL BLOQUE PADRE NO ESTE  VACIO
-/* if ($("input[name='blocks[" + i + "][padre]']").val() == "") {
-     $("input[name='blocks[" + i + "][padre]']").prev().addClass('invalid-feedback');
-     $("input[name='blocks[" + i + "][padre]']").prev().html("Es obligatoria la posición");
-     $("input[name='blocks[" + i + "][padre]']").prev().css('display', 'block');
-     $('#failedpadre').addClass('invalid-feedback');
-     $('#failedpadre').html("Es obligatorio elegir un bloque padre");
-     $('#failedpadre').css('display', 'block');
-     array[i][1] = true;
- } else {
-     array[i][1] = false;
- }
-}
-}
-
-for (let i = 0; i < array[i].length; i++) {
-for (let j = 0; i < array[i].length; j++) {
- console.log(array[i][j])
-}
-//$('#form_test').submit();
-}
-
-console.log($("input[name='blocks[0][alias]']").val());
-/*let customer = $('#test_customer').val();
-let project = $('#test_project').val();
-e.preventDefault();
-//console.log(customer);
-//console.log(project);
-let c = false;
-let p = false;
-if (customer == 0) {
-//e.preventDefault();
-
-$('#test_customer').addClass('is-invalid');
-$('#cliente').addClass('invalid-feedback');
-$('#cliente').css('display', 'block');
-$('html, body').animate({
- scrollTop: 0
-}, 1000);
-} else {
-c = true;
-}
-if (project == 0) {
-//e.preventDefault();
-$('#test_project').addClass('is-invalid');
-$('#proyecto').addClass('invalid-feedback');
-$('#proyecto').css('display', 'block');
-$('html, body').animate({
- scrollTop: 0
-}, 1000);
-} else {
-p = true;
-}*/
-
-/*if($('#alias').val() != ""){
-    for (let cont = 0; cont<$(''))
-    $("[name='blocks['"+cont+"']'")
-    $("[name='blocks[0][alias]'").val();
-    e.preventDefault();
-    $('#position').val();
-    $('#exampleSelect1').val();
-
-    console.log($('#alias').val(),$('#position').val(),$('#exampleSelect1').val())
-}*/
-/*if (c == true && p == true) {
-    //console.log(c, p);
-    $('#form_test').submit();
-}*/
-
-/*$.ajax({
-    type: "POST",
-    url: url_consulta_blocks,
-    success: function (r) {
-        //console.log(r);
-        if (r == true) {
-            //e.preventDefault();
-            $('#errorblock').removeClass('failed_block')
-            $('#errorblock').addClass('invalid-feedback');
-            $('#errorblock').css('display', 'block');
-        } else {
-            if (c == true && p == true) {
-                //console.log(c, p);
-                $('#form_test').submit();
-            }
-        }
-    },
-    error: function () {
-        console.log("No se ha podido obtener la información");
-    }
-});*/
-
-//  }
-//);
 
 $('#test_customer').blur(function () {
     $('#test_customer').removeClass('is-invalid');
@@ -263,49 +145,37 @@ function isEmpty(a) {
     }
 }
 
-$('#addblock').click(function () {
-    //console.log(isEmpty($('#alias')));
-    console.log($('#alias').val())
-    //console.log(isEmpty($('#position')));
-    console.log($('#position').val());
-    console.log($('#exampleSelect1').val());
-
-    if (!isEmpty($('#alias').val()) && !isEmpty($('#position').val())) {
-        console.log("correcto");
+$('#addblock').click(function (e) {
+    e.preventDefault();
+    if ($('#test_blocks___name___alias').val() !== null && $('#test_blocks___name___alias').val() !== "" && $('#test_blocks___name___position').val() !== null && $('#test_blocks___name___position').val() !== "") {
+        console.log("hola");
         $.ajax({
             type: "POST",
             url: url_blocks,
             data: {
-                alias: $('#alias').val(),
-                position: $('#position').val(),
-                padre: $('#exampleSelect1').val()
+                alias: $('#test_blocks___name___alias').val(),
+                position: $('#test_blocks___name___position').val(),
+                padre: $('#test_blocks___name___bloque_padre').val()
             },
             success: function (r) {
+                console.log("funciona2");
                 console.log(r);
-                let texto = `<tr><td>${r.alias}</td><td>${r.position}</td><td>${r.padre}</td><td nowrap=\"\"><a href=\"{{ path('crear-pregunta')}}\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Añadir pregunta bloque\">                        <i class=\"la la-edit\"></i>                      </a>                      <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Desactivar Test\">                        <i class=\"la la-trash\"></i>                        </a></td></tr>`;
-                $('#bloquestabla').append(texto);
-                $('#alias').val("");
-                $('#position').val("");
+                $('#form_test').submit();
             },
             error: function () {
                 console.log("No se ha podido obtener la información");
             }
         });
     } else {
-        if (isEmpty($('#alias').val())) {
-            $('#failedalias').css('display', 'block');
-
-        }
-        if (isEmpty($('#position').val())) {
-            $('#failedposition').css('display', 'block');
-        }
+        console.log("adios");
+        $('#form_test').submit();
     }
 });
 
+
 // ERROR DE LA POSICION DEL BLOQUE
-$('#position').blur(function () {
-    console.log($('#position').val())
-    if ($('#position').val() !== "") {
+/*$('#test_blocks___name___position').blur(function () {
+    if ($('#test_blocks___name___position').val() !== "") {
         $('#failedposition').css('display', 'none');
     } else {
         $('#failedposition').css('display', 'block');
@@ -314,8 +184,8 @@ $('#position').blur(function () {
 });
 
 //ERROR DEL BLOQUE PADRE
-$('#exampleSelect1').blur(function () {
-    if ($('#failedpadre').val() !== "") {
+$('#test_blocks___name___bloque_padre').blur(function () {
+    if ($('#test_blocks___name___bloque_padre').val() !== "") {
         $('#failedpadre').css('display', 'none');
     } else {
         $('#failedpadre').css('display', 'block');
@@ -323,12 +193,22 @@ $('#exampleSelect1').blur(function () {
 
 });
 
+//ERROR DEL ALIAS
+$('#test_blocks___name___alias').blur(function () {
+    if ($('#test_blocks___name___alias').val() !== "") {
+        $('#failedalias').css('display', 'none');
+    } else {
+        $('#failedalias').css('display', 'block');
+    }
+
+});*/
+
 /*$("#form_test").submit(function (e) {
     //e.preventDefault();
     console.log($("#form_test").val());
 })*/
 
-$(document).ready(function() {
+/*$(document).ready(function () {
     $.ajax({
         type: "POST",
         url: url_blocks,
@@ -349,4 +229,67 @@ $(document).ready(function() {
         }
     });
 });
+*/
+$(".denegar").click(function (e) {
+    e.preventDefault();
+    Swal.fire("La pregunta esta desactivada");
+});
+$("#disabled-test").click(function (e) {
+    Swal.fire("El Test ha sido desactivado");
+});
 
+//MANYTOMANY de USER y CUSTOMER
+$(document).ready(function () {
+
+    var sPaginaURL = window.location.pathname;
+    var sURLVariables = sPaginaURL.split('/');
+    var id = sURLVariables[sURLVariables.length - 1];
+    console.log(sURLVariables[sURLVariables.length - 1]);
+
+    if(sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "clientes") {
+        //console.log("hola");
+        $.ajax({
+            type: "GET",
+            url: '/wiip/public/index.php/clientes/busca/'+id,
+            success: function (r) {
+                console.log(r);
+                if (r.correcto == 200) {
+                    for (let i =0;i<r.users.length;i++){
+                        console.log(r.users[i]['nombre']);
+                        $('select[name="users[]_helper2"]').append(`<option value="${r.users[i]['id']}" data-sortindex="${i}">${r.users[i]['nombre']}</option>`);
+                    }
+                } else {
+                    console.log("Error en la peticion ajax");
+                }
+            },
+            error: function () {
+                console.log("No se ha podido obtener la información");
+            }
+        });
+    }
+
+    if(sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "usuarios") {
+        console.log("hola");
+        $.ajax({
+            type: "GET",
+            url: '/wiip/public/index.php/usuarios/busca/'+id,
+            success: function (r) {
+                console.log(r);
+                if (r.correcto == 200) {
+                    for (let i =0;i<r.customers.length;i++){
+                        console.log(r.customers[i]['nombre']);
+                        $('select[name="customers[]_helper2"]').append(`<option value="${r.customers[i]['id']}" data-sortindex="${i}">${r.customers[i]['nombre']}</option>`);
+                    }
+                } else {
+                    console.log("Error en la peticion ajax");
+                }
+            },
+            error: function () {
+                console.log("No se ha podido obtener la información");
+            }
+        });
+    }
+    $('select[name="users[]"]').bootstrapDualListbox();
+    $('select[name="customers[]"]').bootstrapDualListbox();
+
+})

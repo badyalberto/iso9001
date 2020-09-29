@@ -41,7 +41,8 @@
                                         </div>
                                     </div>
                                     &nbsp;
-                                    <a href="javascript:;" class="btn btn-brand btn-elevate btn-icon-sm">
+                                    <a href="{{ path('pdf', {'id' : test.id}) }}"
+                                       class="btn btn-brand btn-elevate btn-icon-sm">
                                         <i class="la la-print"></i> EXPORTAR INFORME
                                     </a>
                                 </div>
@@ -58,391 +59,794 @@
                             {% for q in questions %}
                                 {# ARRAY DE CUESTIONES DE UN BLOQUE EN CONCRETO #}
                                 {% for question in q %}
-                                    {% if cont is divisible by(2) %}
-                                        <div class="form-group row"
-                                             style="background-color: #ececec;padding-bottom:20px">
-                                            <label class="col-lg-6 col-form-label"><h3>{{ question.description }}</h3>
-                                            </label>
-                                            <div class="col-lg-6">
-                                                {% if answers|length == 0 %}
-                                                    {# SI NO EXISTE NINGUNA RESPUESTA POR DEFECTO ESTARA MARCADO NO TESTADO #}
-                                                    <input value="{{ question.id }}" type="hidden"
-                                                           name="question[{{ cont }}]">
-                                                    <span></span>
-                                                    <div class="radio-inline">
-                                                        <label class="radio">
-                                                            <input type="radio" name="estado[{{ cont }}]"
-                                                                   value="SI">
-                                                            <span></span>
-                                                            Si
-                                                        </label>
-                                                        <label class="radio">
-                                                            <input type="radio" name="estado[{{ cont }}]"
-                                                                   value="NO">
-                                                            <span></span>
-                                                            No
-                                                        </label>
-                                                        <label class="radio">
-                                                            <input type="radio" name="estado[{{ cont }}]"
-                                                                   value="NO IMPLEMENTADA">
-                                                            <span></span>
-                                                            Funcionalidad no implementada
-                                                        </label>
-                                                        <label class="radio">
-                                                            <input type="radio" name="estado[{{ cont }}]"
-                                                                   value="NO TESTEADO" checked>
-                                                            <span></span>
-                                                            No testeado
-                                                        </label>
-                                                    </div>
-                                                {% else %}
-                                                    {# SI EXISTEN RESPUESTAS #}
-                                                    {% set encontrado = false %}
-                                                    {% set quest = "" %}
-                                                    {% set status = "" %}
-                                                    {% for answer in answers %}
-                                                        {% set name = "estado" ~ cont %}
-                                                        {# SI ESA QUESTION TIENE UNA ANSWER #}
-                                                        {% if answer.question.id == question.id %}
-                                                            {# GUARDO EL ESTADO Y EL ID DE LA QUESTION #}
-                                                            {% set encontrado = true %}
-                                                            {% set quest = question.id %}
-                                                            {% set status = answer.estado %}
-                                                        {% else %}
-                                                            {# SI NO EXISTE ESA ANSWER MOSTRARA LOS CAMPOS POR DEFAULT #}
-                                                            {% set quest = question.id %}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                    {% if encontrado == true %}
-                                                        <input value="{{ quest }}" type="hidden"
+                                    {# SI ESTA ACTIVA LA QUESTION LA MUESTRO EN LA TABLA #}
+                                    {% if question.desactivar == false %}
+                                        {% if cont is divisible by(2) %}
+                                            <div class="form-group row"
+                                                 style="background-color: #ececec;padding-bottom:20px">
+                                                <label class="col-lg-6 col-form-label">
+                                                    <h5>{{ question.description }}</h5>
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    {% if answers|length == 0 %}
+                                                        {# SI NO EXISTE NINGUNA RESPUESTA POR DEFECTO ESTARA MARCADO NO TESTADO #}
+                                                        <input value="{{ question.id }}" type="hidden"
                                                                name="question[{{ cont }}]">
                                                         <span></span>
                                                         <div class="radio-inline">
                                                             <label class="radio">
-                                                                {% if status == "SI" %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="SI" checked>
-                                                                    <span></span>
-                                                                    Si
-                                                                {% else %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="SI">
-                                                                    <span></span>
-                                                                    Si
-                                                                {% endif %}
-                                                            </label>
-                                                            <label class="radio">
-                                                                {% if status == "NO" %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO" checked>
-                                                                    <span></span>
-                                                                    No
-                                                                {% else %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO">
-                                                                    <span></span>
-                                                                    No
-                                                                {% endif %}
-                                                            </label>
-                                                            <label class="radio">
-                                                                {% if status == "NO IMPLEMENTADA" %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO IMPLEMENTADA" checked>
-                                                                    <span></span>
-                                                                    Funcionalidad no implementada
-                                                                {% else %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO IMPLEMENTADA">
-                                                                    <span></span>
-                                                                    Funcionalidad no implementada
-                                                                {% endif %}
-                                                            </label>
-                                                            <label class="radio">
-                                                                {% if status == "NO TESTEADO" %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO TESTEADO" checked>
-                                                                    <span></span>
-                                                                    No testeado
-                                                                {% else %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO TESTEADO">
-                                                                    <span></span>
-                                                                    No testeado
-                                                                {% endif %}
-                                                            </label>
-                                                        </div>
-                                                    {% else %}
-                                                        <input value="{{ quest }}" type="hidden"
-                                                               name="question[{{ cont }}]">
-                                                        <span></span>
-                                                        <div class="radio-inline">
-                                                            <label class="radio">
-                                                                <input type="radio"
-                                                                       name="estado[{{ cont }}]"
+                                                                <input type="radio" name="estado[{{ cont }}]"
                                                                        value="SI">
                                                                 <span></span>
                                                                 Si
                                                             </label>
                                                             <label class="radio">
-                                                                <input type="radio"
-                                                                       name="estado[{{ cont }}]"
+                                                                <input type="radio" name="estado[{{ cont }}]"
                                                                        value="NO">
                                                                 <span></span>
                                                                 No
                                                             </label>
                                                             <label class="radio">
-                                                                <input type="radio"
-                                                                       name="estado[{{ cont }}]"
+                                                                <input type="radio" name="estado[{{ cont }}]"
                                                                        value="NO IMPLEMENTADA">
                                                                 <span></span>
                                                                 Funcionalidad no implementada
                                                             </label>
                                                             <label class="radio">
-                                                                <input type="radio"
-                                                                       name="estado[{{ cont }}]"
+                                                                <input type="radio" name="estado[{{ cont }}]"
                                                                        value="NO TESTEADO" checked>
                                                                 <span></span>
                                                                 No testeado
                                                             </label>
                                                         </div>
+                                                    {% else %}
+                                                        {# SI EXISTEN RESPUESTAS #}
+                                                        {% set encontrado = false %}
+                                                        {% set quest = "" %}
+                                                        {% set status = "" %}
+                                                        {% for answer in answers %}
+                                                            {% set name = "estado" ~ cont %}
+                                                            {# SI ESA QUESTION TIENE UNA ANSWER #}
+                                                            {% if answer.question.id == question.id %}
+                                                                {# GUARDO EL ESTADO Y EL ID DE LA QUESTION #}
+                                                                {% set encontrado = true %}
+                                                                {% set quest = question.id %}
+                                                                {% set status = answer.estado %}
+                                                            {% else %}
+                                                                {# SI NO EXISTE ESA ANSWER MOSTRARA LOS CAMPOS POR DEFAULT #}
+                                                                {% set quest = question.id %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if encontrado == true %}
+                                                            <input value="{{ quest }}" type="hidden"
+                                                                   name="question[{{ cont }}]">
+                                                            <span></span>
+                                                            <div class="radio-inline">
+                                                                <label class="radio">
+                                                                    {% if status == "SI" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="SI" checked>
+                                                                        <span></span>
+                                                                        Si
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="SI">
+                                                                        <span></span>
+                                                                        Si
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO" checked>
+                                                                        <span></span>
+                                                                        No
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO">
+                                                                        <span></span>
+                                                                        No
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO IMPLEMENTADA" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO IMPLEMENTADA" checked>
+                                                                        <span></span>
+                                                                        Funcionalidad no implementada
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO IMPLEMENTADA">
+                                                                        <span></span>
+                                                                        Funcionalidad no implementada
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO TESTEADO" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO TESTEADO" checked>
+                                                                        <span></span>
+                                                                        No testeado
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO TESTEADO">
+                                                                        <span></span>
+                                                                        No testeado
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        {% else %}
+                                                            <input value="{{ quest }}" type="hidden"
+                                                                   name="question[{{ cont }}]">
+                                                            <span></span>
+                                                            <div class="radio-inline">
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="SI">
+                                                                    <span></span>
+                                                                    Si
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO">
+                                                                    <span></span>
+                                                                    No
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO IMPLEMENTADA">
+                                                                    <span></span>
+                                                                    Funcionalidad no implementada
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO TESTEADO" checked>
+                                                                    <span></span>
+                                                                    No testeado
+                                                                </label>
+                                                            </div>
+                                                        {% endif %}
                                                     {% endif %}
-                                                {% endif %}
-                                            </div>
-                                            <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
-                                            <div class="col-lg-12"></div>
-                                            <label class="col-lg-2 col-form-label">Observaciones:</label>
-                                            <div class="col-lg-4">
-                                                {% set obs = "observaciones" ~ cont %}
-                                                {% set observa = false %}
-                                                {% for answer in answers %}
-                                                    {% if answer.question.id == question.id %}
-                                                        {# {{ form_errors(form.observaciones) }}
+                                                </div>
+                                                <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                                <div class="col-lg-12"></div>
+                                                <label class="col-lg-2 col-form-label">Observaciones:</label>
+                                                <div class="col-lg-4">
+                                                    {% set obs = "observaciones" ~ cont %}
+                                                    {% set observa = false %}
+                                                    {% for answer in answers %}
+                                                        {% if answer.question.id == question.id %}
+                                                            {# {{ form_errors(form.observaciones) }}
                                                 {{ form_widget(form.observaciones,{ 'attr': {
                                                     'class' : 'form-control'
                                                 } }) }} #}
-                                                        {% set observa = true %}
-                                                        <textarea class="form-control" id="exampleTextarea" rows="3"
-                                                                  name="observaciones[{{ cont }}]">{{ answer.observaciones }}</textarea>
+                                                            {% set observa = true %}
+                                                            <textarea class="form-control" id="exampleTextarea" rows="3"
+                                                                      name="observaciones[{{ cont }}]">{{ answer.observaciones }}</textarea>
 
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if observa == false %}
+                                                        <textarea class="form-control" id="exampleTextarea" rows="3"
+                                                                  name="observaciones[{{ cont }}]"></textarea>
                                                     {% endif %}
-                                                {% endfor %}
-                                                {% if observa == false %}
-                                                    <textarea class="form-control" id="exampleTextarea" rows="3"
-                                                              name="observaciones[{{ cont }}]"></textarea>
-                                                {% endif %}
-                                            </div>
-                                            <label class="col-lg-2 col-form-label">Imagen:</label>
-                                            <div class="col-lg-4">
-                                                {% set file = "file" ~ cont %}
-                                                {# {{ form_errors(form.imagen) }}
+                                                </div>
+                                                <label class="col-lg-2 col-form-label">Imagen:</label>
+                                                <div class="col-lg-4">
+                                                    {% set file = "file" ~ cont %}
+                                                    {# {{ form_errors(form.imagen) }}
                                                 {{ form_widget(form.imagen,{ 'attr': {
                                                     'class' : 'form-control'
                                                 } }) }} #}
-                                                <input type="file" class="form-control" id="customFile"
-                                                       name="file[{{ cont }}]">
+                                                    <input type="file" class="form-control" id="customFile"
+                                                           name="file[{{ cont }}]">
+                                                </div>
+                                                <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
                                             </div>
-                                            <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
-                                        </div>
+                                        {% else %}
+                                            <div class="form-group row" style="padding-bottom:20px">
+                                                <label class="col-lg-6 col-form-label">
+                                                    <h5>{{ question.description }}</h5>
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    {% if answers|length == 0 %}
+                                                        {# SI NO EXISTE NINGUNA RESPUESTA POR DEFECTO ESTARA MARCADO NO TESTADO #}
+                                                        <input value="{{ question.id }}" type="hidden"
+                                                               name="question[{{ cont }}]">
+                                                        <span></span>
+                                                        <div class="radio-inline">
+                                                            <label class="radio">
+                                                                <input type="radio" name="estado[{{ cont }}]"
+                                                                       value="SI">
+                                                                <span></span>
+                                                                Si
+                                                            </label>
+                                                            <label class="radio">
+                                                                <input type="radio" name="estado[{{ cont }}]"
+                                                                       value="NO">
+                                                                <span></span>
+                                                                No
+                                                            </label>
+                                                            <label class="radio">
+                                                                <input type="radio" name="estado[{{ cont }}]"
+                                                                       value="NO IMPLEMENTADA">
+                                                                <span></span>
+                                                                Funcionalidad no implementada
+                                                            </label>
+                                                            <label class="radio">
+                                                                <input type="radio" name="estado[{{ cont }}]"
+                                                                       value="NO TESTEADO" checked>
+                                                                <span></span>
+                                                                No testeado
+                                                            </label>
+                                                        </div>
+                                                    {% else %}
+                                                        {# SI EXISTEN RESPUESTAS #}
+                                                        {% set encontrado = false %}
+                                                        {% set quest = "" %}
+                                                        {% set status = "" %}
+                                                        {% for answer in answers %}
+                                                            {% set name = "estado" ~ cont %}
+                                                            {# SI ESA QUESTION TIENE UNA ANSWER #}
+                                                            {% if answer.question.id == question.id %}
+                                                                {# GUARDO EL ESTADO Y EL ID DE LA QUESTION #}
+                                                                {% set encontrado = true %}
+                                                                {% set quest = question.id %}
+                                                                {% set status = answer.estado %}
+                                                            {% else %}
+                                                                {# SI NO EXISTE ESA ANSWER MOSTRARA LOS CAMPOS POR DEFAULT #}
+                                                                {% set quest = question.id %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if encontrado == true %}
+                                                            <input value="{{ quest }}" type="hidden"
+                                                                   name="question[{{ cont }}]">
+                                                            <span></span>
+                                                            <div class="radio-inline">
+                                                                <label class="radio">
+                                                                    {% if status == "SI" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="SI" checked>
+                                                                        <span></span>
+                                                                        Si
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="SI">
+                                                                        <span></span>
+                                                                        Si
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO" checked>
+                                                                        <span></span>
+                                                                        No
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO">
+                                                                        <span></span>
+                                                                        No
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO IMPLEMENTADA" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO IMPLEMENTADA" checked>
+                                                                        <span></span>
+                                                                        Funcionalidad no implementada
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO IMPLEMENTADA">
+                                                                        <span></span>
+                                                                        Funcionalidad no implementada
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO TESTEADO" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO TESTEADO" checked>
+                                                                        <span></span>
+                                                                        No testeado
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO TESTEADO">
+                                                                        <span></span>
+                                                                        No testeado
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        {% else %}
+                                                            <input value="{{ quest }}" type="hidden"
+                                                                   name="question[{{ cont }}]">
+                                                            <span></span>
+                                                            <div class="radio-inline">
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="SI">
+                                                                    <span></span>
+                                                                    Si
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO">
+                                                                    <span></span>
+                                                                    No
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO IMPLEMENTADA">
+                                                                    <span></span>
+                                                                    Funcionalidad no implementada
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO TESTEADO" checked>
+                                                                    <span></span>
+                                                                    No testeado
+                                                                </label>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                                <div class="col-lg-12"></div>
+                                                <label class="col-lg-2 col-form-label">Observaciones:</label>
+                                                <div class="col-lg-4">
+                                                    {% set obs = "observaciones" ~ cont %}
+                                                    {% set observa = false %}
+                                                    {% for answer in answers %}
+                                                        {% if answer.question.id == question.id %}
+                                                            {# {{ form_errors(form.observaciones) }}
+                                                {{ form_widget(form.observaciones,{ 'attr': {
+                                                    'class' : 'form-control'
+                                                } }) }} #}
+                                                            {% set observa = true %}
+                                                            <textarea class="form-control" id="exampleTextarea" rows="3"
+                                                                      name="observaciones[{{ cont }}]">{{ answer.observaciones }}</textarea>
+
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if observa == false %}
+                                                        <textarea class="form-control" id="exampleTextarea" rows="3"
+                                                                  name="observaciones[{{ cont }}]"></textarea>
+                                                    {% endif %}
+                                                </div>
+                                                <label class="col-lg-2 col-form-label">Imagen:</label>
+                                                <div class="col-lg-4">
+                                                    {% set file = "file" ~ cont %}
+                                                    {# {{ form_errors(form.imagen) }}
+                                                {{ form_widget(form.imagen,{ 'attr': {
+                                                    'class' : 'form-control'
+                                                } }) }} #}
+                                                    <input type="file" class="form-control" id="customFile"
+                                                           name="file[{{ cont }}]">
+                                                </div>
+                                                <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                            </div>
+                                        {% endif %}
                                     {% else %}
-                                        <div class="form-group row" style="padding-bottom:20px">
-                                            <label class="col-lg-6 col-form-label"><h3>{{ question.description }}</h3>
-                                            </label>
-                                            <div class="col-lg-6">
-                                                {% if answers|length == 0 %}
-                                                    {# SI NO EXISTE NINGUNA RESPUESTA POR DEFECTO ESTARA MARCADO NO TESTADO #}
-                                                    <input value="{{ question.id }}" type="hidden"
-                                                           name="question[{{ cont }}]">
-                                                    <span></span>
-                                                    <div class="radio-inline">
-                                                        <label class="radio">
-                                                            <input type="radio" name="estado[{{ cont }}]"
-                                                                   value="SI">
-                                                            <span></span>
-                                                            Si
-                                                        </label>
-                                                        <label class="radio">
-                                                            <input type="radio" name="estado[{{ cont }}]"
-                                                                   value="NO">
-                                                            <span></span>
-                                                            No
-                                                        </label>
-                                                        <label class="radio">
-                                                            <input type="radio" name="estado[{{ cont }}]"
-                                                                   value="NO IMPLEMENTADA">
-                                                            <span></span>
-                                                            Funcionalidad no implementada
-                                                        </label>
-                                                        <label class="radio">
-                                                            <input type="radio" name="estado[{{ cont }}]"
-                                                                   value="NO TESTEADO" checked>
-                                                            <span></span>
-                                                            No testeado
-                                                        </label>
-                                                    </div>
-                                                {% else %}
-                                                    {# SI EXISTEN RESPUESTAS #}
-                                                    {% set encontrado = false %}
-                                                    {% set quest = "" %}
-                                                    {% set status = "" %}
-                                                    {% for answer in answers %}
-                                                        {% set name = "estado" ~ cont %}
-                                                        {# SI ESA QUESTION TIENE UNA ANSWER #}
-                                                        {% if answer.question.id == question.id %}
-                                                            {# GUARDO EL ESTADO Y EL ID DE LA QUESTION #}
-                                                            {% set encontrado = true %}
-                                                            {% set quest = question.id %}
-                                                            {% set status = answer.estado %}
-                                                        {% else %}
-                                                            {# SI NO EXISTE ESA ANSWER MOSTRARA LOS CAMPOS POR DEFAULT #}
-                                                            {% set quest = question.id %}
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                    {% if encontrado == true %}
-                                                        <input value="{{ quest }}" type="hidden"
+                                        {# SI NO ESTA ACTIVA LA PREGUNTA #}
+                                        {% if cont is divisible by(2) %}
+                                            <div class="form-group row"
+                                                 style="background-color: #ececec;padding-bottom:20px">
+                                                <label class="col-lg-6 col-form-label">
+                                                    <h5>{{ question.description }}</h5>
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    {% if answers|length == 0 %}
+                                                        {# SI NO EXISTE NINGUNA RESPUESTA POR DEFECTO ESTARA MARCADO NO TESTADO #}
+                                                        <input value="{{ question.id }}" type="hidden"
                                                                name="question[{{ cont }}]">
                                                         <span></span>
                                                         <div class="radio-inline">
                                                             <label class="radio">
-                                                                {% if status == "SI" %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="SI" checked>
-                                                                    <span></span>
-                                                                    Si
-                                                                {% else %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="SI">
-                                                                    <span></span>
-                                                                    Si
-                                                                {% endif %}
+                                                                <input type="radio" name="estado[{{ cont }}]"
+                                                                       value="SI" disabled>
+                                                                <span></span>
+                                                                Si
                                                             </label>
                                                             <label class="radio">
-                                                                {% if status == "NO" %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO" checked>
-                                                                    <span></span>
-                                                                    No
-                                                                {% else %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO">
-                                                                    <span></span>
-                                                                    No
-                                                                {% endif %}
+                                                                <input type="radio" name="estado[{{ cont }}]"
+                                                                       value="NO" disabled>
+                                                                <span></span>
+                                                                No
                                                             </label>
                                                             <label class="radio">
-                                                                {% if status == "NO IMPLEMENTADA" %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO IMPLEMENTADA" checked>
-                                                                    <span></span>
-                                                                    Funcionalidad no implementada
-                                                                {% else %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO IMPLEMENTADA">
-                                                                    <span></span>
-                                                                    Funcionalidad no implementada
-                                                                {% endif %}
+                                                                <input type="radio" name="estado[{{ cont }}]"
+                                                                       value="NO IMPLEMENTADA" disabled>
+                                                                <span></span>
+                                                                Funcionalidad no implementada
                                                             </label>
                                                             <label class="radio">
-                                                                {% if status == "NO TESTEADO" %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO TESTEADO" checked>
-                                                                    <span></span>
-                                                                    No testeado
-                                                                {% else %}
-                                                                    <input type="radio"
-                                                                           name="estado[{{ cont }}]"
-                                                                           value="NO TESTEADO">
-                                                                    <span></span>
-                                                                    No testeado
-                                                                {% endif %}
+                                                                <input type="radio" name="estado[{{ cont }}]"
+                                                                       value="NO TESTEADO" checked disabled>
+                                                                <span></span>
+                                                                No testeado
                                                             </label>
                                                         </div>
                                                     {% else %}
-                                                        <input value="{{ quest }}" type="hidden"
-                                                               name="question[{{ cont }}]">
+                                                        {# SI EXISTEN RESPUESTAS #}
+                                                        {% set encontrado = false %}
+                                                        {% set quest = "" %}
+                                                        {% set status = "" %}
+                                                        {% for answer in answers %}
+                                                            {% set name = "estado" ~ cont %}
+                                                            {# SI ESA QUESTION TIENE UNA ANSWER #}
+                                                            {% if answer.question.id == question.id %}
+                                                                {# GUARDO EL ESTADO Y EL ID DE LA QUESTION #}
+                                                                {% set encontrado = true %}
+                                                                {% set quest = question.id %}
+                                                                {% set status = answer.estado %}
+                                                            {% else %}
+                                                                {# SI NO EXISTE ESA ANSWER MOSTRARA LOS CAMPOS POR DEFAULT #}
+                                                                {% set quest = question.id %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if encontrado == true %}
+                                                            <input value="{{ quest }}" type="hidden"
+                                                                   name="question[{{ cont }}]" class="idoculto"
+                                                                   disabled>
+                                                            <span></span>
+                                                            <div class="radio-inline">
+                                                                <label class="radio">
+                                                                    {% if status == "SI" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="SI" checked disabled>
+                                                                        <span></span>
+                                                                        Si
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="SI" disabled>
+                                                                        <span></span>
+                                                                        Si
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO" checked disabled>
+                                                                        <span></span>
+                                                                        No
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO" disabled>
+                                                                        <span></span>
+                                                                        No
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO IMPLEMENTADA" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO IMPLEMENTADA" checked disabled>
+                                                                        <span></span>
+                                                                        Funcionalidad no implementada
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO IMPLEMENTADA" disabled>
+                                                                        <span></span>
+                                                                        Funcionalidad no implementada
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO TESTEADO" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO TESTEADO" checked disabled>
+                                                                        <span></span>
+                                                                        No testeado
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO TESTEADO" disabled>
+                                                                        <span></span>
+                                                                        No testeado
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        {% else %}
+                                                            <input value="{{ quest }}" type="hidden"
+                                                                   name="question[{{ cont }}]" class="idoculto"
+                                                                   disabled>
+                                                            <span></span>
+                                                            <div class="radio-inline">
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="SI" disabled>
+                                                                    <span></span>
+                                                                    Si
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO" disabled>
+                                                                    <span></span>
+                                                                    No
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO IMPLEMENTADA" disabled>
+                                                                    <span></span>
+                                                                    Funcionalidad no implementada
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO TESTEADO" checked disabled>
+                                                                    <span></span>
+                                                                    No testeado
+                                                                </label>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </div>
+                                                <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                                <div class="col-lg-12"></div>
+                                                <label class="col-lg-2 col-form-label">Observaciones:</label>
+                                                <div class="col-lg-4">
+                                                    {% set obs = "observaciones" ~ cont %}
+                                                    {% set observa = false %}
+                                                    {% for answer in answers %}
+                                                        {% if answer.question.id == question.id %}
+                                                            {# {{ form_errors(form.observaciones) }}
+                                                {{ form_widget(form.observaciones,{ 'attr': {
+                                                    'class' : 'form-control'
+                                                } }) }} #}
+                                                            {% set observa = true %}
+                                                            <textarea class="form-control" id="exampleTextarea" rows="3"
+                                                                      name="observaciones[{{ cont }}]"
+                                                                      disabled>{{ answer.observaciones }}</textarea>
+
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if observa == false %}
+                                                        <textarea class="form-control" id="exampleTextarea" rows="3"
+                                                                  name="observaciones[{{ cont }}]" disabled></textarea>
+                                                    {% endif %}
+                                                </div>
+                                                <label class="col-lg-2 col-form-label">Imagen:</label>
+                                                <div class="col-lg-4">
+                                                    {% set file = "file" ~ cont %}
+                                                    {# {{ form_errors(form.imagen) }}
+                                                {{ form_widget(form.imagen,{ 'attr': {
+                                                    'class' : 'form-control'
+                                                } }) }} #}
+                                                    <input type="file" class="form-control denegar" id="customFile"
+                                                           name="file[{{ cont }}]">
+                                                </div>
+                                                <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                            </div>
+                                        {% else %}
+                                            <div class="form-group row" style="padding-bottom:20px">
+                                                <label class="col-lg-6 col-form-label">
+                                                    <h5>{{ question.description }}</h5>
+                                                </label>
+                                                <div class="col-lg-6">
+                                                    {% if answers|length == 0 %}
+                                                        {# SI NO EXISTE NINGUNA RESPUESTA POR DEFECTO ESTARA MARCADO NO TESTADO #}
+                                                        <input value="{{ question.id }}" type="hidden"
+                                                               name="question[{{ cont }}]" disabled class="idoculto">
                                                         <span></span>
                                                         <div class="radio-inline">
                                                             <label class="radio">
-                                                                <input type="radio"
-                                                                       name="estado[{{ cont }}]"
+                                                                <input type="radio" name="estado[{{ cont }}]"
                                                                        value="SI">
                                                                 <span></span>
                                                                 Si
                                                             </label>
                                                             <label class="radio">
-                                                                <input type="radio"
-                                                                       name="estado[{{ cont }}]"
+                                                                <input type="radio" name="estado[{{ cont }}]"
                                                                        value="NO">
                                                                 <span></span>
                                                                 No
                                                             </label>
                                                             <label class="radio">
-                                                                <input type="radio"
-                                                                       name="estado[{{ cont }}]"
+                                                                <input type="radio" name="estado[{{ cont }}]"
                                                                        value="NO IMPLEMENTADA">
                                                                 <span></span>
                                                                 Funcionalidad no implementada
                                                             </label>
                                                             <label class="radio">
-                                                                <input type="radio"
-                                                                       name="estado[{{ cont }}]"
+                                                                <input type="radio" name="estado[{{ cont }}]"
                                                                        value="NO TESTEADO" checked>
                                                                 <span></span>
                                                                 No testeado
                                                             </label>
                                                         </div>
+                                                    {% else %}
+
+                                                        {# SI EXISTEN RESPUESTAS #}
+                                                        {% set encontrado = false %}
+                                                        {% set quest = "" %}
+                                                        {% set status = "" %}
+                                                        {% for answer in answers %}
+                                                            {% set name = "estado" ~ cont %}
+                                                            {# SI ESA QUESTION TIENE UNA ANSWER #}
+                                                            {% if answer.question.id == question.id %}
+
+                                                                {# GUARDO EL ESTADO Y EL ID DE LA QUESTION #}
+                                                                {% set encontrado = true %}
+                                                                {% set quest = question.id %}
+                                                                {% set status = answer.estado %}
+                                                            {% else %}
+                                                                {# SI NO EXISTE ESA ANSWER MOSTRARA LOS CAMPOS POR DEFAULT #}
+                                                                {% set quest = question.id %}
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        {% if encontrado == true %}
+
+                                                            <input value="{{ quest }}" type="hidden"
+                                                                   name="question[{{ cont }}]" class="idoculto"
+                                                                   disabled>
+                                                            <span></span>
+                                                            <div class="radio-inline">
+                                                                <label class="radio">
+                                                                    {% if status == "SI" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="SI" checked>
+                                                                        <span></span>
+                                                                        Si
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="SI" disabled>
+                                                                        <span></span>
+                                                                        Si
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO" checked>
+                                                                        <span></span>
+                                                                        No
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO" disabled>
+                                                                        <span></span>
+                                                                        No
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO IMPLEMENTADA" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO IMPLEMENTADA" checked>
+                                                                        <span></span>
+                                                                        Funcionalidad no implementada
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO IMPLEMENTADA" disabled>
+                                                                        <span></span>
+                                                                        Funcionalidad no implementada
+                                                                    {% endif %}
+                                                                </label>
+                                                                <label class="radio">
+                                                                    {% if status == "NO TESTEADO" %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO TESTEADO" checked>
+                                                                        <span></span>
+                                                                        No testeado
+                                                                    {% else %}
+                                                                        <input type="radio"
+                                                                               name="estado[{{ cont }}]"
+                                                                               value="NO TESTEADO" disabled>
+                                                                        <span></span>
+                                                                        No testeado
+                                                                    {% endif %}
+                                                                </label>
+                                                            </div>
+                                                        {% else %}
+                                                            {# <input value="{{ quest }}" type="hidden"
+                                                                   name="question[{{ cont }}]" disabled> #}
+                                                            <span></span>
+                                                            <div class="radio-inline">
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="SI" disabled>
+                                                                    <span></span>
+                                                                    Si
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO" disabled>
+                                                                    <span></span>
+                                                                    No
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO IMPLEMENTADA" disabled>
+                                                                    <span></span>
+                                                                    Funcionalidad no implementada
+                                                                </label>
+                                                                <label class="radio">
+                                                                    <input type="radio"
+                                                                           name="estado[{{ cont }}]"
+                                                                           value="NO TESTEADO" checked>
+                                                                    <span></span>
+                                                                    No testeado
+                                                                </label>
+                                                            </div>
+                                                        {% endif %}
                                                     {% endif %}
-                                                {% endif %}
-                                            </div>
-                                            <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
-                                            <div class="col-lg-12"></div>
-                                            <label class="col-lg-2 col-form-label">Observaciones:</label>
-                                            <div class="col-lg-4">
-                                                {% set obs = "observaciones" ~ cont %}
-                                                {% set observa = false %}
-                                                {% for answer in answers %}
-                                                    {% if answer.question.id == question.id %}
-                                                        {# {{ form_errors(form.observaciones) }}
+                                                </div>
+                                                <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
+                                                <div class="col-lg-12"></div>
+                                                <label class="col-lg-2 col-form-label">Observaciones:</label>
+                                                <div class="col-lg-4">
+                                                    {% set obs = "observaciones" ~ cont %}
+                                                    {% set observa = false %}
+                                                    {% for answer in answers %}
+                                                        {% if answer.question.id == question.id %}
+                                                            {# {{ form_errors(form.observaciones) }}
                                                 {{ form_widget(form.observaciones,{ 'attr': {
                                                     'class' : 'form-control'
                                                 } }) }} #}
-                                                        {% set observa = true %}
-                                                        <textarea class="form-control" id="exampleTextarea" rows="3"
-                                                                  name="observaciones[{{ cont }}]">{{ answer.observaciones }}</textarea>
+                                                            {% set observa = true %}
+                                                            <textarea class="form-control" id="exampleTextarea" rows="3"
+                                                                      name="observaciones[{{ cont }}]"
+                                                                      disabled>{{ answer.observaciones }}</textarea>
 
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                    {% if observa == false %}
+                                                        <textarea class="form-control" id="exampleTextarea" rows="3"
+                                                                  name="observaciones[{{ cont }}]" disabled></textarea>
                                                     {% endif %}
-                                                {% endfor %}
-                                                {% if observa == false %}
-                                                    <textarea class="form-control" id="exampleTextarea" rows="3"
-                                                              name="observaciones[{{ cont }}]"></textarea>
-                                                {% endif %}
-                                            </div>
-                                            <label class="col-lg-2 col-form-label">Imagen:</label>
-                                            <div class="col-lg-4">
-                                                {% set file = "file" ~ cont %}
-                                                {# {{ form_errors(form.imagen) }}
+                                                </div>
+                                                <label class="col-lg-2 col-form-label">Imagen:</label>
+                                                <div class="col-lg-4">
+                                                    {% set file = "file" ~ cont %}
+                                                    {# {{ form_errors(form.imagen) }}
                                                 {{ form_widget(form.imagen,{ 'attr': {
                                                     'class' : 'form-control'
                                                 } }) }} #}
-                                                <input type="file" class="form-control" id="customFile"
-                                                       name="file[{{ cont }}]">
+                                                    <input type="file" class="form-control denegar" id="customFile"
+                                                           name="file[{{ cont }}]">
+                                                </div>
+                                                <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
                                             </div>
-                                            <div class="kt-separator kt-separator--space-lg kt-separator--border-dashed"></div>
-                                        </div>
+                                        {% endif %}
                                     {% endif %}
                                     {% set cont = cont +1 %}
                                 {% endfor %}

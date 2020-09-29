@@ -147,9 +147,15 @@ See https://symfony.com/doc/current/security/remember_me.html
                                     </div>
                                 </div>
                                 <div class="kt-login__actions">
+                                    {% if is_granted('ROLE_WIP') or is_granted('ROLE_USER')  %}
                                     <button {# id="kt_login_signin_submit" #} class="btn btn-pill kt-login__btn-primary"
-                                                                              type="submit">Acceder
+                                                                              type="submit" style="background: white;" disabled>Acceder
                                     </button>
+                                    {% else %}
+                                        <button {# id="kt_login_signin_submit" #} class="btn btn-pill kt-login__btn-primary"
+                                                                                  type="submit" style="background: white;">Acceder
+                                        </button>
+                                    {% endif %}
                                 </div>
                             </form>
                         </div>

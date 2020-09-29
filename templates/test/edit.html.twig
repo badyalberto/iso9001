@@ -4,6 +4,16 @@
 {% set subtitulo = "Editar Test" %}
 
 {% block body %}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <div class="alert alert-danger">
+            {{ message }}
+        </div>
+    {% endfor %}
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="row">
             <div class="col-md-12">
@@ -84,7 +94,7 @@
                                                             alias
                                                         </div>
                                                         {{ form_widget(form.blocks.vars.prototype.alias) }}
-                                                        {#  <input type="text" id="alias" name="alias" class="form-control"
+                                                        {# <input type="text" id="alias" name="alias" class="form-control"
                                                                placeholder="Diseño Mails"> #}
                                                     </div>
                                                 </div>
@@ -100,8 +110,8 @@
                                                             la posicion
                                                         </div>
                                                         {{ form_widget(form.blocks.vars.prototype.position) }}
-                                                       {# <input type="number" id="position" name="position" class="form-control"
-                                                               placeholder="Ej: 1">#}
+                                                        {# <input type="number" id="position" name="position" class="form-control"
+                                                               placeholder="Ej: 1"> #}
                                                     </div>
                                                 </div>
                                                 <div class="d-md-none kt-margin-b-10"></div>
@@ -110,12 +120,12 @@
                                                 <label for="exampleSelect1">Bloque Padre
                                                 </label>
                                                 {{ form_widget(form.blocks.vars.prototype.bloque_padre) }}
-                                                {#  <select class="form-control" id="exampleSelect1" name="padre">
+                                                {# <select class="form-control" id="exampleSelect1" name="padre">
                                                     <option value=""></option>
                                                     <option value="No">No</option>
                                                     <option value="Diseno Avisos">Diseño Avisos</option>
                                                     <option value="Diseño Alertas">Diseño Alertas</option>
-                                                </select>#}
+                                                </select> #}
                                             </div>
                                             <div class="col-md-3">
                                                 <a href="javascript:;" data-repeater-delete=""
@@ -130,7 +140,7 @@
                                 <div class="form-group form-group-last row">
                                     <label class="col-lg-2 col-form-label"></label>
                                     <div class="col-lg-4">
-                                        <a href="javascript:;" {# id="addblock" #} data-repeater-create=""
+                                        <a href="javascript:;" data-repeater-create=""
                                            class="btn btn-bold btn-sm btn-label-brand">
                                             <i class="la la-plus"></i> Añadir Bloque
                                         </a>
@@ -142,23 +152,27 @@
                         <div class="form-group row">
                             <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar Test</label>
                             <div class="col-lg-9">
-                                {{ form_errors(form.desactivar) }}
+                                {# {{ form_errors(form.desactivar) }}
                                 {{ form_widget(form.desactivar,{ 'attr': {
                                     'class' : 'form-control',
-                                } }) }}
-                                {# <span class="kt-switch kt-switch--lg">
+                                } }) }} #}
+                                <span class="kt-switch kt-switch--lg">
                                                         <label>
-                                                            <input type="checkbox" checked="checked" name="">
+                                                            {% if desactivar == false %}
+                                                                <input type="checkbox" name="desactivar">
+                                                            {% else %}
+                                                                <input type="checkbox" checked name="desactivar">
+                                                            {% endif %}
                                                             <span></span>
                                                     </label>
-                                                    </span> #}
+                                                    </span>
                             </div>
                         </div>
 
                     </div>
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
-                            <button type="submit" class="btn btn-brand">Guardar</button>
+                            <button type="submit"  id="addblock" class="btn btn-brand">Guardar</button>
                             <button type="reset" class="btn btn-warning">Cancelar</button>
                         </div>
                     </div>
@@ -214,14 +228,40 @@
                                     <td>{{ block.position }}</td>
                                     <td>{{ block.alias }}</td>
                                     <td>
+                                        {% if block.desactivar == false %}
+                                            {% if block.estado == "NO INICIADO" %}
+                                                <span class="kt-badge kt-badge--brand kt-badge--dot"></span>&nbsp;<span
+                                                    class="kt-font-bold kt-font-brand">No Iniciado</span>
+                                            {% elseif block.estado == "EN CURSO" %}
+                                                <span class="kt-badge kt-badge--warning kt-badge--dot"></span>&nbsp;
+                                                <span
+                                                        class="kt-font-bold kt-font-warning">En curso</span>
+                                            {% elseif block.estado == "REALIZADO" %}
+                                                <span class="kt-badge kt-badge--dark kt-badge--dot"></span>&nbsp;<span
+                                                    class="kt-font-bold kt-font-dark">Realizado</span>
+                                            {% endif %}
+                                        {% else %}
+                                            <span class="kt-badge kt-badge--danger kt-badge--dot"></span>&nbsp;<span
+                                                class="kt-font-bold kt-font-danger">Desactivado</span>
+                                        {% endif %}
                                     </td>
                                     <td nowrap=""><a href="{{ path('crear-pregunta',{ 'id' : block.id }) }}"
                                                      class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                                     title="Añadir preguntas al block"> <i class="la la-edit"></i> </a>
+                                                     title="Añadir preguntas al block"> <i class="la la-plus"></i>
+                                        </a>
+                                        <a
+                                                href="{{ path('edit-block',{ 'id' : block.id}) }}"
+                                                class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                                title="Editar el block"> <i class="la la-edit"></i> </a>
                                         <a
                                                 href="{{ path('desactivar-block',{ 'id' : block.id}) }}"
                                                 class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                                title="Desactivar el block"> <i class="la la-trash"></i> </a></td>
+                                                title="Desactivar el block"> <i class="la la-trash"></i> </a>
+                                        <a
+                                                href="{{ path('ver-preguntas-bloque',{ 'id' : block.id}) }}"
+                                                class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                                title="Ver preguntas del bloque"> <i class="la la-question"></i> </a>
+                                    </td>
                                 </tr>
                             {% endfor %}
                             </tbody>
@@ -239,5 +279,6 @@
         var url_cargar_tests = '{{ path('projects_by_user') }}';
         var url_blocks = '{{ path('crear-block') }}';
         var url_consulta_blocks = '{{ path('consulta-blocks') }}';
+        $("#form_test").validate();
     </script>
 {% endblock %}

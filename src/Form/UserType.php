@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
@@ -11,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ResetType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 
 use Symfony\Component\Form\FormBuilderInterface;
@@ -34,15 +36,11 @@ class UserType extends AbstractType
                 'choices' => self::TYPES,
                 'required' => true
             ))
-            ->add('password', PasswordType::class,array(
-                'required' => true
-            ))
-            /*->add('activo', CheckboxType::class, [
-                'required' => false,
-                'label' => false,
-                'label_attr' => ['class' => 'checkbox_custom']
-            ])*/
-            ->add('customers', EntityType::class, [
+            ->add('password', PasswordType::class, [
+                'required' => $options['required_password'],
+                'empty_data' => ''
+            ])
+            /*->add('customers', EntityType::class, [
                 'label' => 'Clientes asignados',
                 'class' => Customer::class,
                 'choice_label' => 'alias',
@@ -51,6 +49,14 @@ class UserType extends AbstractType
                 //'attr' => ['class' => 'kt-dual-listbox']
                 //'required' => false,
                 //'by_reference' => false
-            ]);
+            ])*/;
+    }
+
+    public function configureOptions(OptionsResolver $resolver)
+    {
+        $resolver->setDefaults([
+            'data_class' => User::class,
+            'required_password' => false
+        ]);
     }
 }
