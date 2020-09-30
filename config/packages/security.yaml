@@ -56,5 +56,4 @@ security:
     - { path: ^/blocks, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/preguntas, roles: [ IS_AUTHENTICADED_FULLY, ROLE_USER,ROLE_WIP ] }
     - { path: ^/servidores, roles: [ ROLE_WIP ] }
-    -
     # - { path: ^/profile, roles: ROLE_USER }

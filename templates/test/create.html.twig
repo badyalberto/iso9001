@@ -19,8 +19,8 @@
                     <!--begin::Form-->
                     {{ form_start(form,{'attr':{'id':'form_test'}}) }}
                     {# <form class="kt-form"> #}
-                   <div class="kt-portlet__body">
-                       {# <div class="form-group row">
+                    <div class="kt-portlet__body">
+                        {# <div class="form-group row">
                             <label for="alias" class="col-lg-3 col-form-label">Alias del Test</label>
                             <div class="col-lg-9">
                                 {{ form_errors(form.fecha) }}
@@ -94,10 +94,19 @@
                                                         <label>Alias:</label>
                                                     </div>
                                                     <div class="kt-form__control">
+                                                        <div id="failedalias" class="invalid-feedback">Es obligatorio el
+                                                            alias
+                                                        </div>
+                                                        {{ form_widget(form.blocks.vars.prototype.alias) }}
+                                                    </div>
+                                                    {# <div class="kt-form__label">
+                                                        <label>Alias:</label>
+                                                    </div>
+                                                    <div class="kt-form__control">
                                                         <div id="failedalias"></div>
                                                         <input type="text" id="alias" name="alias" class="form-control"
                                                                placeholder="Diseño Mails">
-                                                    </div>
+                                                    </div> #}
                                                 </div>
                                                 <div class="d-md-none kt-margin-b-10"></div>
                                             </div>
@@ -107,17 +116,29 @@
                                                         <label class="kt-label m-label--single">Posición:</label>
                                                     </div>
                                                     <div class="kt-form__control">
+                                                        <div id="failedposition" class="invalid-feedback">Es obligatoria
+                                                            la posicion
+                                                        </div>
+                                                        {{ form_widget(form.blocks.vars.prototype.position) }}
+                                                    </div>
+                                                    {# <div class="kt-form__label">
+                                                        <label class="kt-label m-label--single">Posición:</label>
+                                                    </div>
+                                                    <div class="kt-form__control">
                                                         <div id="failedposition">
                                                         </div>
                                                         <input type="number" id="position" name="position"
                                                                class="form-control"
                                                                placeholder="Ej: 1">
-                                                    </div>
+                                                    </div> #}
                                                 </div>
                                                 <div class="d-md-none kt-margin-b-10"></div>
                                             </div>
                                             <div class="col-md-4">
                                                 <label for="exampleSelect1">Bloque Padre
+                                                </label>
+                                                {{ form_widget(form.blocks.vars.prototype.bloque_padre) }}
+                                                {# <label for="exampleSelect1">Bloque Padre
                                                 </label>
                                                 <div id="failedpadre">
                                                 </div>
@@ -125,7 +146,7 @@
                                                     <option value="No">No</option>
                                                     <option value="Diseno Avisos">Diseño Avisos</option>
                                                     <option value="Diseño Alertas">Diseño Alertas</option>
-                                                </select>
+                                                </select> #}
                                             </div>
                                             <div class="col-md-3">
                                                 <a href="javascript:;" data-repeater-delete=""
@@ -153,10 +174,10 @@
                             <label for="example-date-input" class="col-lg-3 col-form-label">Desactivar
                                 Test</label>
                             <div class="col-lg-9">
-                                {#    {{ form_errors(form.desactivar) }}
+                                {# {{ form_errors(form.desactivar) }}
                                 {{ form_widget(form.desactivar,{ 'attr': {
                                     'class' : 'form-control',
-                                } }) }}#}
+                                } }) }} #}
                                 <span class="kt-switch kt-switch--lg">
                                                         <label>
                                                             <input type="checkbox" name="desactivar">

@@ -250,6 +250,7 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('listar-usuarios');
+        //return new JsonResponse();
     }
 
     private function resjon($data)

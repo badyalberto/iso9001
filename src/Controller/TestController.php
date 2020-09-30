@@ -96,7 +96,7 @@ class TestController extends AbstractController
                 $test->setEstado("Desactivado");
             } else {
                 $test->setDesactivar(false);
-                if ($_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['padre'] != "") {
+                if ($_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
                     $test->setEstado("En Curso");
                 } else {
                     $test->setEstado("No Iniciado");
@@ -108,7 +108,7 @@ class TestController extends AbstractController
             $em->flush();
 
             //GUARDA TODOS LOS BLOQUES DEL TEST CREADO
-            if (isset($_POST['blocks']) && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['padre'] != "") {
+            if (isset($_POST['blocks']) && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
 
                 if (isset($_POST['desactivar'])) {
                     $test->setDesactivar(true);
@@ -122,7 +122,7 @@ class TestController extends AbstractController
                     $block = new Block();
                     $block->setAlias($valor['alias']);
                     $block->setPosition($valor['position']);
-                    $block->setBloquePadre($valor['padre']);
+                    $block->setBloquePadre($valor['bloque_padre']);
                     $block->setEstado("NO INICIADO");
                     $block->setDesactivar(false);
                     $block->setTest($test);
@@ -167,8 +167,13 @@ class TestController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            //'<pre>';var_dump($_POST['blocks'][0]['alias']);
-            //exit;
+
+            /*echo '<pre>';
+            var_dump($_POST);
+            echo '</pre>';
+            die();*/
+
+
             $em = $this->getDoctrine()->getManager();
 
             //GUARDA EL CLIENTE EN LA BBDD

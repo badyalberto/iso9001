@@ -5,12 +5,15 @@ var KTFormRepeater = function() {
     var demo1 = function() {
         $('#kt_repeater_1').repeater({
             initEmpty: false,
-           
-            /*defaultValues: {
-                'text-input': 'foo'
+
+            //$('select option[value="ok"]').prop("selected",true);
+
+           /* defaultValues: {
+                //'text-input': 'foo'
             },*/
              
             show: function () {
+                $('select option[value="No"]').prop("selected",true);
                 $(this).slideDown();
             },
 

@@ -67,7 +67,7 @@ $('#test_customer').ready(function () {
 
     //SI NO VIENE DE EDIT ENTRA
     if (isNaN(valor)) {
-        console.log("entra")
+        //console.log("entra")
         $.ajax({
             type: "POST",
             url: url_cargar_tests_default,//'/wiip/public/index.php/proyectos/default',
@@ -246,16 +246,16 @@ $(document).ready(function () {
     var id = sURLVariables[sURLVariables.length - 1];
     console.log(sURLVariables[sURLVariables.length - 1]);
 
-    if(sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "clientes") {
-        //console.log("hola");
+    //EDITAR UN CLIENTE
+    if (sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "clientes") {
         $.ajax({
             type: "GET",
-            url: '/wiip/public/index.php/clientes/busca/'+id,
+            url: '/wiip/public/index.php/clientes/busca/' + id,
             success: function (r) {
-                console.log(r);
+                //console.log(r);
                 if (r.correcto == 200) {
-                    for (let i =0;i<r.users.length;i++){
-                        console.log(r.users[i]['nombre']);
+                    for (let i = 0; i < r.users.length; i++) {
+                        //console.log(r.users[i]['nombre']);
                         $('select[name="users[]_helper2"]').append(`<option value="${r.users[i]['id']}" data-sortindex="${i}">${r.users[i]['nombre']}</option>`);
                     }
                 } else {
@@ -268,16 +268,16 @@ $(document).ready(function () {
         });
     }
 
-    if(sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "usuarios") {
-        console.log("hola");
+    //EDITAR UN USUARIO
+    if (sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "usuarios") {
         $.ajax({
             type: "GET",
-            url: '/wiip/public/index.php/usuarios/busca/'+id,
+            url: '/wiip/public/index.php/usuarios/busca/' + id,
             success: function (r) {
-                console.log(r);
+                //console.log(r);
                 if (r.correcto == 200) {
-                    for (let i =0;i<r.customers.length;i++){
-                        console.log(r.customers[i]['nombre']);
+                    for (let i = 0; i < r.customers.length; i++) {
+                        //console.log(r.customers[i]['nombre']);
                         $('select[name="customers[]_helper2"]').append(`<option value="${r.customers[i]['id']}" data-sortindex="${i}">${r.customers[i]['nombre']}</option>`);
                     }
                 } else {
@@ -289,7 +289,75 @@ $(document).ready(function () {
             }
         });
     }
+
     $('select[name="users[]"]').bootstrapDualListbox();
+    $('select[name="users[]"]').on('click', function (e) {
+        e.preventDefault();
+        var valors = $('select[name="customers[]_helper2"]').val();
+        //console.log(valors);
+    })
     $('select[name="customers[]"]').bootstrapDualListbox();
 
+    //ELIMINAR UN USUARIO
+    $('.deleteuser').click(function (e) {
+        e.preventDefault();
+        $.confirm({
+            title: 'Eliminar!',
+            content: '¿Estas seguro de que deseas eliminarlo?',
+            buttons: {
+                ok: {
+                    action: function () {
+                        //console.log($('.deleteuser').attr('href'));
+                        window.location.href = $('.deleteuser').attr('href');
+                    }
+                },
+                cancel: function () {
+                    //e.preventDefault()
+                }
+            }
+        });
+    });
+
+    //ELIMINAR UN CLIENTE
+    $('.deletecustomer').click(function (e) {
+        e.preventDefault();
+        $.confirm({
+            title: 'Eliminar!',
+            content: '¿Estas seguro de que deseas eliminarlo?',
+            buttons: {
+                ok: {
+                    action: function () {
+                        window.location.href = $('.deletecustomer').attr('href');
+                    }
+                },
+                cancel: function () {
+                    //e.preventDefault()
+                }
+            }
+        });
+    });
+
+    //ELIMINAR UN PROYECTO
+    $('.deleteproject').click(function (e) {
+        e.preventDefault();
+        $.confirm({
+            title: 'Eliminar!',
+            content: '¿Estas seguro de que deseas eliminarlo?',
+            buttons: {
+                ok: {
+                    action: function () {
+                        window.location.href = $('.deleteproject').attr('href');
+                    }
+                },
+                cancel: function () {
+                    //e.preventDefault()
+                }
+            }
+        });
+    });
+
 })
+
+$('#project_urltest').val("http://");
+$('#project_urlproduction').val("http://");
+

@@ -20,10 +20,10 @@ class BlockType extends AbstractType
     {
         $builder
             ->add('alias', TextType::class, array(
-                'required' => false
+                'required' => true
             ))
             ->add('position', IntegerType::class, array(
-                'required' => false
+                'required' =>  true
             ))
             ->add('bloque_padre', ChoiceType::class, array(
                 'choices' => self::TYPES,

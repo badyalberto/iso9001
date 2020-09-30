@@ -115,6 +115,7 @@ class CustomerController extends AbstractController
 
     public function edit($id, Request $request)
     {
+        $em = $this->getDoctrine()->getManager();
 
         $customer = $this->getDoctrine()
             ->getRepository(Customer::class)
@@ -125,6 +126,34 @@ class CustomerController extends AbstractController
         $users = $this->getDoctrine()
             ->getRepository(User::class)
             ->findAll();
+
+        /*$query = $em->createQuery("SELECT u.nombre FROM App\Entity\User u
+                                    LEFT JOIN App\Entity\Customer c WITH u.customers = c
+                                    WHERE u.customers NOT IN (:customer)")
+            ->setParameter('customer', $customer);
+        $users = $query->getResult();*/
+
+        $usersCustomer = [];
+        $cont = 0;
+
+        foreach ($users as $clave => $valor) {
+            if (!$customer->getUsers()->contains($valor)) {
+                $usersCustomer[$cont] = $valor;
+                $cont++;
+            }
+        }
+
+        /*$query = $em->createQueryBuilder();
+
+        $users = $query->select(['DISTINCT user.id,user.nombre'])
+            ->from('App\Entity\User', 'user')
+            ->innerJoin('user.customers','customer')
+            ->where($query->expr()->neq('customer',':customer'))
+            //->setParameter(['customer' => $customer])
+            ->orWhere($query->expr()->eq('customer',':null'))
+            ->setParameters(['customer' => $customer,'null' => ''])
+            ->groupBy('user.id')
+            ->getQuery()->getResult();*/
 
         if (isset($_POST) && !empty($_POST) && $_POST != null && $_POST != "") {
 
@@ -156,11 +185,6 @@ class CustomerController extends AbstractController
             $customer->setAlias($_POST['alias']);
             $customer->setPmNombre($_POST['contacto']);
             $customer->setPmMail($_POST['email']);
-
-            /*echo '<pre>';
-            var_dump($_REQUEST);
-            echo '</pre>';
-            die();*/
 
             if (isset($_REQUEST['users'])) {
 
@@ -204,7 +228,7 @@ class CustomerController extends AbstractController
             'status' => false,
             'activo' => $activo,
             'customer' => $customer,
-            'users' => $users
+            'users' => $usersCustomer
         ));
     }
 

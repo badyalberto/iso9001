@@ -39,6 +39,7 @@
             </div>
             <div class="kt-portlet__body">
                 <!--begin: Datatable -->
+                
                 <table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
                     <thead>
                     <tr>
@@ -81,7 +82,7 @@
                                     <i class="la la-edit"></i>
                                 </a>
                                 <a href="{{ path('eliminar-usuario',{'id' : user.id}) }}"
-                                   class="btn btn-sm btn-clean btn-icon btn-icon-md" title="Eliminar Cliente">
+                                   class="btn btn-sm btn-clean btn-icon btn-icon-md deleteuser" title="Eliminar Cliente">
                                     <i class="la la-trash"></i>
                                 </a>
                             </td>
@@ -95,4 +96,24 @@
         <!--begin::Portlet-->
     </div>
     <!-- end:: Content -->
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal Title</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <i aria-hidden="true" class="ki ki-close"></i>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    ...
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-light-primary font-weight-bold" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary font-weight-bold">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
