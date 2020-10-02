@@ -188,7 +188,8 @@ class UserController extends AbstractController
                     return $this->render('user/edit.html.twig', array(
                         'form' => $form->createView(),
                         'status' => true,
-                        'customers' => $customerUsers
+                        'customers' => $customerUsers,
+                        'activo' => $activo
                     ));
                 }
             }
@@ -209,7 +210,6 @@ class UserController extends AbstractController
                     $user->addCustomer($customer);
                 }
             }
-
 
             $data = $form->getData();
 
@@ -294,7 +294,6 @@ class UserController extends AbstractController
 
     public function buscaUser($id)
     {
-
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->find($id);
@@ -320,6 +319,55 @@ class UserController extends AbstractController
         }
 
         return new JsonResponse($data);
+    }
+
+    public function buscaEmail()
+    {
+        $response = new Response();
+        if (isset($_POST['email']) && !empty($_POST['email']) && $_POST['email'] != "" && $_POST['email'] != null) {
+            $user = $this->getDoctrine()
+                ->getRepository(User::class)
+                ->findBy([
+                    'correo' => $_POST['email']
+                ]);
+
+            if (isset($user) && !empty($user) && $user != null && $user != "") {
+                if ($user[0]->getCorreo() == $_POST['email']) {
+                    $response->setContent(json_encode([
+                        'message' => '',
+                        'error' => false
+                    ]));
+                    $response->headers->set('Content-Type', 'application/json');
+
+                    return $response;
+                } else {
+                    $response->setContent(json_encode([
+                        'message' => 'El correo ' . $user[0]->getCorreo() . ' ya esta registrado!',
+                        'error' => true
+                    ]));
+                    $response->headers->set('Content-Type', 'application/json');
+
+                    return $response;
+                }
+
+            } else {
+                $response->setContent(json_encode([
+                    'message' => '',
+                    'error' => false
+                ]));
+                $response->headers->set('Content-Type', 'application/json');
+
+                return $response;
+            }
+        } else {
+            $response->setContent(json_encode([
+                'message' => '',
+                'error' => true
+            ]));
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+        }
     }
 
 }

@@ -46,6 +46,7 @@ class QuestionController extends AbstractController
             $em = $this->getDoctrine()->getManager();
 
             $cont = 0;
+
             foreach ($_POST['questions'] as $valor) {
 
                 $question2 = new Question();
@@ -64,20 +65,22 @@ class QuestionController extends AbstractController
                 $ruta = $file['tmp_name'][$cont]['imagen'];
                 $type = $file['type'][$cont]['imagen'];
 
-                if ($type == "image/png") {
-                    $extension = ".png";
-                } elseif ($type = "image/jpeg") {
-                    $extension = ".jpeg";
-                } else {
-                    $extension = ".jpg";
+                if ($ruta != "" && $ruta != null) {
+                    if ($type == "image/png") {
+                        $extension = ".png";
+                    } elseif ($type = "image/jpeg") {
+                        $extension = ".jpeg";
+                    } else {
+                        $extension = ".jpg";
+                    }
+
+                    //CREA EL NUEVO NOMBRE DE LA IMAGEN
+                    $filename = md5(uniqid()) . $extension;
+
+                    //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
+                    move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
+                    $question2->setImagen($filename);
                 }
-
-                //CREA EL NUEVO NOMBRE DE LA IMAGEN
-                $filename = md5(uniqid()) . $extension;
-
-                //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
-                move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
-                $question2->setImagen($filename);
                 $block->setEstado("EN CURSO");
 
                 $answer = new Answer();
@@ -144,7 +147,7 @@ class QuestionController extends AbstractController
         ]);
     }
 
-    public function desactivar($id,$q_tests)
+    public function desactivar($id, $q_tests)
     {
         $question = $this->getDoctrine()
             ->getRepository(Question::class)
@@ -173,14 +176,15 @@ class QuestionController extends AbstractController
         $em->persist($question);
         $em->flush();
 
-        if($q_tests == 1){
+        if ($q_tests == 1) {
             return $this->redirectToRoute('listar-preguntas-blocks', ['id' => $question->getBlock()->getTest()->getId()]);
-        }else{
+        } else {
             return $this->redirectToRoute('ver-preguntas-bloque', ['id' => $question->getBlock()->getId()]);
         }
     }
 
-    public function edit($id,Request $request, FileUploader $fileUploader){
+    public function edit($id, Request $request, FileUploader $fileUploader)
+    {
 
         $question = $this->getDoctrine()
             ->getRepository(Question::class)
@@ -194,15 +198,14 @@ class QuestionController extends AbstractController
         ]);
 
         $oldFileName = $question->getImagen();
-        $oldFileNamePath = $fileUploader->getTargetDirectory().$oldFileName;
+        $oldFileNamePath = $fileUploader->getTargetDirectory() . $oldFileName;
 
         $form->handleRequest($request);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
+
 
             if (isset($_POST['desactivar'])) {
                 $question->setDesactivar(true);
@@ -212,7 +215,7 @@ class QuestionController extends AbstractController
 
             $file = $_FILES['question'];
 
-            if($file['name']['imagen'] != ""){
+            if ($file['name']['imagen'] != "") {
 
                 $ruta = $file['tmp_name']['imagen'];
                 $type = $file['type']['imagen'];
@@ -233,12 +236,11 @@ class QuestionController extends AbstractController
                 $question->setImagen($filename);
 
                 //ELIMINA LA IMAGEN ANTIGUA SI HAY ALGUNA
-                if($oldFileName != null){
+                if ($oldFileName != null) {
                     $fileUploader->delete($oldFileNamePath);
                 }
 
-            }
-            else{
+            } else {
                 $question->setImagen($oldFileName);
             }
 

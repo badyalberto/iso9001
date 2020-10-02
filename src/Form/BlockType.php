@@ -23,7 +23,8 @@ class BlockType extends AbstractType
                 'required' => true
             ))
             ->add('position', IntegerType::class, array(
-                'required' =>  true
+                'required' =>  true,
+                'attr' => array ( 'min' => 0 , 'max' => 999 )
             ))
             ->add('bloque_padre', ChoiceType::class, array(
                 'choices' => self::TYPES,

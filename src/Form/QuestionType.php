@@ -28,11 +28,13 @@ class QuestionType extends AbstractType
             ))
             ->add('observaciones', TextareaType::class, array(
                 'required' => false,
-                'attr' => ['name' => 'observaciones']
+                'attr' => ['name' => 'observaciones'],
+                'empty_data' => ''
             ))
             ->add('imagen', FileType::class, [
                 'required' => false,
                 'data_class' => null,
+                'empty_data' => null,
                 'constraints' => [
                     new Image([
                         'maxSize' => '1024k',

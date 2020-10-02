@@ -96,9 +96,14 @@ class TestController extends AbstractController
                 $test->setEstado("Desactivado");
             } else {
                 $test->setDesactivar(false);
-                if ($_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
-                    $test->setEstado("En Curso");
-                } else {
+
+                if (isset($_POST['blocks'])) {
+                    if ($_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
+                        $test->setEstado("En Curso");
+                    } else {
+                        $test->setEstado("No Iniciado");
+                    }
+                }else{
                     $test->setEstado("No Iniciado");
                 }
             }
@@ -158,7 +163,7 @@ class TestController extends AbstractController
         $blocks = $this->getDoctrine()
             ->getRepository(Block::class)
             ->findBy(
-                array('test'=> $test),
+                array('test' => $test),
                 array('position' => 'ASC')
             );
 

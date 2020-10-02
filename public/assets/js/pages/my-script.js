@@ -1,20 +1,32 @@
 "use strict"
 
-// VALIDACION DEL CORREO DEL USER
-$('#user_correo').blur(function () {
-        let valor = $('#user_correo').val();
-        if (/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(valor)) {
-            $('.emailuser').css("display", "none");
-        } else {
-            $(".emailuser").html("El campo email no es valido");
-            $('.emailuser').css("display", "block");
-        }
+//COMPRUEBA SI YA EXISTE EL CORREO
+$('#user_correo').change(function (e) {
+        let email = $(this).val();
+        console.log(email);
+        $.ajax({
+            type: "POST",
+            url: consulta_email,
+            data: {email: email},
+            success: function (respuesta) {
+                if (respuesta.error == true) {
+                    $(".emailuser").html(respuesta.message);
+                    $('.emailuser').css("display", "block");
+                } else {
+                    $('.emailuser').css("display", "none");
+                }
+            },
+            error: function () {
+                console.log("No se ha podido obtener la información");
+            }
+        });
     }
 )
 ;
 
+
 //VALIDACION DEL CORREO DEL CUSTOMER
-$('#customer_pmmail').blur(function () {
+/*$('#customer_pmmail').blur(function () {
         let valor = $('#customer_pmmail').val();
         if (/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(valor)) {
             $('.emailcustomer').css("display", "none");
@@ -24,7 +36,7 @@ $('#customer_pmmail').blur(function () {
         }
     }
 )
-;
+;*/
 
 //MUESTRA LA PANTALLA MODAL DE UN SERVER EN CONCRETO
 $('.detalle-btn').click(function () {
@@ -110,7 +122,7 @@ $('#test_customer').click(function () {
 
 });
 
-$('#test_customer').blur(function () {
+/*$('#test_customer').blur(function () {
     $('#test_customer').removeClass('is-invalid');
     $('#cliente').removeClass('invalid-feedback');
 });
@@ -123,7 +135,7 @@ $('#test_project').blur(function () {
 $('#errorblock').blur(function () {
     $('#errorblock').removeClass('invalid-feedback');
     $('#errorblock').addClass('failed_block');
-});
+});*/
 
 
 //AÑADIR BLOQUE
@@ -163,64 +175,6 @@ $('#addblock').click(function (e) {
     }
 });
 
-
-// ERROR DE LA POSICION DEL BLOQUE
-/*$('#test_blocks___name___position').blur(function () {
-    if ($('#test_blocks___name___position').val() !== "") {
-        $('#failedposition').css('display', 'none');
-    } else {
-        $('#failedposition').css('display', 'block');
-    }
-
-});
-
-//ERROR DEL BLOQUE PADRE
-$('#test_blocks___name___bloque_padre').blur(function () {
-    if ($('#test_blocks___name___bloque_padre').val() !== "") {
-        $('#failedpadre').css('display', 'none');
-    } else {
-        $('#failedpadre').css('display', 'block');
-    }
-
-});
-
-//ERROR DEL ALIAS
-$('#test_blocks___name___alias').blur(function () {
-    if ($('#test_blocks___name___alias').val() !== "") {
-        $('#failedalias').css('display', 'none');
-    } else {
-        $('#failedalias').css('display', 'block');
-    }
-
-});*/
-
-/*$("#form_test").submit(function (e) {
-    //e.preventDefault();
-    console.log($("#form_test").val());
-})*/
-
-/*$(document).ready(function () {
-    $.ajax({
-        type: "POST",
-        url: url_blocks,
-        data: {
-            alias: $('#alias').val(),
-            position: $('#position').val(),
-            padre: $('#exampleSelect1').val()
-        },
-        success: function (r) {
-            console.log(r);
-            let texto = `<tr><td>${r.alias}</td><td>${r.position}</td><td>${r.padre}</td><td nowrap=\"\"><a href=\"{{ path('crear-pregunta')}}\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Añadir pregunta bloque\">                        <i class=\"la la-edit\"></i>                      </a>                      <a href=\"javascript:;\" class=\"btn btn-sm btn-clean btn-icon btn-icon-md\" title=\"Desactivar Test\">                        <i class=\"la la-trash\"></i>                        </a></td></tr>`;
-            $('#bloquestabla').append(texto);
-            $('#alias').val("");
-            $('#position').val("");
-        },
-        error: function () {
-            console.log("No se ha podido obtener la información");
-        }
-    });
-});
-*/
 $(".denegar").click(function (e) {
     e.preventDefault();
     Swal.fire("La pregunta esta desactivada");
@@ -229,78 +183,21 @@ $("#disabled-test").click(function (e) {
     Swal.fire("El Test ha sido desactivado");
 });
 
+//MANYTOMANY de USER y CUSTOMER
 $('select[name="users[]"]').bootstrapDualListbox();
 $('select[name="customers[]"]').bootstrapDualListbox();
 
-//MANYTOMANY de USER y CUSTOMER
 $(document).ready(function () {
-
     var sPaginaURL = window.location.pathname;
     var sURLVariables = sPaginaURL.split('/');
     var id = sURLVariables[sURLVariables.length - 1];
-    console.log(sURLVariables[sURLVariables.length - 1]);
-
-    //EDITAR UN CLIENTE
-    /*if (sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "clientes") {
-        $.ajax({
-            type: "GET",
-            url: '/wiip/public/index.php/clientes/busca/' + id,
-            success: function (r) {
-                //console.log(r);
-                if (r.correcto == 200) {
-                    for (let i = 0; i < r.users.length; i++) {
-                        console.log(r.users[i].nombre);
-                        if(r.users[i].selected == true){
-                            $('select[name="users[]_helper2"]').append(`<option value="${r.users[i].id}" data-sortindex="${i}">${r.users[i].nombre}</option>`);
-                        }else{
-                            $('select[name="users[]_helper1"]').append(`<option value="${r.users[i]['id']}" >${r.users[i].nombre}</option>`);
-                        }
-
-                    }
-                } else {
-                    console.log("Error en la peticion ajax");
-                }
-            },
-            error: function () {
-                console.log("No se ha podido obtener la información");
-            }
-        });
-    }*/
-
-    //EDITAR UN USUARIO
-    /*if (sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "usuarios") {
-        $.ajax({
-            type: "GET",
-            url: '/wiip/public/index.php/usuarios/busca/' + id,
-            success: function (r) {
-                //console.log(r);
-                if (r.correcto == 200) {
-                    for (let i = 0; i < r.customers.length; i++) {
-                        //console.log(r.customers[i]['nombre']);
-                        $('select[name="customers[]_helper2"]').append(`<option value="${r.customers[i]['id']}" data-sortindex="${i}">${r.customers[i]['nombre']}</option>`);
-                    }
-                } else {
-                    console.log("Error en la peticion ajax");
-                }
-            },
-            error: function () {
-                console.log("No se ha podido obtener la información");
-            }
-        });
-    }*/
-
-
-    /*$('select[name="users[]"]').on('click', function (e) {
-        e.preventDefault();
-        var valors = $('select[name="customers[]_helper2"]').val();
-        //console.log(valors);
-    })*/
-
+    //console.log(sURLVariables[sURLVariables.length - 1]);
 
     //ELIMINAR UN USUARIO
     $('.deleteuser').click(function (e) {
         e.preventDefault();
-        console.log($('.deleteuser').attr('href'));
+        let user = $(this).attr('href');
+        console.log(user);
         $.confirm({
             title: 'Eliminar!',
             content: '¿Estas seguro de que deseas eliminarlo?',
@@ -308,8 +205,7 @@ $(document).ready(function () {
                 ok: {
                     action: function () {
                         //e.preventDefault();
-                        console.log($('.deleteuser').attr('href'));
-                        window.location.href = $('.deleteuser').attr('href');
+                        window.location.href = user;
                     }
                 },
                 cancel: function () {
@@ -322,7 +218,7 @@ $(document).ready(function () {
     //ELIMINAR UN CLIENTE
     $('.deletecustomer').click(function (e) {
         e.preventDefault();
-        var customer = $(this).attr('href');
+        let customer = $(this).attr('href');
         $.confirm({
             title: 'Eliminar!',
             content: '¿Estas seguro de que deseas eliminarlo?',
@@ -342,7 +238,7 @@ $(document).ready(function () {
     //ELIMINAR UN PROYECTO
     $('.deleteproject').click(function (e) {
         e.preventDefault();
-        var project = $(this).attr('href');
+        let project = $(this).attr('href');
         $.confirm({
             title: 'Eliminar!',
             content: '¿Estas seguro de que deseas eliminarlo?',
@@ -358,7 +254,114 @@ $(document).ready(function () {
         });
     });
 
+
 })
+
+//VALIDACIONES DEL FORM USER
+$("#form_user").validate({
+    rules: {
+        'user[password]': {
+            required: true,
+            minlength: 4
+        }
+    },
+    messages: {
+        'user[password]': "El password requiere 4 caracteres como mínimo"
+    },
+
+    focusInvalid: false,
+    invalidHandler: function (form, validator) {
+        if (!validator.numberOfInvalids())
+            return;
+        $('html, body').animate({
+            scrollTop: $(validator.errorList[0].element).offset().top - 200
+        }, 1000);
+
+    },
+});
+
+//VALIDACION DEL FORM CUSTOMER
+$('#form_customer').validate({
+    focusInvalid: false,
+    invalidHandler: function (form, validator) {
+        if (!validator.numberOfInvalids())
+            return;
+        $('html, body').animate({
+            scrollTop: $(validator.errorList[0].element).offset().top - 200
+        }, 1000);
+
+    },
+});
+
+//VALIDACIONES DEL FORM PROJECT
+$('#form_project').validate({
+    rules: {
+        urltest: {
+            required: true,
+            minlength: 10
+        },
+        urlprod: {
+            required: true,
+            minlength: 10
+        },
+    },
+    messages: {
+        urltest: "La URL de test debe ser correta",
+        urlprod: "La URL de producción debe ser correcta"
+    },
+    focusInvalid: false,
+    invalidHandler: function (form, validator) {
+        if (!validator.numberOfInvalids())
+            return;
+        $('html, body').animate({
+            scrollTop: $(validator.errorList[0].element).offset().top - 200
+        }, 1000);
+
+    },
+});
+
+//VALIDACION DEL FORM TEST
+$('#form_test').validate({
+    focusInvalid: false,
+    invalidHandler: function (form, validator) {
+        if (!validator.numberOfInvalids())
+            return;
+        $('html, body').animate({
+            scrollTop: $(validator.errorList[0].element).offset().top - 200
+        }, 1000);
+
+    },
+});
+
+//VALIDACION DEL FORM BLOCK
+$('#form_block_edit').validate({
+    rules: {
+        'block[alias]': {
+            required: true
+        },
+        'block[position]': {
+            required: true,
+            digits: true
+        },
+    },
+    messages: {
+        'block[alias]': "El alias es obligatorio!",
+        'block[position]': "La posicion debe ser un numero positivo!"
+    }
+});
+
+$('#form_question').validate();
+$('#form_question_edit').validate({
+    rules: {
+        'question[description]': {
+            required: true,
+            maxlength: 50
+        }
+    },
+    messages: {
+        'block[description]': "La pregunta no puede tener mas de 50 caracteres!",
+    }
+});
 
 $('#urltest').val("http://");
 $('#urlprod').val("http://");

@@ -38,6 +38,10 @@ busca-user:
   controller: App\Controller\UserController::buscaUser
   methods: [ GET ]
 
+busca-email-user:
+  path: /usuarios/buscaemail
+  controller: App\Controller\UserController::buscaEmail
+
 # CLIENTE #
 
 listar-clientes:

@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <!--begin::Form-->
-                    {{ form_start(form) }}
+                    {{ form_start(form, {'attr': {'id': 'form_project'}}) }}
                     {# <form class="kt-form"> #}
                     <div class="kt-portlet__body">
                         <div class="form-group row">
@@ -87,10 +87,10 @@
                         <div class="form-group row">
                             <label for="example-date-input" class="col-lg-3 col-form-label">URL Producción</label>
                             <div class="col-lg-9">
-                                {#  {{ form_errors(form.urlproduction) }}
+                                {# {{ form_errors(form.urlproduction) }}
                                 {{ form_widget(form.urlproduction,{ 'attr': {
                                     'class' : 'form-control ',
-                                } }) }}#}
+                                } }) }} #}
                                 <input class="form-control" type="text" id="urlprod" name="urlprod" required>
                             </div>
                         </div>
@@ -110,7 +110,7 @@
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="example-date-input" class="col-lg-3 col-form-label" >Project Manager
+                            <label for="example-date-input" class="col-lg-3 col-form-label">Project Manager
                                 Cliente</label>
                             <div class="col-lg-9">
                                 {# {{ form_errors(form.manager_customer) }}

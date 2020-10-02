@@ -17,8 +17,8 @@
                         </div>
                     </div>
                     <!--begin::Form-->
-                    {{ form_start(form, {'attr': {'id': 'form_user'}}) }}
-                     <form class="kt-form" action="{{ path('crear-usuario') }}" method="POST">
+                      {{ form_start(form, {'attr': {'id': 'form_user'}}) }}
+                  {#  <form class="kt-form" action="{{ path('crear-usuario') }}" method="POST" id="form_user">#}
                     <div class="kt-portlet__body">
                         <div class="form-group">
                             <label>Nombre</label>
@@ -96,8 +96,8 @@
                             </button>
                         </div>
                     </div>
-                    {{ form_end(form) }}
-                    {# </form> #}
+                         {{ form_end(form) }}
+{#      </form> #}
                     <!--end::Form-->
                 </div>
                 <!--end::Portlet-->
@@ -107,4 +107,3 @@
     </div>
 
 {% endblock %}
-
