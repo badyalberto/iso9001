@@ -1,7 +1,6 @@
 "use strict"
 
 // VALIDACION DEL CORREO DEL USER
-
 $('#user_correo').blur(function () {
         let valor = $('#user_correo').val();
         if (/^[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(valor)) {
@@ -53,11 +52,6 @@ $('.detalle-btn').click(function () {
 )
 ;
 
-//MUESTRA EL DESPLEGABLE DE PROYECTOS EN EL APARTADO DE TESTS
-/*$(document).ready(function () {
-    $('#test_project').prop('disabled', true);
-});*/
-
 $('#test_customer').ready(function () {
     var ruta = window.location.pathname;
     //console.log(ruta);
@@ -71,10 +65,7 @@ $('#test_customer').ready(function () {
         $.ajax({
             type: "POST",
             url: url_cargar_tests_default,//'/wiip/public/index.php/proyectos/default',
-            data: {},
             success: function (respuesta) {
-                //console.log(respuesta);
-                //Borra todo el contenido del select
                 $('#test_project').html('');
                 let cont = 0;
                 for (let value of respuesta) {
@@ -96,7 +87,7 @@ $('#test_customer').ready(function () {
 
 $('#test_customer').click(function () {
     let valor = $('#test_customer').val();
-    console.log(valor);
+    //console.log(valor);
     if (valor !== null && valor !== undefined && valor !== '') {
         $.ajax({
             type: "POST",
@@ -238,6 +229,9 @@ $("#disabled-test").click(function (e) {
     Swal.fire("El Test ha sido desactivado");
 });
 
+$('select[name="users[]"]').bootstrapDualListbox();
+$('select[name="customers[]"]').bootstrapDualListbox();
+
 //MANYTOMANY de USER y CUSTOMER
 $(document).ready(function () {
 
@@ -247,7 +241,7 @@ $(document).ready(function () {
     console.log(sURLVariables[sURLVariables.length - 1]);
 
     //EDITAR UN CLIENTE
-    if (sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "clientes") {
+    /*if (sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "clientes") {
         $.ajax({
             type: "GET",
             url: '/wiip/public/index.php/clientes/busca/' + id,
@@ -255,8 +249,13 @@ $(document).ready(function () {
                 //console.log(r);
                 if (r.correcto == 200) {
                     for (let i = 0; i < r.users.length; i++) {
-                        //console.log(r.users[i]['nombre']);
-                        $('select[name="users[]_helper2"]').append(`<option value="${r.users[i]['id']}" data-sortindex="${i}">${r.users[i]['nombre']}</option>`);
+                        console.log(r.users[i].nombre);
+                        if(r.users[i].selected == true){
+                            $('select[name="users[]_helper2"]').append(`<option value="${r.users[i].id}" data-sortindex="${i}">${r.users[i].nombre}</option>`);
+                        }else{
+                            $('select[name="users[]_helper1"]').append(`<option value="${r.users[i]['id']}" >${r.users[i].nombre}</option>`);
+                        }
+
                     }
                 } else {
                     console.log("Error en la peticion ajax");
@@ -266,10 +265,10 @@ $(document).ready(function () {
                 console.log("No se ha podido obtener la información");
             }
         });
-    }
+    }*/
 
     //EDITAR UN USUARIO
-    if (sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "usuarios") {
+    /*if (sURLVariables[sURLVariables.length - 2] == "editar" && sURLVariables[sURLVariables.length - 3] == "usuarios") {
         $.ajax({
             type: "GET",
             url: '/wiip/public/index.php/usuarios/busca/' + id,
@@ -288,26 +287,28 @@ $(document).ready(function () {
                 console.log("No se ha podido obtener la información");
             }
         });
-    }
+    }*/
 
-    $('select[name="users[]"]').bootstrapDualListbox();
-    $('select[name="users[]"]').on('click', function (e) {
+
+    /*$('select[name="users[]"]').on('click', function (e) {
         e.preventDefault();
         var valors = $('select[name="customers[]_helper2"]').val();
         //console.log(valors);
-    })
-    $('select[name="customers[]"]').bootstrapDualListbox();
+    })*/
+
 
     //ELIMINAR UN USUARIO
     $('.deleteuser').click(function (e) {
         e.preventDefault();
+        console.log($('.deleteuser').attr('href'));
         $.confirm({
             title: 'Eliminar!',
             content: '¿Estas seguro de que deseas eliminarlo?',
             buttons: {
                 ok: {
                     action: function () {
-                        //console.log($('.deleteuser').attr('href'));
+                        //e.preventDefault();
+                        console.log($('.deleteuser').attr('href'));
                         window.location.href = $('.deleteuser').attr('href');
                     }
                 },
@@ -321,17 +322,18 @@ $(document).ready(function () {
     //ELIMINAR UN CLIENTE
     $('.deletecustomer').click(function (e) {
         e.preventDefault();
+        var customer = $(this).attr('href');
         $.confirm({
             title: 'Eliminar!',
             content: '¿Estas seguro de que deseas eliminarlo?',
             buttons: {
                 ok: {
                     action: function () {
-                        window.location.href = $('.deletecustomer').attr('href');
+                        //e.preventDefault();
+                        window.location.href = customer;
                     }
                 },
                 cancel: function () {
-                    //e.preventDefault()
                 }
             }
         });
@@ -340,17 +342,17 @@ $(document).ready(function () {
     //ELIMINAR UN PROYECTO
     $('.deleteproject').click(function (e) {
         e.preventDefault();
+        var project = $(this).attr('href');
         $.confirm({
             title: 'Eliminar!',
             content: '¿Estas seguro de que deseas eliminarlo?',
             buttons: {
                 ok: {
                     action: function () {
-                        window.location.href = $('.deleteproject').attr('href');
+                        window.location.href = project;
                     }
                 },
                 cancel: function () {
-                    //e.preventDefault()
                 }
             }
         });
@@ -358,6 +360,6 @@ $(document).ready(function () {
 
 })
 
-$('#project_urltest').val("http://");
-$('#project_urlproduction').val("http://");
+$('#urltest').val("http://");
+$('#urlprod').val("http://");
 

@@ -124,7 +124,7 @@ class UserController extends AbstractController
 
     public function edit($id, Request $request, UserPasswordEncoderInterface $encoder)
     {
-
+        //BUSCO SI EXISTE EL USUARIO
         $user = $this->getDoctrine()
             ->getRepository(User::class)
             ->find($id);
@@ -135,9 +135,30 @@ class UserController extends AbstractController
 
         $required = false;
 
+        //BUSCO TODOS LOS CLIENTES PARA EL DESPLEGABLE
         $customers = $this->getDoctrine()
             ->getRepository(Customer::class)
             ->findAll();
+
+        $cont = 0;
+        $customerUsers = array(
+            $cont => array(
+                "nombre" => '',
+                "id" => '',
+                "selected" => ''
+            )
+        );
+
+        foreach ($customers as $clave => $valor) {
+            $customerUsers[$cont]['nombre'] = $valor->getNombre();
+            $customerUsers[$cont]['id'] = $valor->getId();
+            if ($user->getCustomers()->contains($valor)) {
+                $customerUsers[$cont]['selected'] = true;
+            } else {
+                $customerUsers[$cont]['selected'] = false;
+            }
+            $cont++;
+        }
 
         $form = $this->createForm(UserType::class, $user, [
             'required_password' => $required,
@@ -166,12 +187,11 @@ class UserController extends AbstractController
                 if ($correo == $user2->getCorreo() && $id != $user2->getId()) {
                     return $this->render('user/edit.html.twig', array(
                         'form' => $form->createView(),
-                        'status' => true
-
+                        'status' => true,
+                        'customers' => $customerUsers
                     ));
                 }
             }
-
 
             if (isset($_POST['customers'])) {
 
@@ -220,12 +240,17 @@ class UserController extends AbstractController
             return $this->redirectToRoute('listar-usuarios');
 
         }
+        /*echo '<pre>';
+        var_dump($customerUsers);
+        echo '</pre>';
+        die();*/
+
 
         return $this->render('user/edit.html.twig', array(
             'form' => $form->createView(),
             'status' => false,
             'activo' => $activo,
-            'customers' => $customers
+            'customers' => $customerUsers
         ));
     }
 

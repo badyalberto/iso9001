@@ -199,6 +199,17 @@ ul ul a {
     background: #6d7fcc;
 }
 
+.deleteuser{
+
+}
+
+.deletecustomer{
+
+}
+
+.deleteproject{
+
+}
 
 @media (max-width: 768px) {
     /* 80px and its content aligned to centre. Pushing it off the screen with the

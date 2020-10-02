@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use PhpParser\Node\Expr\Array_;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
@@ -115,14 +116,14 @@ class CustomerController extends AbstractController
 
     public function edit($id, Request $request)
     {
-        $em = $this->getDoctrine()->getManager();
-
+        //BUSCO SI EXISTE EL CUSTOMER
         $customer = $this->getDoctrine()
             ->getRepository(Customer::class)
             ->find($id);
 
         $activo = $customer->getEstado();
 
+        //BUSCO TODOS LOS USUARIOS PARA EL DESPLEGABLE
         $users = $this->getDoctrine()
             ->getRepository(User::class)
             ->findAll();
@@ -132,13 +133,26 @@ class CustomerController extends AbstractController
                                     WHERE u.customers NOT IN (:customer)")
             ->setParameter('customer', $customer);
         $users = $query->getResult();*/
-
-        $usersCustomer = [];
         $cont = 0;
+        $usersCustomer = array(
+            $cont => array(
+                "nombre" => '',
+                "id" => '',
+                "selected" => ''
+            )
+        );
+
 
         foreach ($users as $clave => $valor) {
-            if (!$customer->getUsers()->contains($valor)) {
-                $usersCustomer[$cont] = $valor;
+            if ($customer->getUsers()->contains($valor)) {
+                $usersCustomer[$cont]['nombre'] = $valor->getNombre();
+                $usersCustomer[$cont]['id'] = $valor->getId();
+                $usersCustomer[$cont]['selected'] = true;
+                $cont++;
+            } else {
+                $usersCustomer[$cont]['nombre'] = $valor->getNombre();
+                $usersCustomer[$cont]['id'] = $valor->getId();
+                $usersCustomer[$cont]['selected'] = false;
                 $cont++;
             }
         }
@@ -176,7 +190,7 @@ class CustomerController extends AbstractController
                         'status' => false,
                         'activo' => $activo,
                         'customer' => $customer,
-                        'users' => $users
+                        'users' => $usersCustomer
                     ));
                 }
             }
@@ -234,15 +248,11 @@ class CustomerController extends AbstractController
 
     public function delete($id)
     {
-
         $em = $this->getDoctrine()->getManager();
 
         $customer = $this->getDoctrine()
             ->getRepository(Customer::class)
             ->find($id);
-
-        //var_dump($customer->getProjects()[0]->getId());
-        //exit;
 
         if ($customer->getProjects()[0] == null) {
             $em->remove($customer);
@@ -264,17 +274,40 @@ class CustomerController extends AbstractController
             ->getRepository(Customer::class)
             ->find($id);
 
+        $users = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findAll();
+
         if (isset($customer) && !empty($customer) && $customer != null) {
-            $users = [];
             $cont = 0;
-            foreach ($customer->getUsers() as $clave => $valor) {
-                $users[$cont]['nombre'] = $valor->getNombre();
-                $users[$cont]['id'] = $valor->getId();
-                $cont++;
+            $usersCustomer = array(
+                $cont => array(
+                    "nombre" => '',
+                    "id" => '',
+                    "selected" => ''
+                )
+            );
+
+
+            foreach ($users as $clave => $valor) {
+                if ($customer->getUsers()->contains($valor)) {
+                    $usersCustomer[$cont]['nombre'] = $valor->getNombre();
+                    $usersCustomer[$cont]['id'] = $valor->getId();
+                    $usersCustomer[$cont]['selected'] = true;
+                    $cont++;
+                } else {
+
+                    //var_dump($valor->getNombre());
+                    //die();
+                    $usersCustomer[$cont]['nombre'] = $valor->getNombre();
+                    $usersCustomer[$cont]['id'] = $valor->getId();
+                    $usersCustomer[$cont]['selected'] = false;
+                    $cont++;
+                }
             }
 
             $data = [
-                'users' => $users,
+                'users' => $usersCustomer,
                 'correcto' => 200
             ];
         } else {

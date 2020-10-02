@@ -45,7 +45,7 @@ class ProjectType extends AbstractType
                 'choices' => self::TYPES,
                 'required' => true
             ))
-            ->add('urltest', TextType::class,array(
+            /*->add('urltest', TextType::class,array(
                 'label' => 'URL Test',
                 'required'=>true
             ))
@@ -57,7 +57,7 @@ class ProjectType extends AbstractType
                 'label' => 'Project Manager WIP',
                 'class' => User::class,
                 'choice_label' => 'nombre',
-                'multiple' => true,
+                'multiple' => false,
                 'required' => true,
                 'query_builder' => function(UserRepository $us){
                     return $us->createQueryBuilder('u')
@@ -69,7 +69,7 @@ class ProjectType extends AbstractType
                 'label' => 'Project Manager Cliente',
                 'class' => User::class,
                 'choice_label' => 'nombre',
-                'multiple' => true,
+                'multiple' => false,
                 'required' => true,
                 'query_builder' => function(UserRepository $us){
                     return $us->createQueryBuilder('u')
@@ -77,7 +77,7 @@ class ProjectType extends AbstractType
                         ->setParameter('CLIENTE', 'CLIENTE');
                 }
 
-            ))
+            ))*/
             ->add('estado', ChoiceType::class,[
                 'choices' => self::STATUS,
                 'required' => true

@@ -157,22 +157,16 @@ class TestController extends AbstractController
 
         $blocks = $this->getDoctrine()
             ->getRepository(Block::class)
-            ->findBy([
-                'test' => $test
-            ]);
+            ->findBy(
+                array('test'=> $test),
+                array('position' => 'ASC')
+            );
 
         $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
 
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-
-            /*echo '<pre>';
-            var_dump($_POST);
-            echo '</pre>';
-            die();*/
-
 
             $em = $this->getDoctrine()->getManager();
 
@@ -205,9 +199,6 @@ class TestController extends AbstractController
             $em->persist($test);
             $em->flush();
 
-            //print_r($_POST);
-            //exit;
-
             if (isset($_POST['blocks']) && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
                 foreach ($_POST['blocks'] as $clave => $valor) {
                     //var_dump("hola");
@@ -224,8 +215,7 @@ class TestController extends AbstractController
                     $block->setEstado("NO INICIADO");
                     $block->setDesactivar(false);
                     $test->setEstado('En Curso');
-                    //print_r()
-                    //exit;
+
                     $block->setTest($test);
 
                     //GUARDA UN BLOQUE EN CONCRETO

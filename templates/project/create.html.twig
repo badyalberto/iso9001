@@ -77,41 +77,53 @@
                         <div class="form-group row">
                             <label for="example-date-input" class="col-lg-3 col-form-label">URL Test</label>
                             <div class="col-lg-9">
-                                {{ form_errors(form.urltest) }}
+                                {# {{ form_errors(form.urltest) }}
                                 {{ form_widget(form.urltest,{ 'attr': {
                                     'class' : 'form-control ',
-                                } }) }}
+                                } }) }} #}
+                                <input class="form-control" type="text" id="urltest" name="urltest" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="example-date-input" class="col-lg-3 col-form-label">URL Producción</label>
                             <div class="col-lg-9">
-                                {{ form_errors(form.urlproduction) }}
+                                {#  {{ form_errors(form.urlproduction) }}
                                 {{ form_widget(form.urlproduction,{ 'attr': {
                                     'class' : 'form-control ',
-                                } }) }}
+                                } }) }}#}
+                                <input class="form-control" type="text" id="urlprod" name="urlprod" required>
                             </div>
                         </div>
                         <div class="form-group row">
                             <label for="example-date-input" class="col-lg-3 col-form-label">Project Manager
                                 WIP</label>
                             <div class="col-lg-9">
-                                {{ form_errors(form.manager_wip) }}
+                                {# {{ form_errors(form.manager_wip) }}
                                 {{ form_widget(form.manager_wip,{ 'attr': {
                                     'class' : 'form-control kt-select2',
-                                } }) }}
+                                } }) }} #}
+                                <select class="form-control kt-select2" id="kt_select2_1" name="wip" required>
+                                    {% for wip in wips %}
+                                        <option value="{{ wip.id }}">{{ wip.nombre }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">
-                            <label for="example-date-input" class="col-lg-3 col-form-label">Project Manager
+                            <label for="example-date-input" class="col-lg-3 col-form-label" >Project Manager
                                 Cliente</label>
                             <div class="col-lg-9">
-                                {{ form_errors(form.manager_customer) }}
+                                {# {{ form_errors(form.manager_customer) }}
                                 {{ form_widget(form.manager_customer,{ 'attr': {
                                     'class' : 'form-control kt-select2',
                                     'id' : 'kt_select2_1',
                                     'name' : 'param'
-                                } }) }}
+                                } }) }} #}
+                                <select class="form-control kt-select2" id="kt_select2_2" name="customer" required>
+                                    {% for costumer in costumers %}
+                                        <option value="{{ costumer.id }}">{{ costumer.nombre }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
                         </div>
                         <div class="form-group row">

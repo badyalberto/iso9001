@@ -180,7 +180,7 @@ class Project
         return $this->manager_wip;
     }
 
-    public function addManagerWip(User $managerWip): User
+    public function addManagerWip(User $managerWip): self
     {
         if (!$this->manager_wip->contains($managerWip)) {
             $this->manager_wip[] = $managerWip;
@@ -189,7 +189,7 @@ class Project
         return $this;
     }
 
-    public function removeManagerWip(User $managerWip): User
+    public function removeManagerWip(User $managerWip): self
     {
         if ($this->manager_wip->contains($managerWip)) {
             $this->manager_wip->removeElement($managerWip);

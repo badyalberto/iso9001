@@ -5,6 +5,8 @@ namespace App\Controller;
 use App\Entity\Customer;
 use App\Entity\Project;
 use App\Entity\Test;
+use App\Entity\User;
+use App\Form\ProjectEditType;
 use App\Form\ProjectType;
 use DateTime;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -36,11 +38,22 @@ class ProjectController extends AbstractController
         ]);
     }
 
-
     public function create(Request $request)
     {
-
         $project = new Project();
+
+        $usersWIP = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy([
+                'tipo' => 'WIIP'
+            ]);
+
+        $usersCostumer = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy([
+                'tipo' => 'CLIENTE'
+            ]);
+
         $form = $this->createForm(ProjectType::class, $project, [
             'action' => $this->generateUrl('crear-proyecto'),
             'method' => 'POST'
@@ -52,24 +65,44 @@ class ProjectController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
 
-            //'<pre>';var_dump($_POST["date"]);
-            //exit;
-
             if (isset($_POST['activo'])) {
                 $project->setDesactivar(true);
             } else {
                 $project->setDesactivar(false);
             }
 
-            if(isset($_POST['date']) && $_POST['date'] != "" && $_POST['date'] != null){
+            if (isset($_POST['date']) && $_POST['date'] != "" && $_POST['date'] != null) {
                 //TRANSFORMA LA STRING DATE A LA EL FORMAATO DATETIME
                 $ymd = DateTime::createFromFormat('Y-m-d', $_POST['date']);
                 $project->setFechaAlta($ymd);
-            }else{
-
+            } else {
                 return $this->render('project/create.html.twig', array(
-                    'form' => $form->createView()
+                    'form' => $form->createView(),
+                    'wips' => $usersWIP,
+                    'costumers' => $usersCostumer
                 ));
+            }
+
+            if (isset($_POST['wip']) && !empty($_POST['wip'])) {
+                $userwip = $this->getDoctrine()
+                    ->getRepository(User::class)
+                    ->find($_POST['wip']);
+                $project->addManagerWip($userwip);
+            }
+
+            if (isset($_POST['customer']) && !empty($_POST['customer'])) {
+                $usercostumer = $this->getDoctrine()
+                    ->getRepository(User::class)
+                    ->find($_POST['customer']);
+
+                $project->addManagerCustomer($usercostumer);
+            }
+
+            if(isset($_POST['urltest']) && !empty($_POST['urltest'])){
+                $project->setUrlTest($_POST['urltest']);
+            }
+            if(isset($_POST['urlprod']) && !empty($_POST['urlprod'])){
+                $project->setUrlProduction($_POST['urlprod']);
             }
 
             $em->persist($project);
@@ -82,7 +115,9 @@ class ProjectController extends AbstractController
         }
 
         return $this->render('project/create.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'wips' => $usersWIP,
+            'costumers' => $usersCostumer
         ));
     }
 
@@ -92,10 +127,22 @@ class ProjectController extends AbstractController
             ->getRepository(Project::class)
             ->find($id);
 
+
         $desactivar = $project->getDesactivar();
 
-        $form = $this->createForm(ProjectType::class, $project);
+        $usersWIP = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy([
+                'tipo' => 'WIIP'
+            ]);
 
+        $usersCostumer = $this->getDoctrine()
+            ->getRepository(User::class)
+            ->findBy([
+                'tipo' => 'CLIENTE'
+            ]);
+
+        $form = $this->createForm(ProjectType::class, $project);
 
         $form->handleRequest($request);
 
@@ -109,17 +156,26 @@ class ProjectController extends AbstractController
                 $project->setDesactivar(0);
             }
 
-            if(isset($_POST['date']) && $_POST['date'] != "" && $_POST['date'] != null){
+            if (isset($_POST['date']) && $_POST['date'] != "" && $_POST['date'] != null) {
                 //TRANSFORMA LA STRING DATE A LA EL FORMAATO DATETIME
                 $ymd = DateTime::createFromFormat('Y-m-d', $_POST['date']);
                 $project->setFechaAlta($ymd);
-            }else{
+            } else {
                 return $this->render('project/edit.html.twig', array(
                     'form' => $form->createView(),
                     'desactivar' => $desactivar,
-                    'project' => $project
+                    'project' => $project,
+                    'wips' => $usersWIP,
+                    'costumers' => $usersCostumer
 
                 ));
+            }
+
+            if(isset($_POST['urltest']) && !empty($_POST['urltest'])){
+                $project->setUrlTest($_POST['urltest']);
+            }
+            if(isset($_POST['urlprod']) && !empty($_POST['urlprod'])){
+                $project->setUrlProduction($_POST['urlprod']);
             }
 
             $em->persist($project);
@@ -134,14 +190,15 @@ class ProjectController extends AbstractController
         return $this->render('project/edit.html.twig', array(
             'form' => $form->createView(),
             'desactivar' => $desactivar,
-            'project' => $project
+            'project' => $project,
+            'wips' => $usersWIP,
+            'customers' => $usersCostumer
 
         ));
     }
 
     public function delete($id)
     {
-
         $em = $this->getDoctrine()->getManager();
 
         $project = $this->getDoctrine()
@@ -218,7 +275,7 @@ class ProjectController extends AbstractController
             ->getRepository(Project::class)
             ->find($id);
 
-        $tests  = $project->getTests();
+        $tests = $project->getTests();
 
         return $this->render('test/list.html.twig', [
             'tests' => $tests

@@ -25,7 +25,7 @@ class User implements UserInterface, \JsonSerializable
     /**
      * @ORM\Column(type="string", length=255)
      */
-    protected $nombre;
+    public $nombre;
 
     /**
      * @ORM\Column(type="string", length=255, unique=true)

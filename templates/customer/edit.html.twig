@@ -52,8 +52,12 @@
                             <div class="form-group">
                                 <label>Usuarios Asociados</label>
                                 <select name="users[]" id="selectusers[]" multiple="multiple" class="form-control">
-                                    {% for user in users %}
-                                        <option value="{{ user.id }}">{{ user.nombre }}</option>
+                                    {% for i in 0..users|length-1 %}
+                                        {% if users[i].selected == true %}
+                                            <option value="{{ users[i].id }}" selected>{{ users[i].nombre }}</option>
+                                        {% else %}
+                                            <option value="{{ users[i].id }}">{{ users[i].nombre }}</option>
+                                        {% endif %}
                                     {% endfor %}
                                 </select>
                             </div>
