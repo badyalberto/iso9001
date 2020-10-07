@@ -42,6 +42,19 @@ class ServerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
+            if (isset($_POST['activo'])) {
+                $server->setActivo(true);
+            } else {
+                $server->setActivo(false);
+            }
+
+            if(isset($_POST['server_urlacceso'])){
+                $server->setUrlacceso($_POST['server_urlacceso']);
+            }
+
+            if (isset($_POST['password'])){
+                $server->setPsw($_POST['password']);
+            }
 
             $em->persist($server);
             $em->flush();
@@ -64,12 +77,28 @@ class ServerController extends AbstractController
             ->getRepository(Server::class)
             ->find($id);
 
-        $form = $this->createForm(ServerType::class, $server);
+        if (isset($server) && !empty($server)) {
+            $required = false;
+        }
+
+        $form = $this->createForm(ServerType::class, $server, [
+            'required_password' => $required,
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
+
+            if (isset($_POST['activo'])) {
+                $server->setActivo(true);
+            } else {
+                $server->setActivo(false);
+            }
+
+            if(isset($_POST['urltest'])){
+                $server->setUrlacceso($_POST['urltest']);
+            }
 
             $em->persist($server);
             $em->flush();
@@ -81,7 +110,8 @@ class ServerController extends AbstractController
         }
 
         return $this->render('server/edit.html.twig', array(
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'server' => $server
         ));
     }
 
@@ -97,7 +127,7 @@ class ServerController extends AbstractController
         $em->remove($server);
         $em->flush();
 
-        $this->addFlash('success', 'Se ha elimnado correctamente el servidor');
+        $this->addFlash('success', 'Se ha eliminado correctamente el servidor');
 
 
         return $this->redirectToRoute('listar-servidores');

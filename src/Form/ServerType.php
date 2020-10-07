@@ -21,39 +21,39 @@ class ServerType extends AbstractType
 
 
         $builder
-            ->add('nombrevps',TextType::class,array(
+            ->add('nombrevps', TextType::class, array(
                 'required' => true
             ))
-            ->add('alias',TextType::class,array(
+            ->add('alias', TextType::class, array(
                 'required' => true
             ))
-            ->add('ip',TextType::class,array(
+            ->add('ip', TextType::class, array(
                 'required' => true
             ))
-            ->add('urlacceso',TextType::class,array(
+            /*->add('urlacceso', TextType::class, array(
+                'required' => true
+            ))*/
+            ->add('usuario', TextType::class, array(
                 'required' => true
             ))
-            ->add('usuario',TextType::class,array(
-                'required' => true
-            ))
-            ->add('psw',RepeatedType::class,
+            /*->add('psw', RepeatedType::class,
                 [
-                    'type'            => PasswordType::class,
-                    'required'        => true,
+                    'type' => PasswordType::class,
+                    'required' => $options['required_password'],
+                    'empty_data' => '',
                     //'first_options'   => ['label' => 'Password'],
                     //'second_options'  => ['label' => 'Repite Password'],
                     'invalid_message' => 'Los passwords deben coincidir!',
                     //'row_attr'        => ['class' => 'red']
-                ])
-            ->add('tipo',ChoiceType::class,array(
+                ])*/
+            ->add('tipo', ChoiceType::class, array(
                 'choices' => self::TYPES,
                 'required' => true
-            ))
-            ->add('activo',CheckboxType::class,array(
+            ))/*->add('activo',CheckboxType::class,array(
                 'required' => false,
                 'label' => false,
                 'label_attr' => ['class' => 'checkbox_custom']
-            ))
+            ))*/
         ;
     }
 
@@ -61,6 +61,7 @@ class ServerType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Server::class,
+            'required_password' => false
         ]);
     }
 }

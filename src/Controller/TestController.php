@@ -97,7 +97,7 @@ class TestController extends AbstractController
             } else {
                 $test->setDesactivar(false);
 
-                if (isset($_POST['blocks'])) {
+                /*if (isset($_POST['blocks'])) {
                     if ($_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
                         $test->setEstado("En Curso");
                     } else {
@@ -105,7 +105,8 @@ class TestController extends AbstractController
                     }
                 }else{
                     $test->setEstado("No Iniciado");
-                }
+                }*/
+                $test->setEstado("No Iniciado");
             }
 
             //GUARDA EL TEST
@@ -206,8 +207,7 @@ class TestController extends AbstractController
 
             if (isset($_POST['blocks']) && $_POST['blocks'][0]['alias'] != "" && $_POST['blocks'][0]['position'] != "" && $_POST['blocks'][0]['bloque_padre'] != "") {
                 foreach ($_POST['blocks'] as $clave => $valor) {
-                    //var_dump("hola");
-                    //exit;
+
                     $block = new Block();
                     $block->setAlias($valor['alias']);
                     $block->setPosition(intval($valor['position']));
@@ -317,22 +317,18 @@ class TestController extends AbstractController
 
         $em = $this->getDoctrine()->getManager();
 
-        $query = $em->createQuery("SELECT a as cantidad FROM App\Entity\Block b
+        /*$query = $em->createQuery("SELECT a as cantidad FROM App\Entity\Block b
                                     LEFT JOIN App\Entity\Question q WITH q.block = b
                                     LEFT JOIN App\Entity\Test t WITH b.test = t
                                     LEFT JOIN App\Entity\Customer c WITH t.customer = c
                                     LEFT JOIN App\Entity\Answer a WITH a.question = q
-                                    WHERE a.estado != 'DESACTIVADO'");
+                                    WHERE a.estado != 'DESACTIVADO'");*/
         //$answers = $query->getResult();
 
         $answers = $this->getDoctrine()->getRepository(Answer::class)->findAll();
         if (isset($_POST) && !empty($_POST) && $_POST != null && $_POST != "") {
             $em = $this->getDoctrine()->getManager();
-            /*var_dump(count($_POST['question']));
-            echo '<pre>';
-            var_dump($_POST);
-            echo '</pre>';
-            die();*/
+
             for ($i = 0; $i < count($_POST['question']); $i++) {
 
                 if (isset($_POST['question'][$i])) {
@@ -459,10 +455,9 @@ class TestController extends AbstractController
                 }
 
             }
-            //die();
             $this->addFlash('success', 'Se ha realizado correctamente el Test ');
 
-            return $this->redirectToRoute('listar-tests');
+            return $this->redirectToRoute('tests-realizados');
         }
 
         return $this->render('test/realize.html.twig', array(
@@ -542,7 +537,7 @@ class TestController extends AbstractController
             $test4 = $query4->getSingleResult();
 
             /*
-            * CANTIDAD DE QUESTIONS CON ESTADO NO TESTADO (CALCULO CANTIDAD DE TEST REALIZADO)
+            * CANTIDAD DE QUESTIONS CON ESTADO NO TESTADO
             */
             $query5 = $em->createQuery("SELECT count(a) as no_testeado FROM App\Entity\Block b
                                     LEFT JOIN App\Entity\Question q WITH q.block = b

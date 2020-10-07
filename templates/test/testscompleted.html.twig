@@ -282,6 +282,18 @@
 {% endblock %}
 
 {% block scripts %}
+
+    {% for message in app.flashes('success') %}
+        <script>
+            toastr.success('{{ message }}');
+        </script>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <script>
+            toastr.error('{{ message }}');
+        </script>
+    {% endfor %}
+
     {{ parent() }}
     <script>
         $('#form_realize').validate({});

@@ -21,17 +21,19 @@ class QuestionType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('description', TextType::class, array(
+            /*->add('description', TextType::class, array(
                 'required' => true,
-                'attr' => ['name' => 'description']
+                'attr' => ['name' => 'description',
+                    //'maxlength' => '50'
+                ]
 
-            ))
+            ))*/
             ->add('observaciones', TextareaType::class, array(
                 'required' => false,
                 'attr' => ['name' => 'observaciones'],
                 'empty_data' => ''
             ))
-            ->add('imagen', FileType::class, [
+            /*->add('imagen', FileType::class, [
                 'required' => false,
                 'data_class' => null,
                 'empty_data' => null,
@@ -42,13 +44,14 @@ class QuestionType extends AbstractType
                     ]),
                 ]
 
-            ])
+            ])*/
             /*->add('desactivar', CheckboxType::class, array(
                 'required' => false,
                 'label' => false,
                 'attr' => ['name' => 'desactivar'],
                 'label_attr' => ['class' => 'checkbox_custom']
-            ))*/;
+            ))*/
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver)

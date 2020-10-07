@@ -4,16 +4,6 @@
 {% set subtitulo = "Editar Test" %}
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="row">
             <div class="col-md-12">
@@ -172,8 +162,8 @@
                     </div>
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
-                            <button type="submit"  id="addblock" class="btn btn-brand">Guardar</button>
-                            <button type="reset" class="btn btn-warning">Cancelar</button>
+                            <button type="submit" id="addblock" class="btn btn-brand">Guardar</button>
+                            <button id="cancelar" class="btn btn-warning">Cancelar</button>
                         </div>
                     </div>
                     {# </form> #}
@@ -253,10 +243,17 @@
                                                 href="{{ path('edit-block',{ 'id' : block.id}) }}"
                                                 class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                                 title="Editar el block"> <i class="la la-edit"></i> </a>
-                                        <a
-                                                href="{{ path('desactivar-block',{ 'id' : block.id}) }}"
-                                                class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                                title="Desactivar el block"> <i class="la la-trash"></i> </a>
+                                        {% if block.desactivar == true %}
+                                            <a
+                                                    href="{{ path('desactivar-block',{ 'id' : block.id}) }}"
+                                                    class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                                    title="Activar block"> <i class="la la-toggle-on"></i> </a>
+                                        {% else %}
+                                            <a
+                                                    href="{{ path('desactivar-block',{ 'id' : block.id}) }}"
+                                                    class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                                    title="Desactivar block"> <i class="la la-toggle-off"></i> </a>
+                                        {% endif %}
                                         <a
                                                 href="{{ path('ver-preguntas-bloque',{ 'id' : block.id}) }}"
                                                 class="btn btn-sm btn-clean btn-icon btn-icon-md"
@@ -274,6 +271,17 @@
     </div>
 {% endblock %}
 {% block scripts %}
+    {% for message in app.flashes('success') %}
+        <script>
+            toastr.success('{{ message }}');
+        </script>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <script>
+            toastr.error('{{ message }}');
+        </script>
+    {% endfor %}
+
     <script>
         var url_cargar_tests_default = '{{ path('projects_by_user_default') }}';
         var url_cargar_tests = '{{ path('projects_by_user') }}';

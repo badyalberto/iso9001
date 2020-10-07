@@ -5,17 +5,6 @@
 {% set subtitulo =  "Crear y editar Tests" %}
 
 {% block body %}
-
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="kt-portlet kt-portlet--mobile">
             <div class="kt-portlet__head kt-portlet__head--lg">
@@ -101,7 +90,8 @@
                                         {% if test.desactivar == true %}
                                             <a href="#"
                                                class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
-                                               title="Realizar Test" id="disabled-test"> <i class="la la-clock-o"></i> </a>
+                                               title="Realizar Test" id="disabled-test"> <i class="la la-clock-o"></i>
+                                            </a>
                                         {% else %}
                                             <a href="{{ path('realizar-test',{'id': test.id }) }}"
                                                class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
@@ -158,17 +148,28 @@
                                     <a href="{{ path('editar-test',{'id' : test.id }) }}"
                                        class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                        title="Editar Tests"> <i class="la la-edit"></i> </a>
-                                    <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
-                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                       title="Desactivar Test"> <i class="la la-trash"></i> </a>
+
                                     {% if test.desactivar == true %}
+                                        <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                           title="Activar Test"> <i class="la la-toggle-on"></i> </a>
                                         <a href="#"
-                                           class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
-                                           title="Realizar Test" id="disabled-test"> <i class="la la-clock-o"></i> </a>
-                                    {% else %}
-                                        <a href="{{ path('realizar-test',{'id': test.id }) }}"
-                                           class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md realize disabled-test"
                                            title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                    {% else %}
+                                        <a href="{{ path('desactivar-test',{'id' : test.id }) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                           title="Desactivar Test"> <i class="la la-toggle-off"></i> </a>
+                                        {% if test.estado == "En Curso" %}
+                                            <a href="{{ path('realizar-test',{'id': test.id }) }}"
+                                               class="btn btn-sm btn-clean btn-icon btn-icon-md realize"
+                                               title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                        {% else %}
+                                            <a href="#"
+                                               class="btn btn-sm btn-clean btn-icon btn-icon-md realize no-questions"
+                                               title="Realizar Test"> <i class="la la-clock-o"></i> </a>
+                                        {% endif %}
+
                                     {% endif %}
                                     <a href="{{ path('listar-preguntas-blocks',{'id' : test.id }) }}"
                                        class="btn btn-sm btn-clean btn-icon btn-icon-md"
@@ -186,6 +187,17 @@
     </div>
 {% endblock %}
 {% block scripts %}
+    {% for message in app.flashes('success') %}
+        <script>
+            toastr.success('{{ message }}');
+        </script>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <script>
+            toastr.error('{{ message }}');
+        </script>
+    {% endfor %}
+
     <script>
         var url_cargar_tests_default = '{{ path('projects_by_user_default') }}';
     </script>

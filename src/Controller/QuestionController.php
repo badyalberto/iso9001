@@ -44,62 +44,63 @@ class QuestionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();
-
             $cont = 0;
 
-            foreach ($_POST['questions'] as $valor) {
+            if (isset($_POST['questions']) && !empty($_POST['questions'])) {
 
-                $question2 = new Question();
-                $question2->setDescription($valor['description']);
-                $question2->setObservaciones($valor['observaciones']);
+                foreach ($_POST['questions'] as $valor) {
+                    $question2 = new Question();
+                    $question2->setDescription($valor['description']);
+                    $question2->setObservaciones($valor['observaciones']);
 
-                if (isset($_POST['desactivar'])) {
-                    $question2->setDesactivar(true);
-                } else {
-                    $question2->setDesactivar(false);
-                }
-
-                $question2->setBlock($block);
-
-                $file = $_FILES['questions'];
-                $ruta = $file['tmp_name'][$cont]['imagen'];
-                $type = $file['type'][$cont]['imagen'];
-
-                if ($ruta != "" && $ruta != null) {
-                    if ($type == "image/png") {
-                        $extension = ".png";
-                    } elseif ($type = "image/jpeg") {
-                        $extension = ".jpeg";
+                    if (isset($_POST['desactivar'])) {
+                        $question2->setDesactivar(true);
                     } else {
-                        $extension = ".jpg";
+                        $question2->setDesactivar(false);
                     }
 
-                    //CREA EL NUEVO NOMBRE DE LA IMAGEN
-                    $filename = md5(uniqid()) . $extension;
+                    $question2->setBlock($block);
 
-                    //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
-                    move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
-                    $question2->setImagen($filename);
+                    $file = $_FILES['questions'];
+                    $ruta = $file['tmp_name'][$cont]['image'];
+                    $type = $file['type'][$cont]['image'];
+
+                    if ($ruta != "" && $ruta != null) {
+                        if ($type == "image/png") {
+                            $extension = ".png";
+                        } elseif ($type = "image/jpeg") {
+                            $extension = ".jpeg";
+                        } else {
+                            $extension = ".jpg";
+                        }
+
+                        //CREA EL NUEVO NOMBRE DE LA IMAGEN
+                        $filename = md5(uniqid()) . $extension;
+
+                        //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
+                        move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
+                        $question2->setImagen($filename);
+                    }
+                    $block->setEstado("EN CURSO");
+                    //$block->getTest()->setEstado("En Curso");
+
+                    $answer = new Answer();
+                    $answer->setObservaciones("");
+                    $answer->setImagen("");
+                    $answer->setEstado("NO TESTEADO");
+                    $answer->setQuestion($question2);
+
+                    $em->persist($answer);
+                    $em->persist($question2);
+                    $em->persist($block);
+                    $em->flush();
+                    $cont++;
                 }
-                $block->setEstado("EN CURSO");
-
-                $answer = new Answer();
-                $answer->setObservaciones("");
-                $answer->setImagen("");
-                $answer->setEstado("NO TESTEADO");
-                $answer->setQuestion($question2);
-
-                $em->persist($answer);
-                $em->persist($question2);
-                $em->persist($block);
-                $em->flush();
-                $cont++;
+                $this->addFlash('success', 'Se han creado correctamente!');
+            } else {
+                $this->addFlash('danger', 'No se ha podido crear la pregunta!');
             }
-
-            $this->addFlash('success', 'Se han creado correctamente!');
-
             return $this->redirectToRoute('ver-preguntas-bloque', ['id' => $block->getId()]);
-
         }
 
         return $this->render('question/create.html.twig', array(
@@ -149,6 +150,8 @@ class QuestionController extends AbstractController
 
     public function desactivar($id, $q_tests)
     {
+        $em = $this->getDoctrine()->getManager();
+
         $question = $this->getDoctrine()
             ->getRepository(Question::class)
             ->find($id);
@@ -159,9 +162,9 @@ class QuestionController extends AbstractController
                 'question' => $question
             ]);
 
-        $em = $this->getDoctrine()->getManager();
 
         if ($question->getDesactivar()) {
+
             $question->setDesactivar(false);
             $answer->setEstado("NO TESTEADO");
             $this->addFlash('success', 'Se ha ACTIVADO correctamente la question');
@@ -170,10 +173,38 @@ class QuestionController extends AbstractController
             $answer->setEstado("DESACTIVADO");
             $this->addFlash('success', 'Se ha DESACTIVADO correctamente la question');
         }
-
-
         $em->persist($answer);
         $em->persist($question);
+        $em->flush();
+
+        //BUSCO EL ID DEL BLOQUE DE LA QUESTION
+        $query = $em->createQuery("SELECT IDENTITY(q.block) FROM App\Entity\Question q
+                                    WHERE q = (:q)")
+            ->setParameter('q', $question);
+        $block = $query->getResult();
+
+        $block = $this->getDoctrine()
+            ->getRepository(Block::class)
+            ->find($block[0][1]);
+
+        $cont = 0;
+
+        //MIRO SI TODOS LAS QUESTIONES DEL BLOCK ESTAN DESACTIVADAS
+        foreach ($block->getQuestions() as $clave => $valor) {
+            if ($valor->getDesactivar() == true) {
+                $cont++;
+            }
+        }
+
+        //SI TODAS LAS QUESTIONES ESTAN DESACTIVADAS EL BLOQUE ESTARA DESACTIVADO
+        if ($cont == count($block->getQuestions())) {
+            $block->setEstado("DESACTIVADO");
+            $block->setDesactivar(true);
+        } else {
+            $block->setEstado("EN CURSO");
+            $block->setDesactivar(false);
+        }
+        $em->persist($block);
         $em->flush();
 
         if ($q_tests == 1) {
@@ -206,6 +237,14 @@ class QuestionController extends AbstractController
 
             $em = $this->getDoctrine()->getManager();
 
+            if(isset($_POST['description'])){
+
+                $question->setDescription($_POST['description']);
+            }else{
+                $this->addFlash('danger', 'NO se ha podido editar la pregunta ');
+
+                return $this->redirectToRoute('listar-preguntas-blocks', ['id' => $question->getBlock()->getTest()->getId()]);
+            }
 
             if (isset($_POST['desactivar'])) {
                 $question->setDesactivar(true);
@@ -213,33 +252,34 @@ class QuestionController extends AbstractController
                 $question->setDesactivar(false);
             }
 
-            $file = $_FILES['question'];
+            if (isset($_FILES['image'])) {
+                $file = $_FILES['image'];
 
-            if ($file['name']['imagen'] != "") {
+                if ($file['name'] != "") {
 
-                $ruta = $file['tmp_name']['imagen'];
-                $type = $file['type']['imagen'];
+                    $ruta = $file['tmp_name'];
+                    $type = $file['type'];
 
-                if ($type == "image/png") {
-                    $extension = ".png";
-                } elseif ($type = "image/jpeg") {
-                    $extension = ".jpeg";
-                } else {
-                    $extension = ".jpg";
+                    if ($type == "image/png") {
+                        $extension = ".png";
+                    } elseif ($type = "image/jpeg") {
+                        $extension = ".jpeg";
+                    } else {
+                        $extension = ".jpg";
+                    }
+
+                    //CREA EL NUEVO NOMBRE DE LA IMAGEN
+                    $filename = md5(uniqid()) . $extension;
+
+                    //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
+                    move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
+                    $question->setImagen($filename);
+
+                    //ELIMINA LA IMAGEN ANTIGUA SI HAY ALGUNA
+                    if ($oldFileName != null) {
+                        $fileUploader->delete($oldFileNamePath);
+                    }
                 }
-
-                //CREA EL NUEVO NOMBRE DE LA IMAGEN
-                $filename = md5(uniqid()) . $extension;
-
-                //MUEVE LA IMAGEN A LA RUTA COMO SEGUNDO PARAMETRO
-                move_uploaded_file($ruta, $fileUploader->getTargetDirectory() . $filename);
-                $question->setImagen($filename);
-
-                //ELIMINA LA IMAGEN ANTIGUA SI HAY ALGUNA
-                if ($oldFileName != null) {
-                    $fileUploader->delete($oldFileNamePath);
-                }
-
             } else {
                 $question->setImagen($oldFileName);
             }

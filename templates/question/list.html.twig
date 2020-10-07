@@ -5,16 +5,6 @@
 {% set subtitulo =  "Crear Preguntas para el Test" %}
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
     <div class="kt-subheader  kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
@@ -127,9 +117,16 @@
                                        class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                        title="Editar pregunta">
                                         <i class="la la-edit"></i> </a>
-                                    <a href="{{ path('desactivar-pregunta', {'id' : q.id, 'q_tests': 1}) }}"
-                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                       title="Desactivar pregunta"> <i class="la la-trash"></i> </a>
+                                    {% if q.desactivar == true %}
+                                        <a href="{{ path('desactivar-pregunta', {'id' : q.id, 'q_tests': 1}) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                           title="Activar pregunta"> <i class="la la-toggle-on"></i> </a>
+                                    {% else %}
+                                        <a href="{{ path('desactivar-pregunta', {'id' : q.id, 'q_tests': 1}) }}"
+                                           class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                           title="Desactivar pregunta"> <i class="la la-toggle-off"></i> </a>
+                                    {% endif %}
+
                                 </td>
                             </tr>
                         {% endfor %}
@@ -141,6 +138,17 @@
         </div>
         <!--begin::Portlet-->
     </div>
-    <!-- end:: Content -->
-    </div>
+
+{% endblock %}
+{% block scripts %}
+    {% for message in app.flashes('success') %}
+        <script>
+            toastr.success('{{ message }}');
+        </script>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <script>
+            toastr.error('{{ message }}');
+        </script>
+    {% endfor %}
 {% endblock %}

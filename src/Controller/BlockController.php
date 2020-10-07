@@ -30,7 +30,7 @@ class BlockController extends AbstractController
 
         $array = array();
 
-        if($alias != null || $position != null || $padre != null) {
+        if ($alias != null || $position != null || $padre != null) {
 
             $block = new Block();
             $block->setAlias($alias);
@@ -61,6 +61,7 @@ class BlockController extends AbstractController
         return new JsonResponse($array);
 
     }
+
     public function blocks()
     {
         $blocks = $this->getDoctrine()
@@ -93,25 +94,58 @@ class BlockController extends AbstractController
 
         if ($block->getDesactivar()) {
             $block->setDesactivar(false);
-            if(!isset($questions) || empty($questions) ){
+            if (!isset($questions) && empty($questions)) {
                 $block->setEstado("NO INICIADO");
-            }else{
+            } else {
+                foreach ($questions as $clave => $valor) {
+                    $valor->setDesactivar(0);
+                    $answer = $this->getDoctrine()
+                        ->getRepository(Answer::class)
+                        ->findBy([
+                            'question' => $valor->getId()
+                        ]);
+                    if(isset($answer[0])){
+                        $answer[0]->setEstado("NO TESTEADO");
+                    }
+                    $em->persist($valor);
+                    $em->persist($answer[0]);
+                    $em->flush();
+                }
                 $block->setEstado("EN CURSO");
             }
             $this->addFlash('success', 'Se ha ACTIVADO correctamente el bloque');
         } else {
             $block->setDesactivar(true);
             $block->setEstado("DESACTIVADO");
+
+            if (isset($questions) && !empty($questions)) {
+                foreach ($questions as $clave => $valor) {
+                    $valor->setDesactivar(true);
+                    $answer = $this->getDoctrine()
+                        ->getRepository(Answer::class)
+                        ->findBy([
+                            'question' => $valor->getId()
+                        ]);
+                    if(isset($answer[0])){
+
+                        $answer[0]->setEstado("DESACTIVADO");
+                    }
+                    $em->persist($valor);
+                    $em->persist($answer[0]);
+                    $em->flush();
+                }
+
+            }
             $this->addFlash('success', 'Se ha DESACTIVADO correctamente el bloque');
         }
-
         $em->persist($block);
         $em->flush();
 
-        return $this->redirectToRoute('editar-test',['id' => $block->getTest()->getId()]);
+        return $this->redirectToRoute('editar-test', ['id' => $block->getTest()->getId()]);
     }
 
-    public function listBlockQuestions($id){
+    public function listBlockQuestions($id)
+    {
         $block = $this->getDoctrine()
             ->getRepository(Block::class)
             ->find($id);
@@ -120,7 +154,7 @@ class BlockController extends AbstractController
             ->getRepository(Answer::class)
             ->findAll();
 
-        if(isset($block) && !empty($block)){
+        if (isset($block) && !empty($block)) {
             $questions = $this->getDoctrine()
                 ->getRepository(Question::class)
                 ->findBy([
@@ -135,7 +169,8 @@ class BlockController extends AbstractController
         ]);
     }
 
-    public function edit($id,Request $request){
+    public function edit($id, Request $request)
+    {
 
         $block = $this->getDoctrine()
             ->getRepository(Block::class)

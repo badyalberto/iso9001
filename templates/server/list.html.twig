@@ -5,16 +5,6 @@
 {% set subtitulo =  "Servidores WIP" %}
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('failed') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
     <!-- begin:: Content Head -->
     <div class="kt-subheader  kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
@@ -74,7 +64,7 @@
                                                 </li>
                                                 <li class="kt-nav__item">
                                                     <a href="{{ path('eliminar-servidor',{'id' : server.id}) }}"
-                                                       class="kt-nav__link">
+                                                       class="kt-nav__link deleteserver">
                                                         <i class="kt-nav__link-icon flaticon2-trash"></i>
                                                         <span class="kt-nav__link-text">Eliminar</span>
                                                     </a>
@@ -210,6 +200,16 @@
 {% endblock %}
 
 {% block scripts %}
+    {% for message in app.flashes('success') %}
+        <script>
+            toastr.success('{{ message }}');
+        </script>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <script>
+            toastr.error('{{ message }}');
+        </script>
+    {% endfor %}
     <script>
         var url_cargar_servidores = '{{ path('servidor') }}';
     </script>

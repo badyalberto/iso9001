@@ -5,17 +5,6 @@
 {% set subtitulo =  "Crear y editar Clientes" %}
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('failed') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
-
     <!-- begin:: Content -->
     <div class="kt-container  kt-container--fluid  kt-grid__item kt-grid__item--fluid">
         <div class="kt-portlet kt-portlet--mobile">
@@ -91,4 +80,17 @@
         <!--begin::Portlet-->
     </div>
     <!-- end:: Content -->
+{% endblock %}
+
+{% block scripts %}
+    {% for message in app.flashes('success') %}
+        <script>
+            toastr.success('{{ message }}');
+        </script>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <script>
+            toastr.error('{{ message }}');
+        </script>
+    {% endfor %}
 {% endblock %}

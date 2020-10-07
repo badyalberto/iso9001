@@ -35,7 +35,7 @@
                         </div>
                     </div>
                     <!--begin::Form-->
-                    {{ form_start(form, {'attr': {'id': 'form_question_edit'}}) }}
+                    {{ form_start(form, {'attr': {'id': 'form_question_edit', 'enctype': 'multipart/form-data'}}) }}
                     {# <form class="kt-form"> #}
                     <div class="kt-portlet__body">
                         <div class="form-group row">
@@ -49,10 +49,12 @@
                                                         <label>Descripción:</label>
                                                     </div>
                                                     <div class="kt-form__control">
-                                                        {{ form_errors(form.description) }}
+                                                     {#   {{ form_errors(form.description) }}
                                                         {{ form_widget(form.description,{ 'attr': {
                                                             'class' : 'form-control'
-                                                        } }) }}
+                                                        } }) }}#}
+                                                        <input type="text" class="form-control"
+                                                               name="description" value="{{ question.description }}">
                                                     </div>
                                                 </div>
                                                 <div class="d-md-none kt-margin-b-10"></div>
@@ -76,10 +78,13 @@
                                                     <label class="kt-label m-label--single">Imagen:</label>
                                                 </div>
                                                 <div class="kt-form__control">
-                                                    {{ form_errors(form.imagen) }}
+                                                    {# {{ form_errors(form.imagen) }}
                                                     {{ form_widget(form.imagen,{ 'attr': {
                                                         'class' : 'form-control'
-                                                    } }) }}
+                                                    } }) }} #}
+                                                    <input type="file" name="image" class="form-control" id="customFile"/>
+                                                    <!-- Image preview -->
+                                                    <!--<div id="imagePreview"></div>-->
                                                 </div>
                                             </div>
                                         </div>
@@ -115,7 +120,7 @@
                     <div class="kt-portlet__foot">
                         <div class="kt-form__actions">
                             <button type="submit" class="btn btn-brand">Guardar</button>
-                            <button type="reset" class="btn btn-warning">Cancelar</button>
+                            <button id="cancelar" class="btn btn-warning">Cancelar</button>
                         </div>
                     </div>
                     {# </form> #}
@@ -126,16 +131,4 @@
             </div>
         </div>
     </div>
-{% endblock %}
-{% block scripts %}
-    <script>
-        $('#form_question').submit(function (e) {
-            //e.preventDefault();
-            //var filename = $("input[type=file]").val();
-            //var filename = $("input[type=file]").val().replace(/C:\fakepath\/i, "");
-            //var filename = $("input[type=file]").val().split("\").pop();
-            console.log(document.getElementById("question_imagen").files[0].name);
-            //console.log(filename);
-        });
-    </script>
 {% endblock %}

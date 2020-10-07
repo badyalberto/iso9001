@@ -5,16 +5,6 @@
 {% set subtitulo =  "Crear Preguntas para el block" %}
 
 {% block body %}
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success">
-            {{ message }}
-        </div>
-    {% endfor %}
-    {% for message in app.flashes('danger') %}
-        <div class="alert alert-danger">
-            {{ message }}
-        </div>
-    {% endfor %}
     <div class="kt-subheader  kt-grid__item" id="kt_subheader">
         <div class="kt-container  kt-container--fluid ">
             <div class="kt-subheader__main">
@@ -72,7 +62,9 @@
                             <td>{{ q.observaciones }}</td>
                             {% set encontrado = false %}
                             {% for answer in answers %}
+
                                 {% if q.id == answer.question.id %}
+
                                     {% set encontrado = true %}
                                     {% if answer.estado == "NO" %}
                                         <td>
@@ -113,10 +105,18 @@
                                    class="btn btn-sm btn-clean btn-icon btn-icon-md"
                                    title="Editar pregunta">
                                     <i class="la la-edit"></i> </a>
-                                <a href="{{ path('desactivar-pregunta', {'id' : q.id ,'q_tests': 0}) }}"
-                                   class="btn btn-sm btn-clean btn-icon btn-icon-md"
-                                   title="Desactivar pregunta"> <i class="la la-trash"></i> </a>
-                                </a>
+                                {% if q.desactivar == true %}
+                                    <a href="{{ path('desactivar-pregunta', {'id' : q.id ,'q_tests': 0}) }}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                       title="Activar pregunta"> <i class="la la-toggle-on"></i> </a>
+                                    </a>
+                                {% else %}
+                                    <a href="{{ path('desactivar-pregunta', {'id' : q.id ,'q_tests': 0}) }}"
+                                       class="btn btn-sm btn-clean btn-icon btn-icon-md"
+                                       title="Desactivar pregunta"> <i class="la la-toggle-off"></i> </a>
+                                    </a>
+                                {% endif %}
+
                             </td>
                         </tr>
                     {% endfor %}
@@ -129,3 +129,16 @@
     </div>
 
 {% endblock %}
+{% block scripts %}
+    {% for message in app.flashes('success') %}
+        <script>
+            toastr.success('{{ message }}');
+        </script>
+    {% endfor %}
+    {% for message in app.flashes('danger') %}
+        <script>
+            toastr.error('{{ message }}');
+        </script>
+    {% endfor %}
+{% endblock %}
+

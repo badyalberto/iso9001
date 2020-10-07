@@ -43,10 +43,11 @@
                             </div>
                             <div class="form-group">
                                 <label>URL Acceso</label>
-                                {{ form_errors(form.urlacceso) }}
+                                {#  {{ form_errors(form.urlacceso) }}
                                 {{ form_widget(form.urlacceso,{ 'attr': {
                                     'class' : 'form-control',
-                                } }) }}
+                                } }) }}#}
+                                <input class="form-control" type="text" name="urltest" required value="{{ server.urlacceso }}">
                             </div>
                             <div class="form-group">
                                 <label>Usuario</label>
@@ -57,17 +58,19 @@
                             </div>
                             <div class="form-group">
                                 <label>PSW</label>
-                                {{ form_errors(form.psw.first) }}
-                                {{ form_widget(form.psw.first,{ 'attr': {
-                                    'class' : 'form-control',
-                                } }) }}
+                                {#  {{ form_errors(form.psw.first) }}
+                            {{ form_widget(form.psw.first,{ 'attr': {
+                                'class' : 'form-control',
+                            } }) }}#}
+                                <input class="form-control" type="password" id="password" name="password" required value="{{ server.psw }}">
                             </div>
                             <div class="form-group">
                                 <label>REPETIR PSW</label>
-                                {{ form_errors(form.psw.second) }}
-                                {{ form_widget(form.psw.second,{ 'attr': {
-                                    'class' : 'form-control',
-                                } }) }}
+                                {#  {{ form_errors(form.psw.second) }}
+                            {{ form_widget(form.psw.second,{ 'attr': {
+                                'class' : 'form-control',
+                            } }) }}#}
+                                <input class="form-control" type="password" id="passwordrepeated" name="passwordrepeated" required value="{{ server.psw }}">
                             </div>
                             <div class="form-group">
                                 <label for="exampleSelect1">Tipo</label>
@@ -78,18 +81,22 @@
                             </div>
                             <div class="form-group row">
                                 <label class="col-3 col-form-label">Activo</label>
-                                {{ form_errors(form.activo) }}
+                                {#  {{ form_errors(form.activo) }}
                                 {{ form_widget(form.activo,{ 'attr': {
                                     'class' : 'form-control',
-                                } }) }}
-                                {# <div class="col-3">
+                                } }) }} #}
+                                 <div class="col-3">
                                                     <span class="kt-switch kt-switch--lg">
                                                         <label>
-                                                            <input type="checkbox" checked="checked" name="">
+                                                            {% if server.activo == true %}
+                                                            <input type="checkbox" checked="checked" name="activo">
+                                                            {% else %}
+                                                                <input type="checkbox" name="activo">
+                                                            {% endif %}
                                                             <span></span>
                                                     </label>
                                                     </span>
-                                </div> #}
+                                </div>
                             </div>
                         </div>
                         <div class="kt-portlet__foot">
@@ -97,7 +104,7 @@
                                 <button type="submit" class="btn btn-brand">
                                     Guardar
                                 </button>
-                                <button type="reset" class="btn btn-warning">
+                                <button id="cancelar" class="btn btn-warning">
                                     Cancelar
                                 </button>
                             </div>
