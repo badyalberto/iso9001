@@ -39,7 +39,7 @@ busca-user:
   methods: [ GET ]
 
 busca-email-user:
-  path: /usuarios/buscaemail
+  path: /buscaemail
   controller: App\Controller\UserController::buscaEmail
 
 # CLIENTE #
@@ -199,3 +199,9 @@ edit-question:
   path: /preguntas/editar/{id}
   controller: App\Controller\QuestionController::edit
 
+# RESTABLECER CONTRASEÑA #
+
+app_forgot_password_request:
+  path: /restablecer
+  controller: App\Controller\ResetPasswordController::request
+  methods: [POST]

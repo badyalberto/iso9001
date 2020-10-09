@@ -171,7 +171,6 @@ class TestController extends AbstractController
         $form = $this->createForm(TestType::class, $test);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
 
             $em = $this->getDoctrine()->getManager();

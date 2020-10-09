@@ -155,6 +155,7 @@ $(".no-questions").click(function (e) {
     Swal.fire("El Test no tiene ninguna pregunta");
 });
 
+
 //MANYTOMANY de USER y CUSTOMER
 $('select[name="users[]"]').bootstrapDualListbox();
 $('select[name="customers[]"]').bootstrapDualListbox();
@@ -298,6 +299,11 @@ $(document).ready(function () {
                 }
             });
         })
+    })
+
+    $('#recuperarPassword').click(function (e){
+        e.preventDefault();
+        Swal.fire("El Test no tiene ninguna pregunta");
     })
 
 });

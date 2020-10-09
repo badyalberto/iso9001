@@ -332,25 +332,17 @@ class UserController extends AbstractController
                     'correo' => $_POST['email']
                 ]);
 
+            //var_dump($user[0]->getCorreo());
+            //die();
+
             if (isset($user) && !empty($user) && $user != null && $user != "") {
-                if ($user[0]->getCorreo() == $_POST['email']) {
-                    $response->setContent(json_encode([
-                        'message' => '',
-                        'error' => false
-                    ]));
-                    $response->headers->set('Content-Type', 'application/json');
+                $response->setContent(json_encode([
+                    'message' => 'El correo ' . $user[0]->getCorreo() . ' ya esta registrado!',
+                    'error' => true
+                ]));
+                $response->headers->set('Content-Type', 'application/json');
 
-                    return $response;
-                } else {
-                    $response->setContent(json_encode([
-                        'message' => 'El correo ' . $user[0]->getCorreo() . ' ya esta registrado!',
-                        'error' => true
-                    ]));
-                    $response->headers->set('Content-Type', 'application/json');
-
-                    return $response;
-                }
-
+                return $response;
             } else {
                 $response->setContent(json_encode([
                     'message' => '',
@@ -360,14 +352,6 @@ class UserController extends AbstractController
 
                 return $response;
             }
-        } else {
-            $response->setContent(json_encode([
-                'message' => '',
-                'error' => true
-            ]));
-            $response->headers->set('Content-Type', 'application/json');
-
-            return $response;
         }
     }
 

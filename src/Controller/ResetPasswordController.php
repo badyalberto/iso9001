@@ -32,26 +32,42 @@ class ResetPasswordController extends AbstractController
         $this->resetPasswordHelper = $resetPasswordHelper;
     }
 
-    /**
-     * Display & process form to request a password reset.
-     *
-     * @Route("", name="app_forgot_password_request")
-     */
     public function request(Request $request, MailerInterface $mailer): Response
     {
-        $form = $this->createForm(ResetPasswordRequestFormType::class);
+        /*$form = $this->createForm(ResetPasswordRequestFormType::class);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             return $this->processSendingPasswordResetEmail(
-                $form->get('correo')->getData(),
+                $form->get('email')->getData(),
                 $mailer
             );
         }
 
         return $this->render('reset_password/request.html.twig', [
             'requestForm' => $form->createView(),
-        ]);
+        ]);*/
+
+
+        if (isset($_POST['email']) && !empty($_POST['email'])) {
+            /*var_dump($_POST['email']);
+            die();*/
+            return $this->processSendingPasswordResetEmail(
+                $_POST['email'],
+                $mailer
+            );
+        }
+
+        $response = new Response();
+
+        $response->setContent(json_encode([
+            'message' => 'No se ha podido enviar el correo',
+            'error' => true
+        ]));
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
     }
 
     /**
@@ -124,6 +140,8 @@ class ResetPasswordController extends AbstractController
             // The session is cleaned up after the password has been changed.
             $this->cleanSessionAfterReset();
 
+            $this->addFlash('success', 'Se ha restablecido la contraseña correctamente');
+
             return $this->redirectToRoute('app_login');
         }
 
@@ -132,7 +150,7 @@ class ResetPasswordController extends AbstractController
         ]);
     }
 
-    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): RedirectResponse
+    private function processSendingPasswordResetEmail(string $emailFormData, MailerInterface $mailer): Response
     {
         $user = $this->getDoctrine()->getRepository(User::class)->findOneBy([
             'correo' => $emailFormData,
@@ -147,19 +165,31 @@ class ResetPasswordController extends AbstractController
             return $this->redirectToRoute('app_check_email');
         }
 
+        $response = new Response();
+
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
+
         } catch (ResetPasswordExceptionInterface $e) {
             // If you want to tell the user why a reset email was not sent, uncomment
             // the lines below and change the redirect to 'app_forgot_password_request'.
             // Caution: This may reveal if a user is registered or not.
             //
-            $this->addFlash('reset_password_error', sprintf(
+            /*$this->addFlash('reset_password_error', sprintf(
                 'There was a problem handling your password reset request - %s',
                 $e->getReason()
-            ));
+            ));*/
 
-            return $this->redirectToRoute('app_forgot_password_request');
+            $response->setContent(json_encode([
+                'message' => $e->getReason(),
+                'error' => true
+            ]));
+
+            $response->headers->set('Content-Type', 'application/json');
+
+            return $response;
+
+            //return $this->redirectToRoute('app_forgot_password_request');
         }
 
         $email = (new TemplatedEmail())
@@ -183,7 +213,16 @@ class ResetPasswordController extends AbstractController
 
         $mailer->send($email);
 
-        return $this->redirectToRoute('app_check_email');
+        $response->setContent(json_encode([
+            'message' => "Se ha enviado un correo a: ".$user->getCorreo(),
+            'error' => false
+        ]));
+
+        $response->headers->set('Content-Type', 'application/json');
+
+        return $response;
+
+        //return $this->redirectToRoute('app_check_email');
     }
 
 }

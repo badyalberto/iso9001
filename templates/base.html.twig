@@ -42,7 +42,6 @@
 
     <!--end::Layout Skins -->
     <link rel="shortcut icon" href="http://www.wip-project.com/wp-content/uploads/2013/06/favicon.ico"/>
-
     <!--begin::Style Sheets(used by this page)-->
     {% block stylesheets %}
 
@@ -331,14 +330,14 @@
                         <div class="dropdown-menu dropdown-menu-fit dropdown-menu-right dropdown-menu-anim dropdown-menu-top-unround dropdown-menu-xl">
                             <!--begin: Head -->
                             <div class="kt-user-card kt-user-card--skin-dark kt-notification-item-padding-x"
-                                 style="background-image: url(/wiip/public/assets/media/bg/300.jpg)">
+                                 style="background-image: url({{ asset('assets/media/bg/300.jpg')}})">
                                 <div class="kt-user-card__avatar">
                                     <img class="kt-hidden" alt="Pic"
                                          src="{{ asset('assets/media/users/300_25.jpg') }}"/>
                                     <!--use below badge element instead the user avatar to display username's first letter(remove kt-hidden class to display it) -->
                                     <span class="kt-badge kt-badge--lg kt-badge--rounded kt-badge--bold kt-font-success">S</span>
                                 </div>
-                                <div class="kt-user-card__name" style="background-image: url()">
+                                <div class="kt-user-card__name" style="background-image: url({{ '' }})">
                                     {% if is_granted('IS_AUTHENTICATED_FULLY') %}
                                         {{ app.user }}
                                     {% endif %}
@@ -461,7 +460,6 @@
 <!--end::Page Vendors -->
 
 <!--begin::Page Scripts(used by this page) -->
-<script src="{{ asset('assets/js/pages/dashboard.js') }}" type="text/javascript"></script>
 <script src="{{ asset('assets/js/pages/crud/datatables/advanced/column-rendering.js') }}"
         type="text/javascript"></script>
 <script src="{{ asset('assets/js/pages/components/extended/dual-listbox.js') }}" type="text/javascript"></script>
